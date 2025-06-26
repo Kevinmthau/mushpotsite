@@ -49,14 +49,14 @@
     padding: 10px;
   }
   
-  .img-1 { height: 200px; width: auto; }
-  .img-2 { height: 240px; width: auto; }
-  .img-3 { height: 180px; width: auto; }
-  .img-4 { height: 160px; width: auto; }
-  .img-5 { height: 160px; width: auto; }
-  .img-6 { height: 250px; width: auto; }
-  .img-7 { height: 190px; width: auto; }
-  .img-8 { height: 220px; width: auto; }
+  .img-1 { height: 280px; width: auto; }
+  .img-2 { height: 320px; width: auto; }
+  .img-3 { height: 240px; width: auto; }
+  .img-4 { height: 220px; width: auto; }
+  .img-5 { height: 220px; width: auto; }
+  .img-6 { height: 340px; width: auto; }
+  .img-7 { height: 260px; width: auto; }
+  .img-8 { height: 300px; width: auto; }
 }
 
 @media (max-width: 480px) {
@@ -65,12 +65,12 @@
     padding: 5px;
   }
   
-  .img-1 { height: 160px; width: auto; }
-  .img-2 { height: 190px; width: auto; }
-  .img-3 { height: 140px; width: auto; }
-  .img-4 { height: 120px; width: auto; }
-  .img-5 { height: 120px; width: auto; }
-  .img-6 { height: 200px; width: auto; }
-  .img-7 { height: 150px; width: auto; }
-  .img-8 { height: 170px; width: auto; }
+  .img-1 { height: 240px; width: auto; }
+  .img-2 { height: 280px; width: auto; }
+  .img-3 { height: 200px; width: auto; }
+  .img-4 { height: 180px; width: auto; }
+  .img-5 { height: 180px; width: auto; }
+  .img-6 { height: 300px; width: auto; }
+  .img-7 { height: 220px; width: auto; }
+  .img-8 { height: 260px; width: auto; }
 }

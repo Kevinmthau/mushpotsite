@@ -50,3 +50,15 @@
   pretty_urls = true
 [build.processing.images]
   compress = true
+
+# Image optimization with Netlify Image CDN
+[[redirects]]
+  from = "/images/*"
+  to = "/.netlify/images?url=/images/:splat&w=800&f=webp"
+  status = 200
+  conditions = {Accept = "image/webp"}
+
+[[redirects]]
+  from = "/images/*"
+  to = "/.netlify/images?url=/images/:splat&w=800"
+  status = 200
