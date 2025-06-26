@@ -19,7 +19,7 @@
 .image-gallery {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 80px;
   padding: 20px;
   min-width: max-content;
 }
@@ -41,7 +41,7 @@
 .img-5 { height: 250px; width: auto; }
 .img-6 { height: 400px; width: auto; }
 .img-7 { height: 300px; width: auto; }
-.img-8 { height: 350px; width: auto; }
+.img-8 { height: 450px; width: auto; }
 
 @media (max-width: 768px) {
   .image-gallery {
