@@ -47,10 +47,11 @@ The homepage features a horizontally scrolling image gallery with these characte
 
 The 1040 project gallery (`/1040`) is a sophisticated image gallery featuring:
 
-- **Progressive Loading**: Loads 6 images initially, then loads more on scroll or button click
-- **Chronological Sorting**: Images sorted newest first (June 2025 → May 2025)
+- **PDF Document Section**: Design presentation PDF displayed at top with embedded viewer and fallback download link
+- **Progressive Loading**: Loads 12 images initially, then loads 6 more on scroll or button click
+- **Chronological Sorting**: Images sorted newest first (July 2025 → May 2025)
 - **Date-based Organization**: Images grouped by construction phases with dates
-- **Performance Optimizations**: Lazy loading, loading placeholders, shimmer effects
+- **Performance Optimizations**: Lazy loading, blur-to-sharp transitions, shimmer effects, intersection observer
 - **Responsive Grid Layout**: 3 columns on desktop, 1 column on mobile
 
 #### Image Data Structure
@@ -64,18 +65,28 @@ const imageData = [
 ```
 
 Images are organized in date-based folders:
-- `250612/` - June 2025 (latest construction progress)
+- `250710/` - July 2025 (latest construction progress)
+- `250618/` - June 2025 (windows and electrical work)
+- `250612/` - June 2025 (library and framing)
 - `250522/` - May 2025 (framing progress)  
 - `250508_250515/` - May 2025 (initial work)
 - Root folder - May 2025 (original documentation)
 
+#### PDF Document Section
+
+The gallery includes a PDF viewer at the top displaying the design presentation:
+- **Location**: `/public/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf`
+- **Implementation**: HTML5 `<embed>` element with responsive design
+- **Fallback**: Direct download link for browsers without PDF support
+- **Styling**: Consistent with gallery design (rounded corners, shadows, minimal padding)
+
 #### Progressive Loading Implementation
 
-- **Initial Load**: 6 images with first 3 prioritized (`fetchPriority="high"`, `loading="eager"`)
-- **Infinite Scroll**: Auto-loads 6 more images when scrolling near bottom
+- **Initial Load**: 12 images with first 6 prioritized (`fetchPriority="high"`, `loading="eager"`)
+- **Intersection Observer**: Auto-loads 6 more images when scrolling near bottom (200px margin)
 - **Manual Loading**: "Load More" button shows remaining image count
-- **Loading States**: Shimmer placeholders during image loading
-- **Smooth Transitions**: Fade-in animations when images load
+- **Loading States**: Shimmer placeholders and spinning loader during image loading
+- **Smooth Transitions**: Blur-to-sharp transitions when images load (2px blur → 0px)
 
 ### Image Management
 
@@ -87,8 +98,9 @@ Located in `/public/images/`:
 Located in `/public/images/1040/`:
 - **Compressed Images**: All images compressed using sips tool (64% size reduction)
 - **Backup Storage**: Original images stored in `/public/images/1040/backup/`
-- **Total Size**: ~130MB (compressed from ~230MB)
+- **Total Size**: ~57MB (compressed from ~159MB)
 - **File Formats**: JPEG and HEIC images
+- **PDF Documents**: Design presentations stored in `/public/images/1040/documents/`
 
 ### Image Compression Workflow
 
@@ -106,12 +118,13 @@ When adding new images to the 1040 gallery:
 
 ### Performance Optimizations
 
-- **Netlify CDN**: Automatic image compression and optimization
+- **Netlify CDN**: Automatic image compression and WebP conversion with `Vary: Accept` header
 - **Chunk Splitting**: Vendor libraries cached separately via Vite config
-- **Lazy Loading**: Images load as they enter viewport
+- **Lazy Loading**: Images load as they enter viewport using intersection observer
 - **Preloading**: Critical images preloaded in HTML head
 - **Caching**: Aggressive 1-year cache headers for static assets
 - **Minification**: esbuild minification for optimal bundle size
+- **Image Transitions**: Blur-to-sharp loading effects for better perceived performance
 
 ## Deployment
 

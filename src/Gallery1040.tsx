@@ -256,6 +256,30 @@ function Gallery1040() {
 
   return (
     <div className="gallery-app">
+      {/* PDF Document Section */}
+      <div className="pdf-section">
+        <div className="pdf-container">
+          <embed
+            src="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf"
+            type="application/pdf"
+            width="100%"
+            height="600px"
+            className="pdf-embed"
+          />
+          <div className="pdf-fallback">
+            <p>PDF preview not supported in your browser.</p>
+            <a 
+              href="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="pdf-download-link"
+            >
+              View Design Presentation PDF
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div className="gallery-grid">
         {sortedImages.slice(0, visibleImages).map((imageItem, index) => (
           <div className="gallery-item" key={imageItem.filename}>

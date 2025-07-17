@@ -13,6 +13,65 @@
   -ms-overflow-style: none;
 }
 
+.pdf-section {
+  width: 100%;
+  max-width: 1200px;
+  padding: 16px 16px 8px 16px;
+  box-sizing: border-box;
+}
+
+
+.pdf-container {
+  position: relative;
+  background: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.pdf-embed {
+  border: none;
+  border-radius: 8px;
+}
+
+.pdf-fallback {
+  display: none;
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.pdf-download-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.pdf-download-link:hover {
+  background: #007bff;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  .pdf-section {
+    padding: 8px 8px;
+  }
+  
+  .pdf-container {
+    height: 400px;
+  }
+  
+  .pdf-embed {
+    height: 400px;
+  }
+}
+
 .gallery-app::-webkit-scrollbar {
   display: none;
 }
@@ -26,8 +85,8 @@
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  padding: 48px;
+  gap: 16px;
+  padding: 16px;
   width: 100%;
   max-width: 2200px;
   box-sizing: border-box;
@@ -73,7 +132,7 @@
 @media (max-width: 900px) {
   .gallery-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 8px;
     padding: 8px;
   }
   .gallery-item img {
