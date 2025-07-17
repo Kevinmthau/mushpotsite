@@ -1,4 +1,5 @@
 import './Gallery1040.css'
+import { useState, useEffect } from 'react'
 
 const imageFilenames = [
   "SR GAMBREL FLOOR SAMPLE.JPEG",
@@ -60,6 +61,30 @@ function stripExtension(filename: string) {
 }
 
 function Gallery1040() {
+  const [visibleImages, setVisibleImages] = useState(6)
+  const [isLoading, setIsLoading] = useState(false)
+  const reversedImages = imageFilenames.slice().reverse()
+
+  const loadMoreImages = () => {
+    if (isLoading) return
+    setIsLoading(true)
+    setTimeout(() => {
+      setVisibleImages(prev => Math.min(prev + 6, reversedImages.length))
+      setIsLoading(false)
+    }, 100)
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000) {
+        loadMoreImages()
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isLoading, visibleImages, reversedImages.length])
+
   return (
     <div className="gallery-app">
       <a 
@@ -69,18 +94,36 @@ function Gallery1040() {
         className="gallery-link"
       >
         <div className="gallery-grid">
-          {imageFilenames.slice().reverse().map((filename) => (
+          {reversedImages.slice(0, visibleImages).map((filename, index) => (
             <div className="gallery-item" key={filename}>
-              <img
-                src={`/images/1040/${filename}`}
-                alt={filename}
-                loading="lazy"
-                decoding="async"
-              />
+              <div className="image-container">
+                <img
+                  src={`/images/1040/${filename}`}
+                  alt={filename}
+                  loading={index < 3 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchPriority={index < 3 ? "high" : "low"}
+                  onLoad={(e) => {
+                    e.currentTarget.classList.add('loaded')
+                  }}
+                />
+                <div className="image-placeholder"></div>
+              </div>
               <div className="caption">{stripExtension(filename)}</div>
             </div>
           ))}
         </div>
+        {visibleImages < reversedImages.length && (
+          <div className="load-more-container">
+            {isLoading ? (
+              <div className="loading-spinner">Loading...</div>
+            ) : (
+              <button className="load-more-btn" onClick={loadMoreImages}>
+                Load More Images ({reversedImages.length - visibleImages} remaining)
+              </button>
+            )}
+          </div>
+        )}
       </a>
     </div>
   )
