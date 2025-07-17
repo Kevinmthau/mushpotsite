@@ -112,11 +112,12 @@
   opacity: 0.9;
 }
 
-.pdf-loading {
-  padding: 40px;
-  color: #666;
-  font-size: 16px;
-  text-align: center;
+.pdf-cover-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 /* React-PDF canvas styling */

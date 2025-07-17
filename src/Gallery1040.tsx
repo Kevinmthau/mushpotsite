@@ -1,9 +1,5 @@
 import './Gallery1040.css'
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Document, Page, pdfjs } from 'react-pdf'
-
-// Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
 function isMobileDevice(): boolean {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
@@ -233,15 +229,6 @@ function Gallery1040() {
     setIsMobile(isMobileDevice())
   }, [])
 
-  const onDocumentLoadSuccess = () => {
-    // PDF loaded successfully - no action needed for cover preview
-  }
-
-  const onDocumentLoadError = (error: Error) => {
-    console.error('PDF load error:', error)
-    // Error handled by fallback
-  }
-
   const loadMoreImages = useCallback(() => {
     if (isLoading) return
     setIsLoading(true)
@@ -298,19 +285,11 @@ function Gallery1040() {
                 rel="noopener noreferrer"
                 className="pdf-cover-link"
               >
-                <Document
-                  file="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf"
-                  onLoadSuccess={onDocumentLoadSuccess}
-                  onLoadError={onDocumentLoadError}
-                  loading={<div className="pdf-loading">Loading PDF preview...</div>}
-                >
-                  <Page 
-                    pageNumber={1}
-                    width={Math.min(window.innerWidth - 32, 400)}
-                    renderTextLayer={false}
-                    renderAnnotationLayer={false}
-                  />
-                </Document>
+                <img 
+                  src="/images/1040/documents/pdf-cover.png"
+                  alt="Design Presentation Cover"
+                  className="pdf-cover-image"
+                />
               </a>
             </div>
           )}
