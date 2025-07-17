@@ -1,5 +1,9 @@
 import './Gallery1040.css'
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { Document, Page, pdfjs } from 'react-pdf'
+
+// Set up PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
 function isMobileDevice(): boolean {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
@@ -222,12 +226,25 @@ function Gallery1040() {
   const [visibleImages, setVisibleImages] = useState(12) // Increased from 6 to 12 for faster initial load
   const [isLoading, setIsLoading] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [numPages, setNumPages] = useState<number | null>(null)
+  const [pageNumber, setPageNumber] = useState(1)
+  const [pdfError, setPdfError] = useState<string | null>(null)
   const sortedImages = imageData.slice() // Already sorted newest first
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setIsMobile(isMobileDevice())
   }, [])
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages)
+    setPdfError(null)
+  }
+
+  const onDocumentLoadError = (error: Error) => {
+    console.error('PDF load error:', error)
+    setPdfError('Failed to load PDF')
+  }
 
   const loadMoreImages = useCallback(() => {
     if (isLoading) return
@@ -278,19 +295,70 @@ function Gallery1040() {
               className="pdf-embed"
             />
           ) : (
-            <div className="pdf-mobile-fallback">
-              <div className="pdf-mobile-message">
+            <div className="pdf-mobile-viewer">
+              <div className="pdf-mobile-header">
                 <h3>Design Presentation</h3>
-                <p>PDF preview is not supported on mobile devices.</p>
                 <a 
                   href="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="pdf-download-link mobile"
+                  className="pdf-download-link mobile-header"
                 >
-                  Open PDF in New Tab
+                  Open Full PDF
                 </a>
               </div>
+              
+              {pdfError ? (
+                <div className="pdf-error">
+                  <p>{pdfError}</p>
+                  <a 
+                    href="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="pdf-download-link"
+                  >
+                    View PDF in New Tab
+                  </a>
+                </div>
+              ) : (
+                <div className="pdf-viewer-container">
+                  <Document
+                    file="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf"
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    onLoadError={onDocumentLoadError}
+                    loading={<div className="pdf-loading">Loading PDF...</div>}
+                  >
+                    <Page 
+                      pageNumber={pageNumber} 
+                      width={Math.min(window.innerWidth - 32, 400)}
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                    />
+                  </Document>
+                  
+                  {numPages && numPages > 1 && (
+                    <div className="pdf-navigation">
+                      <button 
+                        onClick={() => setPageNumber(page => Math.max(page - 1, 1))}
+                        disabled={pageNumber <= 1}
+                        className="pdf-nav-btn"
+                      >
+                        Previous
+                      </button>
+                      <span className="pdf-page-info">
+                        Page {pageNumber} of {numPages}
+                      </span>
+                      <button 
+                        onClick={() => setPageNumber(page => Math.min(page + 1, numPages))}
+                        disabled={pageNumber >= numPages}
+                        className="pdf-nav-btn"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
           <div className="pdf-fallback">
