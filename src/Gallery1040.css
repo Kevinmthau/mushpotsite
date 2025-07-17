@@ -106,6 +106,25 @@
   color: #666;
   font-size: 16px;
   padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.loading-spinner::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #666;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .image-container {
@@ -115,14 +134,19 @@
 }
 
 .gallery-item img {
-  transition: opacity 0.3s ease;
-  opacity: 0;
   width: 100%;
   height: auto;
+  transition: opacity 0.3s ease, filter 0.3s ease-out;
+  opacity: 0;
 }
 
 .gallery-item img.loaded {
   opacity: 1;
+}
+
+.gallery-item img.error {
+  opacity: 0.5;
+  filter: grayscale(100%);
 }
 
 .image-placeholder {

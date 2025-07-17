@@ -1,5 +1,5 @@
 import './Gallery1040.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 const imageData = [
   // July 2025 - Latest Progress
@@ -214,29 +214,45 @@ function formatImageName(filename: string) {
 }
 
 function Gallery1040() {
-  const [visibleImages, setVisibleImages] = useState(6)
+  const [visibleImages, setVisibleImages] = useState(12) // Increased from 6 to 12 for faster initial load
   const [isLoading, setIsLoading] = useState(false)
   const sortedImages = imageData.slice() // Already sorted newest first
+  const loadMoreRef = useRef<HTMLDivElement>(null)
 
-  const loadMoreImages = () => {
+  const loadMoreImages = useCallback(() => {
     if (isLoading) return
     setIsLoading(true)
     setTimeout(() => {
       setVisibleImages(prev => Math.min(prev + 6, sortedImages.length))
       setIsLoading(false)
     }, 100)
-  }
+  }, [isLoading, sortedImages.length])
 
+  // Intersection Observer for automatic loading
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000) {
-        loadMoreImages()
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleImages < sortedImages.length) {
+          loadMoreImages()
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '200px' // Start loading 200px before the element comes into view
       }
+    )
+
+    const currentRef = loadMoreRef.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isLoading, visibleImages, sortedImages.length])
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+    }
+  }, [loadMoreImages, visibleImages, sortedImages.length])
 
   return (
     <div className="gallery-app">
@@ -247,11 +263,22 @@ function Gallery1040() {
               <img
                 src={`/images/1040/${imageItem.filename}`}
                 alt={imageItem.filename}
-                loading={index < 3 ? "eager" : "lazy"}
+                loading={index < 6 ? "eager" : "lazy"}
                 decoding="async"
-                fetchPriority={index < 3 ? "high" : "low"}
+                fetchPriority={index < 6 ? "high" : "low"}
+                className="gallery-image"
                 onLoad={(e) => {
-                  e.currentTarget.classList.add('loaded')
+                  const img = e.currentTarget
+                  img.classList.add('loaded')
+                  // Remove blur effect when image loads
+                  img.style.filter = 'blur(0px)'
+                }}
+                onError={(e) => {
+                  e.currentTarget.classList.add('error')
+                }}
+                style={{
+                  filter: 'blur(2px)',
+                  transition: 'filter 0.3s ease-out'
                 }}
               />
               <div className="image-placeholder"></div>
@@ -264,7 +291,7 @@ function Gallery1040() {
         ))}
       </div>
       {visibleImages < sortedImages.length && (
-        <div className="load-more-container">
+        <div className="load-more-container" ref={loadMoreRef}>
           {isLoading ? (
             <div className="loading-spinner">Loading...</div>
           ) : (
