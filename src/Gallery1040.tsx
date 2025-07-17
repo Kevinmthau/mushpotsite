@@ -1,6 +1,11 @@
 import './Gallery1040.css'
 import { useState, useEffect, useRef, useCallback } from 'react'
 
+function isMobileDevice(): boolean {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+         Boolean(navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform));
+}
+
 const imageData = [
   // July 2025 - Latest Progress
   { filename: "250710/Windows! 9th floor 1.HEIC", date: "July 2025" },
@@ -216,8 +221,13 @@ function formatImageName(filename: string) {
 function Gallery1040() {
   const [visibleImages, setVisibleImages] = useState(12) // Increased from 6 to 12 for faster initial load
   const [isLoading, setIsLoading] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const sortedImages = imageData.slice() // Already sorted newest first
   const loadMoreRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice())
+  }, [])
 
   const loadMoreImages = useCallback(() => {
     if (isLoading) return
@@ -259,13 +269,30 @@ function Gallery1040() {
       {/* PDF Document Section */}
       <div className="pdf-section">
         <div className="pdf-container">
-          <embed
-            src="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf"
-            type="application/pdf"
-            width="100%"
-            height="600px"
-            className="pdf-embed"
-          />
+          {!isMobile ? (
+            <embed
+              src="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf"
+              type="application/pdf"
+              width="100%"
+              height="600px"
+              className="pdf-embed"
+            />
+          ) : (
+            <div className="pdf-mobile-fallback">
+              <div className="pdf-mobile-message">
+                <h3>Design Presentation</h3>
+                <p>PDF preview is not supported on mobile devices.</p>
+                <a 
+                  href="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="pdf-download-link mobile"
+                >
+                  Open PDF in New Tab
+                </a>
+              </div>
+            </div>
+          )}
           <div className="pdf-fallback">
             <p>PDF preview not supported in your browser.</p>
             <a 
