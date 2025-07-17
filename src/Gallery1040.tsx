@@ -1,69 +1,146 @@
 import './Gallery1040.css'
 import { useState, useEffect } from 'react'
 
-const imageFilenames = [
-  "SR GAMBREL FLOOR SAMPLE.JPEG",
-  "SALVAGED HARDWARE FOR SRG REVIEW.JPEG",
-  "MAIN STAIRCASE MOLDING DETAIL.JPEG",
-  "9TH FL STUDY.JPEG",
-  "9TH FL REAR HALL STAIR DETAIL.JPEG",
-  "9TH FL REAR HALL CEILING.JPEG",
-  "9TH FL PLAYROOM.JPEG",
-  "9TH FL MAIN STAIR OVERVIEW.JPEG",
-  "9TH FL MAIN FOYER SOUTH.JPEG",
-  "9TH FL LIBRARY FLOORING UNDER MILLWORK.JPEG",
-  "9TH FL KITCHEN DEMO OVERVIEW.JPEG",
-  "9TH FL GREAT ROOM.JPEG",
-  "9TH FL GREAT ROOM MOLDING DETAILS.JPEG",
-  "9TH FL GREAT ROOM CEILING DETAIL.JPEG",
-  "9TH FL DINING ROOM STEAM PIPING.JPEG",
-  "9TH FL DINING ROOM OVERVIEW.JPEG",
-  "9TH FL DINING ROOM OVERVIEW (2).JPEG",
-  "9TH FL DINING ROOM FLOORING CONDITION.JPEG",
-  "9TH FL DINING ROOM FLOORING CONDITION (3).JPEG",
-  "9TH FL DINING ROOM FLOORING CONDITION (2).JPEG",
-  "9TH FL DINING ROOM FIREPLACE SURROUND.JPEG",
-  "10TH FL THRESHHOLD DETAIL.JPEG",
-  "10TH FL STAIR LANDING OVERVIEW.JPEG",
-  "10TH FL STAIR LANDING FLOOR CONDITION.JPEG",
-  "10TH FL SALVAGED DOORS.JPEG",
-  "10TH FL REAR STAIRCASE.JPEG",
-  "10TH FL PRIMARY BEDROOM.JPEG",
-  "10TH FL PRIMARY BEDROOM (5).JPEG",
-  "10TH FL PRIMARY BEDROOM (4).JPEG",
-  "10TH FL PRIMARY BEDROOM (3).JPEG",
-  "10TH FL PRIMARY BEDROOM (2).JPEG",
-  "10TH FL DEMO OVERVIEW.JPEG",
-  "10TH FL DEMO OVERVIEW (2).JPEG",
-  "10TH FL BEDROOM 2 OVERVIEW.JPEG",
-  "10TH FL BEDROOM 2 OVERVIEW (2).JPEG",
-  "10TH FL BEDROOM 2 FLOORING CONDITION.JPEG",
-  "10TH FL BEDROOM 1 OVERVIEW.JPEG",
-  "10TH FL BEDROOM 1 FLOORING CONDITION.JPEG",
-  "10TH FL BATH 1 OVERVIEW.JPEG",
-  "Window protection and air filtration.HEIC",
-  "Window Protection and ceiling.HEIC",
-  "Mezz Demo'ed.HEIC",
-  "Library opening.HEIC",
-  "Kitchen floor and mezzanine.HEIC",
-  "Great Room Doors Demo'ed.HEIC",
-  "Gallery openings expanded.HEIC",
-  "Dining room, kitchen and mezz view.HEIC",
-  "Dining room demo'ed.HEIC",
-  "Baby bathroom demo'ed.HEIC",
-  "10th floor primary closet and guest room demo'ed.HEIC",
-  "10th floor elevator vestibule demo'ed.HEIC",
-  "10th floor demo'ed - various rooms.HEIC"
-].filter(name => !name.toLowerCase().endsWith('.mov'));
+const imageData = [
+  // June 12, 2025 - Latest Progress
+  { filename: "250612/LIBRARY MILLWORK MOCKUP_1.HEIC", date: "June 12, 2025" },
+  { filename: "250612/LIBRARY MILLWORK MOCKUP_2.HEIC", date: "June 12, 2025" },
+  { filename: "250612/LIBRARY MILLWORK MOCKUP_3.HEIC", date: "June 12, 2025" },
+  { filename: "250612/LIBRARY MILLWORK MOCKUP_4.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_WALL FRAMING! 1.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_WALL FRAMING! 2.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_WALL FRAMING! 3.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_SUBFLOOR PREP.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_WOOD FLOORING SLEEPER REPAIR 1.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_WOOD FLOORING SLEEPER REPAIR 2.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_WOOD FLOORING SLEEPER REPAIR 3.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_WOOD FLOORING SLEEPER REPAIR 4.HEIC", date: "June 12, 2025" },
+  { filename: "250612/10TH FLOOR_WOOD FLOORING SLEEPER REPAIR 5.HEIC", date: "June 12, 2025" },
+  { filename: "250612/DINING ROOM_EXPANDED OPENING TO KITCHEN.HEIC", date: "June 12, 2025" },
+  { filename: "250612/DINING ROOM_NEW RADIATOR BRANCH PIPING.HEIC", date: "June 12, 2025" },
+  { filename: "250612/GREAT ROOM_EXPANDED OPENINGS.HEIC", date: "June 12, 2025" },
+  { filename: "250612/GREAT ROOM_OPENINGS.HEIC", date: "June 12, 2025" },
+  { filename: "250612/LIBRARY_NEW RADIATOR BRANCH PIPING 1.HEIC", date: "June 12, 2025" },
+  { filename: "250612/LIBRARY_NEW RADIATOR BRANCH PIPING 2.HEIC", date: "June 12, 2025" },
+  { filename: "250612/LIBRARY_WALL FRAMING 1.HEIC", date: "June 12, 2025" },
+  { filename: "250612/LIBRARY_WALL FRAMING 2.HEIC", date: "June 12, 2025" },
+  { filename: "250612/PRIMARY BATH_WALL AND FLOOR PREP.HEIC", date: "June 12, 2025" },
+  { filename: "250612/PRIMARY BEDROOM_FRAMING OPENINGS 2.HEIC", date: "June 12, 2025" },
+  { filename: "250612/PRIMARY BEDROOM_FRAMING OPENINGS.HEIC", date: "June 12, 2025" },
+  { filename: "250612/STAIR DETAIL_1.HEIC", date: "June 12, 2025" },
+  { filename: "250612/STAIR DETAIL_2.HEIC", date: "June 12, 2025" },
+  
+  // May 22, 2025 - Framing Progress
+  { filename: "250522/10TH FL METAL FRAMING PROGRESS.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL DINING RM.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL DOOR OPENINGS - NORTH.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL DOOR OPENINGS - SOUTH.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL DOOR OPENINGS DEMO.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL LIVING RM WALL PANELING REMOVED - NORTH WALL.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL LIVING RM WALL PANELING REMOVED - SOUTH WALL.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL LIVING RM.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL STAIR CLOSET DEMO DETAIL 2.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL STAIR CLOSET DEMO DETAIL.JPEG", date: "May 22, 2025" },
+  { filename: "250522/9TH FL STAIR CLOSET DEMO PROGRESS.JPEG", date: "May 22, 2025" },
+  
+  // May 8-15, 2025 - Initial Work
+  { filename: "250508_250515/0515_Work on kitchen floor.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Vestibule opened up.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Sleepers exposed, being tested.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Primary bedroom.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Primary bath sleepers ready for testing.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_More layouts.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_More layouts 2.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Mezz.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Layouts beginning.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Flooring sub testing and replacing sleepers.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Asbestos, missing sleepers to be added at all windows.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Asbestos, missing sleepers to be added at all windows 2.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Asbestos, missing sleepers to be added at all windows 3.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0515_Asbestos, missing sleepers to be added at all windows 4.HEIC", date: "May 15, 2025" },
+  { filename: "250508_250515/0508_Upstairs sleeper inspection, radiator removal.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Under stair.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Under stair to be removed.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Stair.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Primary bath.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Primary bath patching.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Primary bath exposing and testing sleepers.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Mezz.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Guest bedroom radiator work.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Great room.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Great room radiator work.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Framing materials_kitchen and radiator demo.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Framing materials, kitchen demo.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Expanded openings.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Expanded openings 2.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Dining radiator work.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/0508_Back room sleepers exposed.HEIC", date: "May 8, 2025" },
+  { filename: "250508_250515/IMG_0471.HEIC", date: "May 8, 2025" },
+  
+  // Original Images - Earlier Work
+  { filename: "SR GAMBREL FLOOR SAMPLE.JPEG", date: "Early 2025" },
+  { filename: "SALVAGED HARDWARE FOR SRG REVIEW.JPEG", date: "Early 2025" },
+  { filename: "MAIN STAIRCASE MOLDING DETAIL.JPEG", date: "Early 2025" },
+  { filename: "9TH FL STUDY.JPEG", date: "Early 2025" },
+  { filename: "9TH FL REAR HALL STAIR DETAIL.JPEG", date: "Early 2025" },
+  { filename: "9TH FL REAR HALL CEILING.JPEG", date: "Early 2025" },
+  { filename: "9TH FL PLAYROOM.JPEG", date: "Early 2025" },
+  { filename: "9TH FL MAIN STAIR OVERVIEW.JPEG", date: "Early 2025" },
+  { filename: "9TH FL MAIN FOYER SOUTH.JPEG", date: "Early 2025" },
+  { filename: "9TH FL LIBRARY FLOORING UNDER MILLWORK.JPEG", date: "Early 2025" },
+  { filename: "9TH FL KITCHEN DEMO OVERVIEW.JPEG", date: "Early 2025" },
+  { filename: "9TH FL GREAT ROOM.JPEG", date: "Early 2025" },
+  { filename: "9TH FL GREAT ROOM MOLDING DETAILS.JPEG", date: "Early 2025" },
+  { filename: "9TH FL GREAT ROOM CEILING DETAIL.JPEG", date: "Early 2025" },
+  { filename: "9TH FL DINING ROOM STEAM PIPING.JPEG", date: "Early 2025" },
+  { filename: "9TH FL DINING ROOM OVERVIEW.JPEG", date: "Early 2025" },
+  { filename: "9TH FL DINING ROOM OVERVIEW (2).JPEG", date: "Early 2025" },
+  { filename: "9TH FL DINING ROOM FLOORING CONDITION.JPEG", date: "Early 2025" },
+  { filename: "9TH FL DINING ROOM FLOORING CONDITION (3).JPEG", date: "Early 2025" },
+  { filename: "9TH FL DINING ROOM FLOORING CONDITION (2).JPEG", date: "Early 2025" },
+  { filename: "9TH FL DINING ROOM FIREPLACE SURROUND.JPEG", date: "Early 2025" },
+  { filename: "10TH FL THRESHHOLD DETAIL.JPEG", date: "Early 2025" },
+  { filename: "10TH FL STAIR LANDING OVERVIEW.JPEG", date: "Early 2025" },
+  { filename: "10TH FL STAIR LANDING FLOOR CONDITION.JPEG", date: "Early 2025" },
+  { filename: "10TH FL SALVAGED DOORS.JPEG", date: "Early 2025" },
+  { filename: "10TH FL REAR STAIRCASE.JPEG", date: "Early 2025" },
+  { filename: "10TH FL PRIMARY BEDROOM.JPEG", date: "Early 2025" },
+  { filename: "10TH FL PRIMARY BEDROOM (5).JPEG", date: "Early 2025" },
+  { filename: "10TH FL PRIMARY BEDROOM (4).JPEG", date: "Early 2025" },
+  { filename: "10TH FL PRIMARY BEDROOM (3).JPEG", date: "Early 2025" },
+  { filename: "10TH FL PRIMARY BEDROOM (2).JPEG", date: "Early 2025" },
+  { filename: "10TH FL DEMO OVERVIEW.JPEG", date: "Early 2025" },
+  { filename: "10TH FL DEMO OVERVIEW (2).JPEG", date: "Early 2025" },
+  { filename: "10TH FL BEDROOM 2 OVERVIEW.JPEG", date: "Early 2025" },
+  { filename: "10TH FL BEDROOM 2 OVERVIEW (2).JPEG", date: "Early 2025" },
+  { filename: "10TH FL BEDROOM 2 FLOORING CONDITION.JPEG", date: "Early 2025" },
+  { filename: "10TH FL BEDROOM 1 OVERVIEW.JPEG", date: "Early 2025" },
+  { filename: "10TH FL BEDROOM 1 FLOORING CONDITION.JPEG", date: "Early 2025" },
+  { filename: "10TH FL BATH 1 OVERVIEW.JPEG", date: "Early 2025" },
+  { filename: "Window protection and air filtration.HEIC", date: "Early 2025" },
+  { filename: "Window Protection and ceiling.HEIC", date: "Early 2025" },
+  { filename: "Mezz Demo'ed.HEIC", date: "Early 2025" },
+  { filename: "Library opening.HEIC", date: "Early 2025" },
+  { filename: "Kitchen floor and mezzanine.HEIC", date: "Early 2025" },
+  { filename: "Great Room Doors Demo'ed.HEIC", date: "Early 2025" },
+  { filename: "Gallery openings expanded.HEIC", date: "Early 2025" },
+  { filename: "Dining room, kitchen and mezz view.HEIC", date: "Early 2025" },
+  { filename: "Dining room demo'ed.HEIC", date: "Early 2025" },
+  { filename: "Baby bathroom demo'ed.HEIC", date: "Early 2025" },
+  { filename: "10th floor primary closet and guest room demo'ed.HEIC", date: "Early 2025" },
+  { filename: "10th floor elevator vestibule demo'ed.HEIC", date: "Early 2025" },
+  { filename: "10th floor demo'ed - various rooms.HEIC", date: "Early 2025" }
+].filter(item => !item.filename.toLowerCase().endsWith('.mov'));
 
-function stripExtension(filename: string) {
-  return filename.replace(/\.[^/.]+$/, "");
+function formatImageName(filename: string) {
+  const nameWithoutPath = filename.split('/').pop() || filename;
+  return nameWithoutPath.replace(/\.[^/.]+$/, "").replace(/_/g, ' ');
 }
 
 function Gallery1040() {
   const [visibleImages, setVisibleImages] = useState(6)
   const [isLoading, setIsLoading] = useState(false)
-  const reversedImages = imageFilenames.slice().reverse()
+  const reversedImages = imageData.slice().reverse()
 
   const loadMoreImages = () => {
     if (isLoading) return
@@ -87,44 +164,40 @@ function Gallery1040() {
 
   return (
     <div className="gallery-app">
-      <a 
-        href="https://github.com/Kevinmthau/mushpotsite/commit/b85ff57" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="gallery-link"
-      >
-        <div className="gallery-grid">
-          {reversedImages.slice(0, visibleImages).map((filename, index) => (
-            <div className="gallery-item" key={filename}>
-              <div className="image-container">
-                <img
-                  src={`/images/1040/${filename}`}
-                  alt={filename}
-                  loading={index < 3 ? "eager" : "lazy"}
-                  decoding="async"
-                  fetchPriority={index < 3 ? "high" : "low"}
-                  onLoad={(e) => {
-                    e.currentTarget.classList.add('loaded')
-                  }}
-                />
-                <div className="image-placeholder"></div>
-              </div>
-              <div className="caption">{stripExtension(filename)}</div>
+      <div className="gallery-grid">
+        {reversedImages.slice(0, visibleImages).map((imageItem, index) => (
+          <div className="gallery-item" key={imageItem.filename}>
+            <div className="image-container">
+              <img
+                src={`/images/1040/${imageItem.filename}`}
+                alt={imageItem.filename}
+                loading={index < 3 ? "eager" : "lazy"}
+                decoding="async"
+                fetchPriority={index < 3 ? "high" : "low"}
+                onLoad={(e) => {
+                  e.currentTarget.classList.add('loaded')
+                }}
+              />
+              <div className="image-placeholder"></div>
             </div>
-          ))}
-        </div>
-        {visibleImages < reversedImages.length && (
-          <div className="load-more-container">
-            {isLoading ? (
-              <div className="loading-spinner">Loading...</div>
-            ) : (
-              <button className="load-more-btn" onClick={loadMoreImages}>
-                Load More Images ({reversedImages.length - visibleImages} remaining)
-              </button>
-            )}
+            <div className="caption">
+              <div className="image-title">{formatImageName(imageItem.filename)}</div>
+              <div className="image-date">{imageItem.date}</div>
+            </div>
           </div>
-        )}
-      </a>
+        ))}
+      </div>
+      {visibleImages < reversedImages.length && (
+        <div className="load-more-container">
+          {isLoading ? (
+            <div className="loading-spinner">Loading...</div>
+          ) : (
+            <button className="load-more-btn" onClick={loadMoreImages}>
+              Load More Images ({reversedImages.length - visibleImages} remaining)
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 }
