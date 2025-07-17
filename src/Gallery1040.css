@@ -16,7 +16,7 @@
 .pdf-section {
   width: 100%;
   max-width: 1200px;
-  padding: 16px 16px 8px 16px;
+  padding: 16px 16px 0 16px;
   box-sizing: border-box;
 }
 
@@ -156,7 +156,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  padding: 16px;
+  padding: 8px 16px 16px 16px;
   width: 100%;
   max-width: 2200px;
   box-sizing: border-box;
@@ -203,7 +203,7 @@
   .gallery-grid {
     grid-template-columns: 1fr;
     gap: 8px;
-    padding: 8px;
+    padding: 4px 8px 8px 8px;
   }
   .gallery-item img {
     max-height: 700px;
