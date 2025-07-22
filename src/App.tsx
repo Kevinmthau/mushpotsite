@@ -6,7 +6,7 @@ function HomePage() {
   return (
     <div className="app">
       <div className="image-gallery">
-        <a href="https://testflight.apple.com/join/NHg9cY9W" target="_blank" rel="noopener noreferrer">
+        <a href="https://testflight.apple.com/join/VppMNjcA" target="_blank" rel="noopener noreferrer">
           <img 
             src="/images/Whodiss.png" 
             alt="Whodiss" 
