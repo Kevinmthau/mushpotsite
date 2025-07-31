@@ -7,31 +7,41 @@ function HomePage() {
     <div className="app">
       <div className="image-gallery">
         <a href="https://testflight.apple.com/join/VppMNjcA" target="_blank" rel="noopener noreferrer">
-          <img 
-            src="/images/Whodiss.png" 
-            alt="Whodiss" 
-            className="img-1"
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
+          <picture>
+            <source srcSet="/images/Whodiss.webp" type="image/webp" />
+            <img 
+              src="/images/Whodiss.jpg" 
+              alt="Whodiss" 
+              className="img-1"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
         </a>
         <Link to="/1040">
+          <picture>
+            <source srcSet="/images/1040.webp" type="image/webp" />
+            <img 
+              src="/images/1040.jpg" 
+              alt="1040" 
+              className="img-2"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
+        </Link>
+        <picture>
+          <source srcSet="/images/Board.webp" type="image/webp" />
           <img 
-            src="/images/1040.jpg" 
-            alt="1040" 
-            className="img-2"
+            src="/images/Board.jpg" 
+            alt="Board" 
+            className="img-3"
             loading="lazy"
             decoding="async"
           />
-        </Link>
-        <img 
-          src="/images/Board.jpg" 
-          alt="Board" 
-          className="img-3"
-          loading="lazy"
-          decoding="async"
-        />
+        </picture>
         <img 
           src="/images/ios_integration.jpg" 
           alt="iOS Integration" 
