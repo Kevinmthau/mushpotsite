@@ -42,7 +42,7 @@ function HomePage() {
             decoding="async"
           />
         </picture>
-        <a href="https://www.macstories.net/stories/ios-5-twitter-integration/" target="_blank" rel="noopener noreferrer">
+        <a href="/Apple_iOS_5_Features.webarchive" target="_blank" rel="noopener noreferrer">
           <img 
             src="/images/ios_integration.jpg" 
             alt="iOS Integration" 
