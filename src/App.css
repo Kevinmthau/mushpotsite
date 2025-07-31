@@ -56,7 +56,7 @@
   .img-5 { height: 220px; width: auto; }
   .img-6 { height: 340px; width: auto; }
   .img-7 { height: 260px; width: auto; }
-  .img-8 { height: 300px; width: auto; }
+  .img-8 { height: 380px; width: auto; }
 }
 
 @media (max-width: 480px) {
@@ -72,5 +72,5 @@
   .img-5 { height: 180px; width: auto; }
   .img-6 { height: 300px; width: auto; }
   .img-7 { height: 220px; width: auto; }
-  .img-8 { height: 260px; width: auto; }
+  .img-8 { height: 320px; width: auto; }
 }

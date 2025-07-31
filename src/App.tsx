@@ -42,13 +42,15 @@ function HomePage() {
             decoding="async"
           />
         </picture>
-        <img 
-          src="/images/ios_integration.jpg" 
-          alt="iOS Integration" 
-          className="img-4"
-          loading="lazy"
-          decoding="async"
-        />
+        <a href="https://www.macstories.net/stories/ios-5-twitter-integration/" target="_blank" rel="noopener noreferrer">
+          <img 
+            src="/images/ios_integration.jpg" 
+            alt="iOS Integration" 
+            className="img-4"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
         <img 
           src="/images/twitter_for_iphone.png" 
           alt="Twitter for iPhone" 
@@ -56,13 +58,15 @@ function HomePage() {
           loading="lazy"
           decoding="async"
         />
-        <img 
-          src="/images/wap_browser.jpg" 
-          alt="WAP Browser" 
-          className="img-6"
-          loading="lazy"
-          decoding="async"
-        />
+        <a href="https://www.wsj.com/articles/SB965779757119553850?gaa_at=eafs&gaa_n=ASWzDAi7K-S8IAOHqDqlSOXLc9Z3vQ7YY_wR7KW9biptZN3baKHlFU0zhWmuo0COMcw%3D&gaa_ts=688bdd16&gaa_sig=ctceE0aI7N0Fith4EO6WhhYJDmTG6oS1asqbE4dL6OGVYW13cB6KsSXn-C21iTnqfjB8-PSNmoIE7GRyW18Cyg%3D%3D" target="_blank" rel="noopener noreferrer">
+          <img 
+            src="/images/wap_browser.jpg" 
+            alt="WAP Browser" 
+            className="img-6"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
         <img 
           src="/images/smtp_pop3_server.gif" 
           alt="SMTP POP3 Server" 
@@ -70,13 +74,15 @@ function HomePage() {
           loading="lazy"
           decoding="async"
         />
-        <img 
-          src="/images/SGI.jpg" 
-          alt="SGI" 
-          className="img-8"
-          loading="lazy"
-          decoding="async"
-        />
+        <a href="/The_Gee_Whiz_Company_Bloomberg.pdf" target="_blank" rel="noopener noreferrer">
+          <img 
+            src="/images/SGI.jpg" 
+            alt="SGI" 
+            className="img-8"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
       </div>
     </div>
   )
