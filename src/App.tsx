@@ -42,7 +42,7 @@ function HomePage() {
             decoding="async"
           />
         </picture>
-        <a href="/ios5/" target="_blank" rel="noopener noreferrer">
+        <a href="https://web.archive.org/web/20111012202757/http://www.apple.com/ios/features.html#twitter" target="_blank" rel="noopener noreferrer">
           <img 
             src="/images/ios_integration.jpg" 
             alt="iOS Integration" 
