@@ -13,6 +13,14 @@ This is a personal portfolio site inspired by mushpot.net, built with React + Ty
 - `npm run lint` - Run ESLint on all files
 - `npm run preview` - Preview production build locally
 
+## Development Tools
+
+- **Vite**: Build tool with optimized chunk splitting and esbuild minification
+- **TypeScript**: Strict type checking with React types
+- **ESLint**: Code linting with React hooks and refresh rules
+- **React Router**: Client-side routing for SPA navigation
+- **CSS Optimization**: Automatic minification and caching
+
 ## Architecture
 
 ### Routing Structure
@@ -59,17 +67,20 @@ The 1040 project gallery (`/1040`) is a sophisticated image gallery featuring:
 Images are stored in a hardcoded array with this structure:
 ```typescript
 const imageData = [
-  { filename: "250612/LIBRARY_WALL_FRAMING_1.HEIC", date: "June 2025" },
-  // ... more images
+  { filename: "250731/DUCTWORK_3.jpg", date: "July 31, 2025" },
+  { filename: "250724/Windows_Agnes room_Install complete.jpg", date: "July 24, 2025" },
+  // ... more images sorted newest first
 ]
 ```
 
 Images are organized in date-based folders:
-- `250710/` - July 2025 (latest construction progress)
-- `250618/` - June 2025 (windows and electrical work)
-- `250612/` - June 2025 (library and framing)
-- `250522/` - May 2025 (framing progress)  
-- `250508_250515/` - May 2025 (initial work)
+- `250731/` - July 31, 2025 (latest construction progress)
+- `250724/` - July 24, 2025 (progress update)
+- `250710/` - July 10, 2025 (windows and framing)
+- `250618/` - June 18, 2025 (windows and electrical work)
+- `250612/` - June 12, 2025 (library and framing)
+- `250522/` - May 22, 2025 (framing progress)  
+- `250508_250515/` - May 8-15, 2025 (initial work)
 - Root folder - May 2025 (original documentation)
 
 #### PDF Document Section
@@ -82,8 +93,8 @@ The gallery includes a PDF viewer at the top displaying the design presentation:
 
 #### Progressive Loading Implementation
 
-- **Initial Load**: 12 images with first 6 prioritized (`fetchPriority="high"`, `loading="eager"`)
-- **Intersection Observer**: Auto-loads 6 more images when scrolling near bottom (200px margin)
+- **Initial Load**: 6 images with first 3 prioritized (`fetchPriority="high"`, `loading="eager"`)
+- **Intersection Observer**: Auto-loads 6 more images when scrolling near bottom (100px margin)  
 - **Manual Loading**: "Load More" button shows remaining image count
 - **Loading States**: Shimmer placeholders and spinning loader during image loading
 - **Smooth Transitions**: Blur-to-sharp transitions when images load (2px blur → 0px)
@@ -96,19 +107,24 @@ Located in `/public/images/`:
 
 #### 1040 Project Images
 Located in `/public/images/1040/`:
-- **Compressed Images**: All images compressed using sips tool (64% size reduction)
+- **Compressed Images**: All images optimized using sips tool with progressive compression (30-60% quality)
 - **Backup Storage**: Original images stored in `/public/images/1040/backup/`
-- **Total Size**: ~57MB (compressed from ~159MB)
-- **File Formats**: JPEG and HEIC images
+- **File Formats**: All images standardized to lowercase .jpg format
 - **PDF Documents**: Design presentations stored in `/public/images/1040/documents/`
+- **Optimization**: Images compressed based on size (>2MB = 30%, >1MB = 40%, >500KB = 50%, else 60%)
 
 ### Image Compression Workflow
 
 When adding new images to the 1040 gallery:
-1. Place images in dated folders (e.g., `250612/`)
-2. Run compression script if images are >800KB
-3. Update `imageData` array in Gallery1040.tsx
-4. Images are automatically optimized by Netlify CDN
+1. Place images in dated folders using `YYMMDD` format (e.g., `250731/` for July 31, 2025)
+2. Use `comprehensive_image_optimization.sh` script for bulk optimization
+3. Update `imageData` array in Gallery1040.tsx with filename and specific date
+4. All images should use lowercase .jpg extensions for consistency
+5. Images are automatically optimized by Netlify CDN on deployment
+
+**Available optimization scripts**:
+- `comprehensive_image_optimization.sh` - Full optimization with progressive compression
+- Individual sips commands for single images: `sips -s format jpeg -s formatOptions [quality] [input] --out [output]`
 
 ### Responsive Design
 
@@ -132,9 +148,14 @@ The site is deployed on Netlify with automatic deployments from GitHub:
 
 - **Build Command**: `npm run build`
 - **Publish Directory**: `dist`
-- **Image Optimization**: Automatic compression via Netlify's CDN
+- **Node Version**: 18 (specified in netlify.toml)
+- **Image Optimization**: Automatic compression and WebP conversion via Netlify's CDN
 - **Security Headers**: XSS protection, frame options, content-type sniffing prevention
 - **SPA Support**: Client-side routing handled by `public/_redirects`
+- **Cache Headers**: 1-year caching for assets, images, JS, CSS, and fonts
+- **WebP Support**: Automatic WebP serving to supporting browsers via `Vary: Accept` header
+
+**Configuration**: All deployment settings are defined in `netlify.toml`
 
 ## Adding New Images
 
@@ -150,4 +171,8 @@ The site is deployed on Netlify with automatic deployments from GitHub:
 3. Images are automatically included in progressive loading
 4. Consider compression for large images (>800KB)
 
-**Note**: The 1040 gallery uses a hardcoded image array, so code changes are required for new images. Images are displayed in the order they appear in the `imageData` array (newest first).
+**Important Notes**: 
+- The 1040 gallery uses a hardcoded image array, so code changes are required for new images
+- Images are displayed in the order they appear in the `imageData` array (newest first)
+- All image filenames must use lowercase .jpg extensions for consistency
+- Dates should be specific (e.g., "July 31, 2025" not "July 2025") and match folder structure
