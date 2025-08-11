@@ -7,7 +7,26 @@ function isMobileDevice(): boolean {
 }
 
 const imageData = [
-  // July 31, 2025 - Latest Progress
+  // August 7, 2025 - Latest Progress
+  { filename: "250807/10th floor framing.jpg", date: "August 7, 2025" },
+  { filename: "250807/10th floor sheetrock_corridor.jpg", date: "August 7, 2025" },
+  { filename: "250807/10th floor sheetrock_guestroom.jpg", date: "August 7, 2025" },
+  { filename: "250807/10th floor_sheetrock, power.jpg", date: "August 7, 2025" },
+  { filename: "250807/10th floor_sheetrock, primary suite.jpg", date: "August 7, 2025" },
+  { filename: "250807/10th floor_wood floor repair.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_Ductowrk, piping, electrical and low voltage ongoing.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_Ductwork and framing ongoing, family room.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_Framing in back bedroom.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_Framing, plumbing, wiring ongoing .jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_ceiling framing and ductwork_gallery 2.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_ceiling framing and ductwork_gallery.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_ceiling framing_gallery.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_gallery Door opening framing, ceiling framing.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_kitchen Wall framing, plumbing ongoing.jpg", date: "August 7, 2025" },
+  { filename: "250807/9th floor_library Plumbing rough, BX wiring, door framing.jpg", date: "August 7, 2025" },
+  { filename: "250807/9thfloor_Kitchen framing, ductowrk, and hvac units ongoing.jpg", date: "August 7, 2025" },
+
+  // July 31, 2025 - Progress Update
   { filename: "250731/SHEETROCK, POWER_10TH FLOOR CORRIDOR.jpg", date: "July 31, 2025" },
   { filename: "250731/SHEETROCK_PRIMARY CLOSET.jpg", date: "July 31, 2025" },
   { filename: "250731/SHEETROCK_DINING ROOM TO KITCHEN.jpg", date: "July 31, 2025" },
