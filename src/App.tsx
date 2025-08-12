@@ -32,16 +32,18 @@ function HomePage() {
             />
           </picture>
         </Link>
-        <picture>
-          <source srcSet="/images/Board.webp" type="image/webp" />
-          <img 
-            src="/images/Board.jpg" 
-            alt="Board" 
-            className="img-3"
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
+        <a href="https://vimeo.com/1076948952/92443f11db?share=copy" target="_blank" rel="noopener noreferrer">
+          <picture>
+            <source srcSet="/images/Board.webp" type="image/webp" />
+            <img 
+              src="/images/Board.jpg" 
+              alt="Board" 
+              className="img-3"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </a>
         <a href="https://web.archive.org/web/20111012202757/http://www.apple.com/ios/features.html#twitter" target="_blank" rel="noopener noreferrer">
           <img 
             src="/images/ios_integration.jpg" 
