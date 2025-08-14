@@ -7,7 +7,19 @@ function isMobileDevice(): boolean {
 }
 
 const imageData = [
-  // August 7, 2025 - Latest Progress
+  // August 13, 2025 - Latest Progress
+  { filename: "250813/10TH FL FRAMING & DRYWALL PROGRESS.jpeg", date: "August 13, 2025" },
+  { filename: "250813/10TH FL PRIMARY BEDROOM DRYALL PROGRESS.jpeg", date: "August 13, 2025" },
+  { filename: "250813/10TH FL STAIR LANDING SUBFLOOR.jpeg", date: "August 13, 2025" },
+  { filename: "250813/9TH FL DEEP DOOR JAMB TO GREAT ROOM.jpeg", date: "August 13, 2025" },
+  { filename: "250813/9TH FL ENTRY FOYER NEW DOOR OPENINGS.jpeg", date: "August 13, 2025" },
+  { filename: "250813/9TH FL GREAT ROOM MOLDING PROFILE REVIEW.jpeg", date: "August 13, 2025" },
+  { filename: "250813/9TH FL GREAT ROOM PROGRESS.jpeg", date: "August 13, 2025" },
+  { filename: "250813/9TH FL PROGRESS OVERVIEW & DUCTWORK.jpeg", date: "August 13, 2025" },
+  { filename: "250813/9TH FL TERRACE PAVERS & DRAIN CONDITION.jpeg", date: "August 13, 2025" },
+  { filename: "250813/SIX PANEL DOOR PROFILE REVIEW.jpeg", date: "August 13, 2025" },
+
+  // August 7, 2025 - Progress Update
   { filename: "250807/10th floor framing.jpg", date: "August 7, 2025" },
   { filename: "250807/10th floor sheetrock_corridor.jpg", date: "August 7, 2025" },
   { filename: "250807/10th floor sheetrock_guestroom.jpg", date: "August 7, 2025" },
