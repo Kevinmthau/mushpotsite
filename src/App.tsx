@@ -6,6 +6,14 @@ function HomePage() {
   return (
     <div className="app">
       <div className="image-gallery">
+        <img 
+          src="/images/esc_app_icon.png" 
+          alt="ESC App" 
+          className="img-0"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
         <a href="https://testflight.apple.com/join/VppMNjcA" target="_blank" rel="noopener noreferrer">
           <picture>
             <source srcSet="/images/Whodiss.webp" type="image/webp" />
