@@ -34,8 +34,8 @@
   border-radius: 8px;
 }
 
-.img-0 { height: 300px; width: auto; }
-.img-1 { height: 320px; width: auto; }
+.img-0 { height: 240px; width: auto; }
+.img-1 { height: 260px; width: auto; }
 .img-2 { height: 380px; width: auto; }
 .img-3 { height: 280px; width: auto; }
 .img-4 { height: 250px; width: auto; }
@@ -50,8 +50,8 @@
     padding: 10px;
   }
   
-  .img-0 { height: 260px; width: auto; }
-  .img-1 { height: 280px; width: auto; }
+  .img-0 { height: 200px; width: auto; }
+  .img-1 { height: 220px; width: auto; }
   .img-2 { height: 320px; width: auto; }
   .img-3 { height: 240px; width: auto; }
   .img-4 { height: 220px; width: auto; }
@@ -67,8 +67,8 @@
     padding: 5px;
   }
   
-  .img-0 { height: 220px; width: auto; }
-  .img-1 { height: 240px; width: auto; }
+  .img-0 { height: 180px; width: auto; }
+  .img-1 { height: 200px; width: auto; }
   .img-2 { height: 280px; width: auto; }
   .img-3 { height: 200px; width: auto; }
   .img-4 { height: 180px; width: auto; }

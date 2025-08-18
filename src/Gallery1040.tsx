@@ -380,7 +380,7 @@ function Gallery1040() {
                 className="pdf-cover-link"
               >
                 <img 
-                  src="/images/1040/documents/pdf-cover.png"
+                  src="/images/1040/documents/pdf-cover.jpg"
                   alt="Design Presentation Cover"
                   className="pdf-cover-image"
                 />
