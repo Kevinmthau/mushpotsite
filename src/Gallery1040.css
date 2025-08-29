@@ -23,9 +23,7 @@
 
 .pdf-container {
   position: relative;
-  background: #f7f7f7;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -107,24 +105,54 @@
   overflow: hidden;
 }
 
+.pdf-preview {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
 .pdf-cover-link {
   display: block;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.pdf-cover-link:hover {
-  opacity: 0.9;
+  position: relative;
 }
 
 .pdf-cover-image {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 0;
-  box-shadow: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.pdf-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding: 30px 20px 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pdf-overlay-text {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.pdf-cover-link:hover .pdf-cover-image {
+  transform: scale(1.02);
+}
+
+.pdf-cover-link:hover .pdf-overlay {
+  opacity: 1;
 }
 
 /* React-PDF canvas styling */
@@ -140,12 +168,8 @@
     padding: 8px 8px 0 8px;
   }
   
-  .pdf-container {
-    height: 400px;
-  }
-  
-  .pdf-embed {
-    height: 400px;
+  .pdf-overlay-text {
+    font-size: 16px;
   }
 }
 

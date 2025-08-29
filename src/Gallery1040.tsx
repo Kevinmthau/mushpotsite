@@ -7,7 +7,52 @@ function isMobileDevice(): boolean {
 }
 
 const imageData = [
-  // August 13, 2025 - Latest Progress
+  // August 28, 2025 - Latest Progress
+  { filename: "250828/10th_floor_guest_room_plumbing_and_framing_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_second_room_bathroom_pour_prep_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_2nd_room_walls_up_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_avit_closet_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_closet_and_primary_entry_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_corridor_and_panel_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_corridor_walls_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_ductowkr_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_gallery_prepped_for_wood_floors_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_guest_room_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_guest_room_walls_up_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_primary_entry_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/10th_floor_second_room_entry_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/agnes_room_conduit_channeling_2_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/agnes_room_conduit_channeling_3_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/agnes_room_conduit_channeling_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/agnes_room_existing_fireplace_(outlet_to_be_removed)_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/agnes_room_plumbing_complete,_wall_repair_starting_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/agnes_shower_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/agnes_tub_wall_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/dining_room_kitchen_wall_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/exterior_brick_color_match_2_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/exterior_brick_color_match_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/exterior_window_frame_match_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/family_room_ductwork_&_mep's__large.jpg", date: "August 28, 2025" },
+  { filename: "250828/fireplace_brick_sample_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/gallery_ceiling_framing_and_ductwork_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/gallery_ceiling_study_for_speakers_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/gallery_demo'd_fireplace_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/gallery_kitchen_opening_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/gallery_opening_returns_2_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/gallery_opening_returns_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/gallery_plumbing_connection_&_speaker_probe_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/kitchen_walls_up,_ductwork_and_wire_pulls_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/kitchen_walls_up,_ductwork_complete_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/laundry_room_washer_dryer_boxes_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/library_ceiling_framing_2_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/library_ceiling_framing_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/mudroom_hallway_ductowrk_and_wire_pulls_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/mudroom_hallway_walls_up,_transom_framing_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/primary_bath_floor_poured!_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/primary_bath_floor_poured_2!!_large.jpg", date: "August 28, 2025" },
+  { filename: "250828/primary_closet_walls_up,_ceiling_framed_large.jpg", date: "August 28, 2025" },
+
+  // August 13, 2025 - Previous Progress
   { filename: "250813/10TH FL FRAMING & DRYWALL PROGRESS.jpeg", date: "August 13, 2025" },
   { filename: "250813/10TH FL PRIMARY BEDROOM DRYALL PROGRESS.jpeg", date: "August 13, 2025" },
   { filename: "250813/10TH FL STAIR LANDING SUBFLOOR.jpeg", date: "August 13, 2025" },
@@ -363,39 +408,22 @@ function Gallery1040() {
       {/* PDF Document Section */}
       <div className="pdf-section">
         <div className="pdf-container">
-          {!isMobile ? (
-            <embed
-              src="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf"
-              type="application/pdf"
-              width="100%"
-              height="600px"
-              className="pdf-embed"
-            />
-          ) : (
-            <div className="pdf-mobile-cover">
-              <a 
-                href="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="pdf-cover-link"
-              >
-                <img 
-                  src="/images/1040/documents/pdf-cover.jpg"
-                  alt="Design Presentation Cover"
-                  className="pdf-cover-image"
-                />
-              </a>
-            </div>
-          )}
-          <div className="pdf-fallback">
-            <p>PDF preview not supported in your browser.</p>
+          <div className="pdf-preview">
             <a 
               href="/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="pdf-download-link"
+              className="pdf-cover-link"
+              title="Click to view Design Presentation PDF"
             >
-              View Design Presentation PDF
+              <img 
+                src="/images/1040/documents/pdf-cover.jpg"
+                alt="Design Presentation - Click to view PDF"
+                className="pdf-cover-image"
+              />
+              <div className="pdf-overlay">
+                <span className="pdf-overlay-text">View Design Presentation</span>
+              </div>
             </a>
           </div>
         </div>
