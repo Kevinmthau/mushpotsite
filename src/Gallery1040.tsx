@@ -358,7 +358,7 @@ function formatImageName(filename: string) {
 }
 
 function Gallery1040() {
-  const [visibleImages, setVisibleImages] = useState(6) // Reduced back to 6 for faster initial load
+  const [visibleImages, setVisibleImages] = useState(12) // Show more images initially to display August 28 photos
   const [isLoading, setIsLoading] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const sortedImages = imageData.slice() // Already sorted newest first
