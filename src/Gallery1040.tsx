@@ -1,11 +1,6 @@
 import './Gallery1040.css'
 import { useState, useEffect, useRef, useCallback } from 'react'
 
-function isMobileDevice(): boolean {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-         Boolean(navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform));
-}
-
 const imageData = [
   // August 28, 2025 - Latest Progress
   { filename: "250828/10th_floor_guest_room_plumbing_and_framing_large.jpg", date: "August 28, 2025" },
@@ -360,13 +355,8 @@ function formatImageName(filename: string) {
 function Gallery1040() {
   const [visibleImages, setVisibleImages] = useState(12) // Show more images initially to display August 28 photos
   const [isLoading, setIsLoading] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const sortedImages = imageData.slice() // Already sorted newest first
   const loadMoreRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    setIsMobile(isMobileDevice())
-  }, [])
 
   const loadMoreImages = useCallback(() => {
     if (isLoading) return
