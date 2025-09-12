@@ -4,7 +4,35 @@ export interface ImageData {
 }
 
 export const imageData: ImageData[] = [
-  // September 4, 2025 - Latest Progress  
+  // September 11, 2025 - Latest Construction Progress
+  { filename: "250911/10TH FLOOR BACK BATHROOM.jpg", date: "September 11, 2025" },
+  { filename: "250911/10TH FLOOR CORRIDOR WALLS CLOSING UP.jpg", date: "September 11, 2025" },
+  { filename: "250911/10TH FLOOR CORRIDOR_WOOD FLOOR.jpg", date: "September 11, 2025" },
+  { filename: "250911/10TH FLOOR GUEST ROOM BATH_BLOCKING, SINK SUPPORT, PLUMING.jpg", date: "September 11, 2025" },
+  { filename: "250911/10TH FLOOR_WOOD FLOOR 1.jpg", date: "September 11, 2025" },
+  { filename: "250911/10TH FLOOR_WOOD FLOOR 2.jpg", date: "September 11, 2025" },
+  { filename: "250911/9TH FLOOR BACK BATHROOM.jpg", date: "September 11, 2025" },
+  { filename: "250911/9TH FLOOR BACK ROOM.jpg", date: "September 11, 2025" },
+  { filename: "250911/AGNES BATHROOM_FLOOR POUREDHEIC.jpg", date: "September 11, 2025" },
+  { filename: "250911/CONCRETE LOADING.jpg", date: "September 11, 2025" },
+  { filename: "250911/GEORGE ROOM_SHEETROCK, HVAC.jpg", date: "September 11, 2025" },
+  { filename: "250911/KIDS BATH 2_POUR STARTING.jpg", date: "September 11, 2025" },
+  { filename: "250911/KITCHEN_FLOOR PREP FOR CONCRETE POUR.jpg", date: "September 11, 2025" },
+  { filename: "250911/KITCHEN_MASONRY REPAIR.jpg", date: "September 11, 2025" },
+  { filename: "250911/KITCHEN_PLUMBING, BLOCKING, SHETROCK.jpg", date: "September 11, 2025" },
+  { filename: "250911/LAUNDRY ROOM PARTITIONS.jpg", date: "September 11, 2025" },
+  { filename: "250911/MOLDING_EXISTING CONDITION 1.jpg", date: "September 11, 2025" },
+  { filename: "250911/MOLDING_EXISTING CONDITION 2.jpg", date: "September 11, 2025" },
+  { filename: "250911/MOLDING_EXISTING CONDITION 3.jpg", date: "September 11, 2025" },
+  { filename: "250911/MOLDING_NEW DESIGN TO BE PRESENTED 1.jpg", date: "September 11, 2025" },
+  { filename: "250911/MOLDING_NEW DESIGN TO BE PRESENTED 2.jpg", date: "September 11, 2025" },
+  { filename: "250911/MOLDING_NEW DESIGN TO BE PRESENTED 3.jpg", date: "September 11, 2025" },
+  { filename: "250911/PRIMARY BATH_PLUMBING 1.jpg", date: "September 11, 2025" },
+  { filename: "250911/PRIMARY BATH_PLUMBING BLOCKING.jpg", date: "September 11, 2025" },
+  { filename: "250911/PRIMARY BATH_SHOWER AND TUB FRAMING.jpg", date: "September 11, 2025" },
+  { filename: "250911/PRIMARY BATH_WATER CLOSET. .jpg", date: "September 11, 2025" },
+  
+  // September 4, 2025
   { filename: "250904/10TH FLOOR CORRIDOR_CEILING FRAMING, SHEETROCK.jpeg", date: "September 4, 2025" },
   { filename: "250904/10TH FLOOR_AVIT CLOSET.jpeg", date: "September 4, 2025" },
   { filename: "250904/10TH FLOOR_BACK BATHROOM_FLOOR POURED.jpeg", date: "September 4, 2025" },
