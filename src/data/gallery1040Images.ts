@@ -4,7 +4,25 @@ export interface ImageData {
 }
 
 export const imageData: ImageData[] = [
-  // September 11, 2025 - Latest Construction Progress
+  // September 18, 2025 - Latest Construction Progress
+  { filename: "250918/9TH FL BEDROOM SHEETROCK.jpg", date: "September 18, 2025" },
+  { filename: "250918/GEORGE BATHROOM CEMENT BOARD.jpg", date: "September 18, 2025" },
+  { filename: "250918/GUEST BEDROOM  CEMENT BOARD SHOWER.jpg", date: "September 18, 2025" },
+  { filename: "250918/HUMIDIFICATION HVAC 10TH FLOOR 1.jpg", date: "September 18, 2025" },
+  { filename: "250918/HUMIDIFICATION HVAC 10TH FLOOR 2.jpg", date: "September 18, 2025" },
+  { filename: "250918/HVAC AIR HANDLER 10TH FLOOR 1.jpg", date: "September 18, 2025" },
+  { filename: "250918/HVAC AIR HANDLER 10TH FLOOR.jpg", date: "September 18, 2025" },
+  { filename: "250918/KITCHEN FLOOR POUR 2!.jpg", date: "September 18, 2025" },
+  { filename: "250918/KITCHEN FLOOR POUR!.jpg", date: "September 18, 2025" },
+  { filename: "250918/LIBRARY CEILING FRAMING, SHEETROCK, MEP'S.jpg", date: "September 18, 2025" },
+  { filename: "250918/PLUMBING ROUGH PASSED INSULATION, ETC. ONGOING.jpg", date: "September 18, 2025" },
+  { filename: "250918/PRIMARY BATHROOM FRAMING, BLOCKING.jpg", date: "September 18, 2025" },
+  { filename: "250918/PRMARY CLOSET.jpg", date: "September 18, 2025" },
+  { filename: "250918/STAIR WINDOW WATERPROOFING, FIREPROOFING.jpg", date: "September 18, 2025" },
+  { filename: "250918/WIRING ONGOING.jpg", date: "September 18, 2025" },
+  { filename: "250918/WOOD FLOORING 10TH FLOOR GALLERY!.jpg", date: "September 18, 2025" },
+
+  // September 11, 2025
   { filename: "250911/10TH FLOOR BACK BATHROOM.jpg", date: "September 11, 2025" },
   { filename: "250911/10TH FLOOR CORRIDOR WALLS CLOSING UP.jpg", date: "September 11, 2025" },
   { filename: "250911/10TH FLOOR CORRIDOR_WOOD FLOOR.jpg", date: "September 11, 2025" },

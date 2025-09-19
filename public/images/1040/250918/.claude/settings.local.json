@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for file in *)",
+      "Bash(if [ \"$file\" != \"$newname\" ])",
+      "Bash(then mv \"$file\" \"$newname\")",
+      "Bash(fi)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
