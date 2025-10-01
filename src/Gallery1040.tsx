@@ -9,12 +9,19 @@ function formatImageName(filename: string) {
   return nameWithoutPath.replace(/\.[^/.]+$/, "").replace(/_/g, ' ');
 }
 
+function isVideoFile(filename: string) {
+  const videoExtensions = ['.mov', '.mp4', '.webm', '.ogg'];
+  return videoExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+}
+
 function Gallery1040() {
   const [visibleImages, setVisibleImages] = useState(12) // Show more images initially to display August 28 photos
   const [isLoading, setIsLoading] = useState(false)
   const [imageData, setImageData] = useState<Array<{filename: string, date: string}>>([])
   const [dataLoaded, setDataLoaded] = useState(false)
+  const [loadedVideos, setLoadedVideos] = useState<Set<string>>(new Set())
   const loadMoreRef = useRef<HTMLDivElement>(null)
+  const videoRefs = useRef<Map<string, HTMLVideoElement>>(new Map())
   
   // Load image data asynchronously
   useEffect(() => {
@@ -58,6 +65,54 @@ function Gallery1040() {
       }
     }
   }, [loadMoreImages, visibleImages, imageData.length])
+
+  // Intersection Observer for lazy loading videos
+  useEffect(() => {
+    const videoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const video = entry.target as HTMLVideoElement
+            const src = video.dataset.src
+            if (src && !loadedVideos.has(src)) {
+              // Load video sources
+              const sources = video.querySelectorAll('source[data-src]')
+              sources.forEach((source) => {
+                const srcElement = source as HTMLSourceElement
+                const sourceSrc = srcElement.dataset.src
+                if (sourceSrc) {
+                  srcElement.src = sourceSrc
+                }
+              })
+
+              // If no sources, load video src directly
+              if (sources.length === 0) {
+                video.src = src
+              }
+
+              video.load()
+              setLoadedVideos(prev => new Set(prev).add(src))
+              videoObserver.unobserve(video)
+            }
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '200px'
+      }
+    )
+
+    videoRefs.current.forEach((video) => {
+      if (video) {
+        videoObserver.observe(video)
+      }
+    })
+
+    return () => {
+      videoObserver.disconnect()
+    }
+  }, [visibleImages, loadedVideos])
   
   // Show loading state while data is being fetched
   if (!dataLoaded) {
@@ -98,27 +153,64 @@ function Gallery1040() {
         {imageData.slice(0, visibleImages).map((imageItem, index) => (
           <div className="gallery-item" key={imageItem.filename}>
             <div className="image-container">
-              <img
-                src={`/images/1040/${imageItem.filename}`}
-                alt={imageItem.filename}
-                loading={index < 3 ? "eager" : "lazy"}
-                decoding="async"
-                fetchPriority={index < 3 ? "high" : "low"}
-                className="gallery-image"
-                onLoad={(e) => {
-                  const img = e.currentTarget
-                  img.classList.add('loaded')
-                  // Remove blur effect when image loads
-                  img.style.filter = 'blur(0px)'
-                }}
-                onError={(e) => {
-                  e.currentTarget.classList.add('error')
-                }}
-                style={{
-                  filter: 'blur(2px)',
-                  transition: 'filter 0.3s ease-out'
-                }}
-              />
+              {isVideoFile(imageItem.filename) ? (
+                <video
+                  ref={(el) => {
+                    if (el) {
+                      videoRefs.current.set(imageItem.filename, el)
+                    }
+                  }}
+                  data-src={`/images/1040/${imageItem.filename}`}
+                  poster={`/images/1040/${imageItem.filename.replace(/\.(mov|mp4|webm|ogg)$/i, '_poster.jpg')}`}
+                  controls
+                  preload="none"
+                  className="gallery-image"
+                  onLoadedData={(e) => {
+                    const video = e.currentTarget
+                    video.classList.add('loaded')
+                    video.style.filter = 'blur(0px)'
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.classList.add('error')
+                  }}
+                  style={{
+                    filter: 'blur(2px)',
+                    transition: 'filter 0.3s ease-out'
+                  }}
+                >
+                  <source data-src={`/images/1040/${imageItem.filename.replace(/\.(mov|mp4)$/i, '.webm')}`} type="video/webm" />
+                  <source data-src={`/images/1040/${imageItem.filename.replace(/\.mov$/i, '.mp4')}`} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <picture>
+                  <source
+                    srcSet={`/images/1040/${imageItem.filename.replace(/\.(jpg|jpeg)$/i, '.webp')}`}
+                    type="image/webp"
+                  />
+                  <img
+                    src={`/images/1040/${imageItem.filename}`}
+                    alt={imageItem.filename}
+                    loading={index < 3 ? "eager" : "lazy"}
+                    decoding="async"
+                    fetchPriority={index < 3 ? "high" : "low"}
+                    className="gallery-image"
+                    onLoad={(e) => {
+                      const img = e.currentTarget
+                      img.classList.add('loaded')
+                      // Remove blur effect when image loads
+                      img.style.filter = 'blur(0px)'
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.classList.add('error')
+                    }}
+                    style={{
+                      filter: 'blur(2px)',
+                      transition: 'filter 0.3s ease-out'
+                    }}
+                  />
+                </picture>
+              )}
               <div className="image-placeholder"></div>
             </div>
             <div className="caption">

@@ -136,11 +136,40 @@ When adding new images to the 1040 gallery:
 
 - **Netlify CDN**: Automatic image compression and WebP conversion with `Vary: Accept` header
 - **Chunk Splitting**: Vendor libraries cached separately via Vite config
-- **Lazy Loading**: Images load as they enter viewport using intersection observer
+- **Lazy Loading**: Images and videos load as they enter viewport using intersection observer
+- **Video Lazy Loading**: Videos use `preload="none"` and only load when scrolled into view (200px margin)
+- **Modern Image Formats**: Picture element with WebP sources and JPEG fallbacks
+- **Video Optimization**: Support for multiple formats (WebM, MP4) with automatic format selection
+- **Video Posters**: Poster images reduce initial load and provide preview thumbnails
 - **Preloading**: Critical images preloaded in HTML head
 - **Caching**: Aggressive 1-year cache headers for static assets
 - **Minification**: esbuild minification for optimal bundle size
 - **Image Transitions**: Blur-to-sharp loading effects for better perceived performance
+
+### Media Optimization Script
+
+The project includes an optimization script at `scripts/optimize-media.sh` that can:
+- Convert JPG/JPEG images to WebP format (85% quality)
+- Convert MOV videos to optimized MP4 (H.264, CRF 23)
+- Convert videos to WebM format (VP9)
+- Generate poster images for videos
+- Show file size comparisons and savings
+
+**Requirements**: Install `ffmpeg` and `webp` tools via Homebrew:
+```bash
+brew install ffmpeg webp
+```
+
+**Usage**:
+```bash
+# Optimize all media in 1040 folder
+./scripts/optimize-media.sh
+
+# Optimize specific directory
+./scripts/optimize-media.sh public/images/1040/250930
+```
+
+The gallery component automatically uses WebP images and optimized video formats when available, falling back to original formats if not present.
 
 ## Deployment
 
