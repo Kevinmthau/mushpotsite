@@ -75,21 +75,7 @@ function Gallery1040() {
             const video = entry.target as HTMLVideoElement
             const src = video.dataset.src
             if (src && !loadedVideos.has(src)) {
-              // Load video sources
-              const sources = video.querySelectorAll('source[data-src]')
-              sources.forEach((source) => {
-                const srcElement = source as HTMLSourceElement
-                const sourceSrc = srcElement.dataset.src
-                if (sourceSrc) {
-                  srcElement.src = sourceSrc
-                }
-              })
-
-              // If no sources, load video src directly
-              if (sources.length === 0) {
-                video.src = src
-              }
-
+              video.src = src
               video.load()
               setLoadedVideos(prev => new Set(prev).add(src))
               videoObserver.unobserve(video)
@@ -161,7 +147,6 @@ function Gallery1040() {
                     }
                   }}
                   data-src={`/images/1040/${imageItem.filename}`}
-                  poster={`/images/1040/${imageItem.filename.replace(/\.(mov|mp4|webm|ogg)$/i, '_poster.jpg')}`}
                   controls
                   preload="none"
                   className="gallery-image"
@@ -178,38 +163,30 @@ function Gallery1040() {
                     transition: 'filter 0.3s ease-out'
                   }}
                 >
-                  <source data-src={`/images/1040/${imageItem.filename.replace(/\.(mov|mp4)$/i, '.webm')}`} type="video/webm" />
-                  <source data-src={`/images/1040/${imageItem.filename.replace(/\.mov$/i, '.mp4')}`} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               ) : (
-                <picture>
-                  <source
-                    srcSet={`/images/1040/${imageItem.filename.replace(/\.(jpg|jpeg)$/i, '.webp')}`}
-                    type="image/webp"
-                  />
-                  <img
-                    src={`/images/1040/${imageItem.filename}`}
-                    alt={imageItem.filename}
-                    loading={index < 3 ? "eager" : "lazy"}
-                    decoding="async"
-                    fetchPriority={index < 3 ? "high" : "low"}
-                    className="gallery-image"
-                    onLoad={(e) => {
-                      const img = e.currentTarget
-                      img.classList.add('loaded')
-                      // Remove blur effect when image loads
-                      img.style.filter = 'blur(0px)'
-                    }}
-                    onError={(e) => {
-                      e.currentTarget.classList.add('error')
-                    }}
-                    style={{
-                      filter: 'blur(2px)',
-                      transition: 'filter 0.3s ease-out'
-                    }}
-                  />
-                </picture>
+                <img
+                  src={`/images/1040/${imageItem.filename}`}
+                  alt={imageItem.filename}
+                  loading={index < 3 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchPriority={index < 3 ? "high" : "low"}
+                  className="gallery-image"
+                  onLoad={(e) => {
+                    const img = e.currentTarget
+                    img.classList.add('loaded')
+                    // Remove blur effect when image loads
+                    img.style.filter = 'blur(0px)'
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.classList.add('error')
+                  }}
+                  style={{
+                    filter: 'blur(2px)',
+                    transition: 'filter 0.3s ease-out'
+                  }}
+                />
               )}
               <div className="image-placeholder"></div>
             </div>
