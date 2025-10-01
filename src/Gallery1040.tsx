@@ -151,16 +151,10 @@ function Gallery1040() {
                   preload="none"
                   className="gallery-image"
                   onLoadedData={(e) => {
-                    const video = e.currentTarget
-                    video.classList.add('loaded')
-                    video.style.filter = 'blur(0px)'
+                    e.currentTarget.classList.add('loaded')
                   }}
                   onError={(e) => {
                     e.currentTarget.classList.add('error')
-                  }}
-                  style={{
-                    filter: 'blur(2px)',
-                    transition: 'filter 0.3s ease-out'
                   }}
                 >
                   Your browser does not support the video tag.
@@ -174,21 +168,13 @@ function Gallery1040() {
                   fetchPriority={index < 3 ? "high" : "low"}
                   className="gallery-image"
                   onLoad={(e) => {
-                    const img = e.currentTarget
-                    img.classList.add('loaded')
-                    // Remove blur effect when image loads
-                    img.style.filter = 'blur(0px)'
+                    e.currentTarget.classList.add('loaded')
                   }}
                   onError={(e) => {
                     e.currentTarget.classList.add('error')
                   }}
-                  style={{
-                    filter: 'blur(2px)',
-                    transition: 'filter 0.3s ease-out'
-                  }}
                 />
               )}
-              <div className="image-placeholder"></div>
             </div>
             <div className="caption">
               <div className="image-title">{formatImageName(imageItem.filename)}</div>
