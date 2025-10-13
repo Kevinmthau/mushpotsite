@@ -35,6 +35,40 @@ export const imageData: ImageData[] = [
   { filename: "251009/9th Fl_Library.jpg", date: "October 9, 2025" },
   { filename: "251009/9th Fl_Mezz_Wood flooring.jpg", date: "October 9, 2025" },
 
+  // September 30, 2025 - Construction Progress
+  { filename: "250930/10th fl_gallery_wood floor protected.jpg", date: "September 30, 2025" },
+  { filename: "250930/10th fl_hall closet.jpg", date: "September 30, 2025" },
+  { filename: "250930/10th fl_hallway.jpg", date: "September 30, 2025" },
+  { filename: "250930/9th fl_elevator vestibule.jpg", date: "September 30, 2025" },
+  { filename: "250930/9th fl_gallery floor poured.jpg", date: "September 30, 2025" },
+  { filename: "250930/9th floor_Back bathroom and bedroom.jpg", date: "September 30, 2025" },
+  { filename: "250930/9th floor_Back bathroom plumbing and framing.jpg", date: "September 30, 2025" },
+  { filename: "250930/9th floor_Back room wood flooring.jpg", date: "September 30, 2025" },
+  { filename: "250930/Agnes Bathroom_Floor poured, ductwork in.MOV", date: "September 30, 2025" },
+  { filename: "250930/Family room_access panel and grid layout 1.jpg", date: "September 30, 2025" },
+  { filename: "250930/Family room_access panel and grid layout 2.jpg", date: "September 30, 2025" },
+  { filename: "250930/Future kids bathroom_Floor poured, plumbing.jpg", date: "September 30, 2025" },
+  { filename: "250930/Guest room 1_bathroom.jpg", date: "September 30, 2025" },
+  { filename: "250930/Guest room 1_framing and sheetrock.jpg", date: "September 30, 2025" },
+  { filename: "250930/Guest room 2_bathroom framing.jpg", date: "September 30, 2025" },
+  { filename: "250930/Guest room 2_bathroom shower plumbing.jpg", date: "September 30, 2025" },
+  { filename: "250930/Guest room 2_bedroom.jpg", date: "September 30, 2025" },
+  { filename: "250930/Kitchen_Island and counter scale mockup 1.jpg", date: "September 30, 2025" },
+  { filename: "250930/Kitchen_Island and counter scale mockup 2.jpg", date: "September 30, 2025" },
+  { filename: "250930/Laundry room_framing and plumbing.jpg", date: "September 30, 2025" },
+  { filename: "250930/Library_Framing and soffits.jpg", date: "September 30, 2025" },
+  { filename: "250930/Living room_openings complete.jpg", date: "September 30, 2025" },
+  { filename: "250930/Mezzanine.jpg", date: "September 30, 2025" },
+  { filename: "250930/Mudroom_1.jpg", date: "September 30, 2025" },
+  { filename: "250930/Mudroom_2.jpg", date: "September 30, 2025" },
+  { filename: "250930/Primary shower_mockup 1.jpg", date: "September 30, 2025" },
+  { filename: "250930/Primary shower_mockup 2.jpg", date: "September 30, 2025" },
+  { filename: "250930/Primary shower_mockup 3 and plumbing.jpg", date: "September 30, 2025" },
+  { filename: "250930/Primary_Bedroom.jpg", date: "September 30, 2025" },
+  { filename: "250930/Primary_tub plumbing and framing.jpg", date: "September 30, 2025" },
+  { filename: "250930/Primary_Vanity wall plumbing and blocking.jpg", date: "September 30, 2025" },
+  { filename: "250930/Primary_water closet.jpg", date: "September 30, 2025" },
+
   // September 18, 2025
   { filename: "250918/9TH FL BEDROOM SHEETROCK.jpg", date: "September 18, 2025" },
   { filename: "250918/GEORGE BATHROOM CEMENT BOARD.jpg", date: "September 18, 2025" },
@@ -454,4 +488,4 @@ export const imageData: ImageData[] = [
   { filename: "10th floor primary closet and guest room demo'ed.jpg", date: "May 2025" },
   { filename: "10th floor elevator vestibule demo'ed.jpg", date: "May 2025" },
   { filename: "10th floor demo'ed - various rooms.jpg", date: "May 2025" }
-].filter(item => !item.filename.toLowerCase().endsWith('.mov'));
+];
