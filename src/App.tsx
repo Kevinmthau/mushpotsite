@@ -52,7 +52,7 @@ function HomePage() {
             />
           </picture>
         </a>
-        <a href="/ios5.webarchive" target="_blank" rel="noopener noreferrer">
+        <a href="/ios5.html" target="_blank" rel="noopener noreferrer">
           <img
             src="/images/ios_integration.jpg"
             alt="iOS Integration"
