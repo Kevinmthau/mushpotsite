@@ -4,7 +4,38 @@ export interface ImageData {
 }
 
 export const imageData: ImageData[] = [
-  // September 18, 2025 - Latest Construction Progress
+  // October 9, 2025 - Latest Construction Progress
+  { filename: "251009/10th Fl_Agnes bathroom_Wall to be re-built.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Agnes shower.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Agnes_HUmidifier.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Agnes_New radiators.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Bedroom_NEw radiator.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Bedroom_Shower.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Future kids room_HVAC unit.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Guest room_Radiator.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Hall closet_Humdifier.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Hallway_Humidifier.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Hallway_HVAC unit.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Primary Bath 1.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Primary Bath 2_Shower.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Primary Bath 3_Shower.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Primary Bed_Radiators.jpg", date: "October 9, 2025" },
+  { filename: "251009/10th Fl_Wiring.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Back hallway and room.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Back room_Framing and sheetrock.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Back room_New radiator.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Dining room_Framing.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Dining Room_New radiators.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Family room and mezz.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Gallery.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Great room_wood floor infill.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Kitchen and Family room ductwork.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Kitchen_Ductwork.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Kitchen_Framing, ductwork.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Library.jpg", date: "October 9, 2025" },
+  { filename: "251009/9th Fl_Mezz_Wood flooring.jpg", date: "October 9, 2025" },
+
+  // September 18, 2025
   { filename: "250918/9TH FL BEDROOM SHEETROCK.jpg", date: "September 18, 2025" },
   { filename: "250918/GEORGE BATHROOM CEMENT BOARD.jpg", date: "September 18, 2025" },
   { filename: "250918/GUEST BEDROOM  CEMENT BOARD SHOWER.jpg", date: "September 18, 2025" },
