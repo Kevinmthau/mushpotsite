@@ -84,10 +84,10 @@ function HomePage() {
           loading="lazy"
           decoding="async"
         />
-        <a href="/The_Gee_Whiz_Company_Bloomberg.pdf" target="_blank" rel="noopener noreferrer">
-          <img 
-            src="/images/SGI.jpg" 
-            alt="SGI" 
+        <a href="https://sgi-demos.github.io" target="_blank" rel="noopener noreferrer">
+          <img
+            src="/images/SGI.jpg"
+            alt="SGI"
             className="img-8"
             loading="lazy"
             decoding="async"
