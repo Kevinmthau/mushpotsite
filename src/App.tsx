@@ -52,10 +52,10 @@ function HomePage() {
             />
           </picture>
         </a>
-        <a href="https://web.archive.org/web/20111012202757/http://www.apple.com/ios/features.html#twitter" target="_blank" rel="noopener noreferrer">
-          <img 
-            src="/images/ios_integration.jpg" 
-            alt="iOS Integration" 
+        <a href="/ios5.webarchive" target="_blank" rel="noopener noreferrer">
+          <img
+            src="/images/ios_integration.jpg"
+            alt="iOS Integration"
             className="img-4"
             loading="lazy"
             decoding="async"
