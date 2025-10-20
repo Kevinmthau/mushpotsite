@@ -15,19 +15,18 @@ function isVideoFile(filename: string) {
 }
 
 function Gallery1040() {
-  const [visibleImages, setVisibleImages] = useState(12) // Show more images initially to display August 28 photos
+  const [visibleImages, setVisibleImages] = useState(6) // Reduced from 12 for faster initial load
   const [isLoading, setIsLoading] = useState(false)
   const [imageData, setImageData] = useState<Array<{filename: string, date: string}>>([])
-  const [dataLoaded, setDataLoaded] = useState(false)
   const [loadedVideos, setLoadedVideos] = useState<Set<string>>(new Set())
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const videoRefs = useRef<Map<string, HTMLVideoElement>>(new Map())
-  
-  // Load image data asynchronously
+
+  // Load image data asynchronously - non-blocking
   useEffect(() => {
+    // Load data in background
     loadImageData().then(data => {
       setImageData(data)
-      setDataLoaded(true)
     })
   }, [])
 
@@ -100,14 +99,8 @@ function Gallery1040() {
     }
   }, [visibleImages, loadedVideos])
   
-  // Show loading state while data is being fetched
-  if (!dataLoaded) {
-    return (
-      <div className="gallery-app">
-        <div style={{ padding: '40px', textAlign: 'center' }}>Loading gallery...</div>
-      </div>
-    )
-  }
+  // Render skeleton UI while data loads (non-blocking)
+  const showingSkeleton = imageData.length === 0
 
   return (
     <div className="gallery-app">
@@ -136,52 +129,75 @@ function Gallery1040() {
       </div>
 
       <div className="gallery-grid">
-        {imageData.slice(0, visibleImages).map((imageItem, index) => (
-          <div className="gallery-item" key={imageItem.filename}>
-            <div className="image-container">
-              {isVideoFile(imageItem.filename) ? (
-                <video
-                  ref={(el) => {
-                    if (el) {
-                      videoRefs.current.set(imageItem.filename, el)
-                    }
-                  }}
-                  data-src={`/images/1040/${imageItem.filename}`}
-                  controls
-                  preload="none"
-                  className="gallery-image"
-                  onLoadedData={(e) => {
-                    e.currentTarget.classList.add('loaded')
-                  }}
-                  onError={(e) => {
-                    e.currentTarget.classList.add('error')
-                  }}
-                >
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <img
-                  src={`/images/1040/${imageItem.filename}`}
-                  alt={imageItem.filename}
-                  loading={index < 3 ? "eager" : "lazy"}
-                  decoding="async"
-                  fetchPriority={index < 3 ? "high" : "low"}
-                  className="gallery-image"
-                  onLoad={(e) => {
-                    e.currentTarget.classList.add('loaded')
-                  }}
-                  onError={(e) => {
-                    e.currentTarget.classList.add('error')
-                  }}
-                />
-              )}
+        {showingSkeleton ? (
+          // Show skeleton placeholders while data loads
+          Array.from({ length: 6 }).map((_, index) => (
+            <div className="gallery-item" key={`skeleton-${index}`}>
+              <div className="image-container skeleton">
+                <div className="skeleton-image"></div>
+              </div>
+              <div className="caption">
+                <div className="skeleton-text skeleton-title"></div>
+                <div className="skeleton-text skeleton-date"></div>
+              </div>
             </div>
-            <div className="caption">
-              <div className="image-title">{formatImageName(imageItem.filename)}</div>
-              <div className="image-date">{imageItem.date}</div>
+          ))
+        ) : (
+          imageData.slice(0, visibleImages).map((imageItem, index) => (
+            <div className="gallery-item" key={imageItem.filename}>
+              <div className="image-container">
+                {isVideoFile(imageItem.filename) ? (
+                  <video
+                    ref={(el) => {
+                      if (el) {
+                        videoRefs.current.set(imageItem.filename, el)
+                      }
+                    }}
+                    data-src={`/images/1040/${imageItem.filename}`}
+                    controls
+                    preload="none"
+                    className="gallery-image"
+                    onLoadedData={(e) => {
+                      e.currentTarget.classList.add('loaded')
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.classList.add('error')
+                    }}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <img
+                    src={`/images/1040/${imageItem.filename.replace('.jpg', '_thumb.jpg').replace('.jpeg', '_thumb.jpg')}`}
+                    alt={imageItem.filename}
+                    width="800"
+                    height="600"
+                    loading={index < 3 ? "eager" : "lazy"}
+                    decoding="async"
+                    fetchPriority={index < 3 ? "high" : "low"}
+                    className="gallery-image"
+                    onLoad={(e) => {
+                      e.currentTarget.classList.add('loaded')
+                    }}
+                    onError={(e) => {
+                      // Fallback to full-size image if thumbnail doesn't exist
+                      const target = e.currentTarget as HTMLImageElement
+                      if (target.src.includes('_thumb.jpg')) {
+                        target.src = `/images/1040/${imageItem.filename}`
+                      } else {
+                        target.classList.add('error')
+                      }
+                    }}
+                  />
+                )}
+              </div>
+              <div className="caption">
+                <div className="image-title">{formatImageName(imageItem.filename)}</div>
+                <div className="image-date">{imageItem.date}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
       {visibleImages < imageData.length && (
         <div className="load-more-container" ref={loadMoreRef}>
