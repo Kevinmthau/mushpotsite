@@ -168,7 +168,7 @@ function Gallery1040() {
                   </video>
                 ) : (
                   <img
-                    src={`/images/1040/${imageItem.filename.replace('.jpg', '_thumb.jpg').replace('.jpeg', '_thumb.jpg')}`}
+                    src={`/images/1040/${imageItem.filename}`}
                     alt={imageItem.filename}
                     width="800"
                     height="600"
@@ -180,13 +180,7 @@ function Gallery1040() {
                       e.currentTarget.classList.add('loaded')
                     }}
                     onError={(e) => {
-                      // Fallback to full-size image if thumbnail doesn't exist
-                      const target = e.currentTarget as HTMLImageElement
-                      if (target.src.includes('_thumb.jpg')) {
-                        target.src = `/images/1040/${imageItem.filename}`
-                      } else {
-                        target.classList.add('error')
-                      }
+                      e.currentTarget.classList.add('error')
                     }}
                   />
                 )}
