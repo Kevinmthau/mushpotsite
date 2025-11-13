@@ -6,9 +6,22 @@ function HomePage() {
   return (
     <div className="app">
       <div className="image-gallery">
-        <img 
-          src="/images/esc_app_icon.png" 
-          alt="ESC App" 
+        <a href="http://board.fun" target="_blank" rel="noopener noreferrer">
+          <picture>
+            <source srcSet="/images/Board.webp" type="image/webp" />
+            <img
+              src="/images/Board.jpg"
+              alt="Board"
+              className="img-3"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
+        </a>
+        <img
+          src="/images/esc_app_icon.png"
+          alt="ESC App"
           className="img-0"
           loading="eager"
           fetchPriority="high"
@@ -17,9 +30,9 @@ function HomePage() {
         <a href="https://testflight.apple.com/join/VppMNjcA" target="_blank" rel="noopener noreferrer">
           <picture>
             <source srcSet="/images/Whodiss.webp" type="image/webp" />
-            <img 
-              src="/images/Whodiss.jpg" 
-              alt="Whodiss" 
+            <img
+              src="/images/Whodiss.jpg"
+              alt="Whodiss"
               className="img-1"
               loading="eager"
               fetchPriority="high"
@@ -30,9 +43,9 @@ function HomePage() {
         <Link to="/1040">
           <picture>
             <source srcSet="/images/1040.webp" type="image/webp" />
-            <img 
-              src="/images/1040.jpg" 
-              alt="1040" 
+            <img
+              src="/images/1040.jpg"
+              alt="1040"
               className="img-2"
               loading="eager"
               fetchPriority="high"
@@ -40,18 +53,6 @@ function HomePage() {
             />
           </picture>
         </Link>
-        <a href="https://vimeo.com/1076948952/92443f11db?share=copy" target="_blank" rel="noopener noreferrer">
-          <picture>
-            <source srcSet="/images/Board.webp" type="image/webp" />
-            <img 
-              src="/images/Board.jpg" 
-              alt="Board" 
-              className="img-3"
-              loading="lazy"
-              decoding="async"
-            />
-          </picture>
-        </a>
         <a href="/ios5-features.html" target="_blank" rel="noopener noreferrer">
           <img
             src="/images/ios_integration.jpg"
@@ -68,15 +69,13 @@ function HomePage() {
           loading="lazy"
           decoding="async"
         />
-        <a href="https://www.wsj.com/articles/SB965779757119553850?gaa_at=eafs&gaa_n=ASWzDAi7K-S8IAOHqDqlSOXLc9Z3vQ7YY_wR7KW9biptZN3baKHlFU0zhWmuo0COMcw%3D&gaa_ts=688bdd16&gaa_sig=ctceE0aI7N0Fith4EO6WhhYJDmTG6oS1asqbE4dL6OGVYW13cB6KsSXn-C21iTnqfjB8-PSNmoIE7GRyW18Cyg%3D%3D" target="_blank" rel="noopener noreferrer">
-          <img 
-            src="/images/wap_browser.jpg" 
-            alt="WAP Browser" 
-            className="img-6"
-            loading="lazy"
-            decoding="async"
-          />
-        </a>
+        <img
+          src="/images/wap_browser.jpg"
+          alt="WAP Browser"
+          className="img-6"
+          loading="lazy"
+          decoding="async"
+        />
         <img 
           src="/images/smtp_pop3_server.gif" 
           alt="SMTP POP3 Server" 
