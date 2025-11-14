@@ -38,18 +38,8 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-[build.processing]
-  skip_processing = false
-[build.processing.css]
-  bundle = true
-  minify = true
-[build.processing.js]
-  bundle = true
-  minify = true
-[build.processing.html]
-  pretty_urls = true
-[build.processing.images]
-  compress = true
+# Legacy build.processing removed (deprecated since 2021)
+# Using Netlify Image CDN instead for better optimization
 
 # Enable automatic WebP conversion for better performance
 # Netlify will automatically serve WebP to supporting browsers
