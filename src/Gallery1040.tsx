@@ -14,12 +14,6 @@ function isVideoFile(filename: string) {
   return videoExtensions.some(ext => filename.toLowerCase().endsWith(ext));
 }
 
-function getOptimizedImageUrl(filename: string, width: number = 1200, quality: number = 80) {
-  // Use Netlify Image CDN for automatic optimization and WebP conversion
-  const imagePath = `/images/1040/${filename}`;
-  return `/.netlify/images?url=${encodeURIComponent(imagePath)}&w=${width}&q=${quality}`;
-}
-
 function Gallery1040() {
   const [visibleImages, setVisibleImages] = useState(6) // Reduced from 12 for faster initial load
   const [isLoading, setIsLoading] = useState(false)
