@@ -4,6 +4,27 @@ export interface ImageData {
 }
 
 export const imageData: ImageData[] = [
+  // November 20, 2025 - Latest Construction Progress
+  { filename: "251120/10 FLOOR_AGNES BATH_INSTALLED.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_AGNES BATH_SHOWER TEST PASSED.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_FUTURE KID BATH_TUB INSTALLED.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_GEORGE ROOM_SHOWER TEST PASSED.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_GUEST ROOM_SHOWER TEST PASSED.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_PRIMARY BATH_SHOWER 1.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_PRIMARY BATH_SHOWER 2.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_PRIMARY BATH_TUB DELIVERED 1.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_PRIMARY BATH_TUB DELIVERED 2.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_PRIMARY CLOSET_CLOSED.jpg", date: "November 20, 2025" },
+  { filename: "251120/10 FLOOR_PRIMARY_TUB FRAMED.jpg", date: "November 20, 2025" },
+  { filename: "251120/9 FLOOR_CEILING READY FOR SHEETROCK.jpg", date: "November 20, 2025" },
+  { filename: "251120/9 FLOOR_DINING ROOM_READY FOR FIRE BRICK.jpg", date: "November 20, 2025" },
+  { filename: "251120/9 FLOOR_ENTRY_CLOSING CEILINGS.jpg", date: "November 20, 2025" },
+  { filename: "251120/9 FLOOR_GALLERY_SHEETROCK.jpg", date: "November 20, 2025" },
+  { filename: "251120/9 FLOOR_KITCHEN_CEILING READY FOR SHEETROCK.jpg", date: "November 20, 2025" },
+  { filename: "251120/9 FLOOR_KITCHEN_READY FOR RADIANT HEAT & SHEETROCK.jpg", date: "November 20, 2025" },
+  { filename: "251120/9 FLOOR_STAIR FIELD MEASUREMENT FOR STONE.jpg", date: "November 20, 2025" },
+  { filename: "251120/MATERIAL DELIVERY_SPEAKERS, LOW VOLTAGE.jpg", date: "November 20, 2025" },
+
   // November 6, 2025 - Latest Construction Progress
   { filename: "251106/10 fl_Agnes Bathroom.JPEG", date: "November 6, 2025" },
   { filename: "251106/10 fl_AV Closet.JPEG", date: "November 6, 2025" },

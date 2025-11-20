@@ -64,23 +64,23 @@ The 1040 project gallery (`/1040`) is a sophisticated image gallery featuring:
 
 #### Image Data Structure
 
-Images are stored in a hardcoded array with this structure:
+Images are stored in a separate data file at `src/data/gallery1040Images.ts` with this structure:
 ```typescript
-const imageData = [
+export const imageData: ImageData[] = [
+  { filename: "251106/10 fl_Agnes Bathroom.JPEG", date: "November 6, 2025" },
   { filename: "250731/DUCTWORK_3.jpg", date: "July 31, 2025" },
-  { filename: "250724/Windows_Agnes room_Install complete.jpg", date: "July 24, 2025" },
   // ... more images sorted newest first
 ]
 ```
 
-Images are organized in date-based folders:
-- `250731/` - July 31, 2025 (latest construction progress)
-- `250724/` - July 24, 2025 (progress update)
-- `250710/` - July 10, 2025 (windows and framing)
-- `250618/` - June 18, 2025 (windows and electrical work)
-- `250612/` - June 12, 2025 (library and framing)
-- `250522/` - May 22, 2025 (framing progress)  
-- `250508_250515/` - May 8-15, 2025 (initial work)
+The data is lazy-loaded via dynamic import for code splitting optimization.
+
+Images are organized in date-based folders using `YYMMDD` format:
+- `251106/` - November 6, 2025 (latest construction progress)
+- `251030/` - October 30, 2025
+- `250930/` - September 30, 2025
+- `250731/` - July 31, 2025
+- Older dates follow the same pattern
 - Root folder - May 2025 (original documentation)
 
 #### PDF Document Section
@@ -99,6 +99,20 @@ The gallery includes a PDF viewer at the top displaying the design presentation:
 - **Loading States**: Shimmer placeholders and spinning loader during image loading
 - **Smooth Transitions**: Blur-to-sharp transitions when images load (2px blur → 0px)
 
+### Image Orientation and Loading
+
+**Critical Implementation Details**:
+- Images use direct file paths (not Netlify CDN) to preserve EXIF orientation data
+- No hardcoded width/height attributes on `<img>` tags - allows natural aspect ratios for both portrait and landscape
+- URL encoding handles filenames with spaces: `filename.split('/').map(encodeURIComponent).join('/')`
+- CSS uses `object-fit: contain` and `width: 100%, height: auto` for proper scaling
+- Failed image loads show as grayscale (`.gallery-image.error { filter: grayscale(100%) }`)
+
+**Common Issues**:
+- If images appear sideways: Check for hardcoded width/height attributes
+- If images show as black & white: Check filename encoding (spaces need URL encoding)
+- Portrait vs landscape: Never assume aspect ratio - let images display at natural dimensions
+
 ### Image Management
 
 #### Main Portfolio Images
@@ -107,11 +121,12 @@ Located in `/public/images/`:
 
 #### 1040 Project Images
 Located in `/public/images/1040/`:
-- **Compressed Images**: All images optimized using sips tool with progressive compression (30-60% quality)
-- **Backup Storage**: Original images stored in `/public/images/1040/backup/`
-- **File Formats**: All images standardized to lowercase .jpg format
+- **Direct Image Loading**: Images use direct paths with URL encoding for filenames containing spaces
+- **URL Encoding**: Filenames are automatically encoded using `encodeURIComponent` to handle spaces and special characters
+- **File Formats**: Mix of .jpg, .jpeg, and .JPEG extensions (case-sensitive on some systems)
 - **PDF Documents**: Design presentations stored in `/public/images/1040/documents/`
-- **Optimization**: Images compressed based on size (>2MB = 30%, >1MB = 40%, >500KB = 50%, else 60%)
+- **Video Support**: .MOV and .mov files supported via lazy loading
+- **Backup Storage**: Original images may be stored in `/public/images/1040/backup/`
 
 ### Image Compression Workflow
 
@@ -195,13 +210,15 @@ The site is deployed on Netlify with automatic deployments from GitHub:
 4. Update responsive breakpoints
 
 ### For 1040 Gallery
-1. Add images to dated folder in `/public/images/1040/`
-2. Update `imageData` array in Gallery1040.tsx with filename and date
+1. Add images to dated folder in `/public/images/1040/` using `YYMMDD` format (e.g., `251106/`)
+2. Update `imageData` array in `src/data/gallery1040Images.ts` with filename and specific date
 3. Images are automatically included in progressive loading
 4. Consider compression for large images (>800KB)
 
-**Important Notes**: 
-- The 1040 gallery uses a hardcoded image array, so code changes are required for new images
+**Important Notes**:
+- The 1040 gallery image list is in `src/data/gallery1040Images.ts`, so code changes are required for new images
 - Images are displayed in the order they appear in the `imageData` array (newest first)
-- All image filenames must use lowercase .jpg extensions for consistency
-- Dates should be specific (e.g., "July 31, 2025" not "July 2025") and match folder structure
+- Filenames with spaces are automatically URL-encoded (e.g., "10 fl_Agnes Bathroom.JPEG" works correctly)
+- File extensions can be .jpg, .jpeg, or .JPEG (mixed case is supported)
+- Dates should be specific (e.g., "November 6, 2025" not "November 2025") and match folder structure
+- Image data is lazy-loaded via dynamic import for better initial page performance
