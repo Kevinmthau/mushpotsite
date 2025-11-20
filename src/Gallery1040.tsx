@@ -174,12 +174,8 @@ function Gallery1040() {
                   </video>
                 ) : (
                   <img
-                    src={getOptimizedImageUrl(imageItem.filename, 1200, 80)}
-                    srcSet={`${getOptimizedImageUrl(imageItem.filename, 800, 80)} 800w, ${getOptimizedImageUrl(imageItem.filename, 1200, 80)} 1200w, ${getOptimizedImageUrl(imageItem.filename, 1600, 80)} 1600w`}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    src={`/images/1040/${imageItem.filename.split('/').map(encodeURIComponent).join('/')}`}
                     alt={imageItem.filename}
-                    width="800"
-                    height="600"
                     loading={index < 3 ? "eager" : "lazy"}
                     decoding="async"
                     fetchPriority={index < 3 ? "high" : "low"}
@@ -189,6 +185,7 @@ function Gallery1040() {
                     }}
                     onError={(e) => {
                       e.currentTarget.classList.add('error')
+                      console.error('Failed to load image:', imageItem.filename, 'URL:', e.currentTarget.src)
                     }}
                   />
                 )}
