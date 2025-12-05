@@ -44,6 +44,7 @@
 .img-6 { height: 400px; width: auto; }
 .img-7 { height: 300px; width: auto; }
 .img-8 { height: 450px; width: auto; }
+.img-9 { height: 300px; width: auto; }
 
 @media (max-width: 768px) {
   .image-gallery {
@@ -60,6 +61,7 @@
   .img-6 { height: 340px; width: auto; }
   .img-7 { height: 260px; width: auto; }
   .img-8 { height: 380px; width: auto; }
+  .img-9 { height: 260px; width: auto; }
 }
 
 @media (max-width: 480px) {
@@ -77,4 +79,5 @@
   .img-6 { height: 300px; width: auto; }
   .img-7 { height: 220px; width: auto; }
   .img-8 { height: 320px; width: auto; }
+  .img-9 { height: 220px; width: auto; }
 }

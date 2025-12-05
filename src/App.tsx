@@ -53,6 +53,13 @@ function HomePage() {
             />
           </picture>
         </Link>
+        <img
+          src="/images/32689-1280 2.jpg"
+          alt="Twitter Music"
+          className="img-9"
+          loading="lazy"
+          decoding="async"
+        />
         <a href="/ios5-features.html" target="_blank" rel="noopener noreferrer">
           <img
             src="/images/ios_integration.jpg"
@@ -62,9 +69,9 @@ function HomePage() {
             decoding="async"
           />
         </a>
-        <img 
-          src="/images/twitter_for_iphone.png" 
-          alt="Twitter for iPhone" 
+        <img
+          src="/images/twitter_for_iphone.png"
+          alt="Twitter for iPhone"
           className="img-5"
           loading="lazy"
           decoding="async"
