@@ -1,7 +1,4 @@
-export interface ImageData {
-  filename: string;
-  date: string;
-}
+import type { ImageData } from './types';
 
 export const imageData: ImageData[] = [
   // December 4, 2025 - Latest Construction Progress
