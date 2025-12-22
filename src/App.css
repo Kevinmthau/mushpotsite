@@ -119,6 +119,14 @@
   .cards {
     gap: 1.5rem;
   }
+
+  .cards li img.img-medium {
+    height: var(--cover-size);
+  }
+
+  .cards li img.img-large {
+    height: calc(var(--cover-size) * 1.1);
+  }
 }
 
 @media (max-width: 480px) {
@@ -128,5 +136,13 @@
 
   .cards {
     gap: 1rem;
+  }
+
+  .cards li img.img-medium {
+    height: calc(var(--cover-size) * 0.9);
+  }
+
+  .cards li img.img-large {
+    height: var(--cover-size);
   }
 }
