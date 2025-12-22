@@ -115,10 +115,18 @@
   :root {
     --cover-size: 300px;
   }
+
+  .cards {
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
   :root {
     --cover-size: 240px;
+  }
+
+  .cards {
+    gap: 1rem;
   }
 }
