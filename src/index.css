@@ -24,7 +24,8 @@ a:hover {
 
 html, body {
   margin: 0;
-  overscroll-behavior-x: contain;
+  overscroll-behavior-x: none;
+  overscroll-behavior: none;
 }
 
 body {

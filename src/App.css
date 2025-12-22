@@ -8,7 +8,8 @@
   margin: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  overscroll-behavior-x: contain;
+  overscroll-behavior-x: none;
+  overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
