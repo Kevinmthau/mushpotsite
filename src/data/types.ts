@@ -12,4 +12,6 @@ export interface HomePageItem {
   webp?: string;
   alt: string;
   size?: 'small' | 'medium' | 'large' | 'xlarge';
+  noReflect?: boolean;
+  extraSpacing?: boolean;
 }

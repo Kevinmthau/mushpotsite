@@ -68,6 +68,10 @@
   animation-timeline: --li-in-and-out-of-view;
 }
 
+.cards li.extra-spacing {
+  margin-right: 2rem;
+}
+
 .cards li .card-link {
   display: block;
   text-decoration: none;
@@ -78,6 +82,7 @@
   align-items: center;
   justify-content: center;
   transform-style: preserve-3d;
+  min-width: 200px;
 }
 
 .cards li img {
@@ -88,6 +93,10 @@
   border-radius: 8px;
   user-select: none;
   -webkit-box-reflect: below 0.3em linear-gradient(rgba(0,0,0,0.08), transparent 20%);
+}
+
+.cards li img.no-reflect {
+  -webkit-box-reflect: none;
 }
 
 .cards li .card-link,
@@ -120,6 +129,18 @@
     gap: 1.5rem;
   }
 
+  .cards li.extra-spacing {
+    margin-right: 1.5rem;
+  }
+
+  .cards li .card-container {
+    min-width: 150px;
+  }
+
+  .cards li img.img-small {
+    height: calc(var(--cover-size) * 0.65);
+  }
+
   .cards li img.img-medium {
     height: var(--cover-size);
   }
@@ -136,6 +157,18 @@
 
   .cards {
     gap: 1rem;
+  }
+
+  .cards li.extra-spacing {
+    margin-right: 1rem;
+  }
+
+  .cards li .card-container {
+    min-width: 120px;
+  }
+
+  .cards li img.img-small {
+    height: calc(var(--cover-size) * 0.6);
   }
 
   .cards li img.img-medium {

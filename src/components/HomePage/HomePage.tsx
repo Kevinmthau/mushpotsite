@@ -5,11 +5,14 @@ import './HomePage.css';
 
 function HomePage() {
   const renderItem = (item: HomePageItem, index: number) => {
-    const sizeClass = item.size === 'small' ? 'img-small'
-      : item.size === 'medium' ? 'img-medium'
-      : item.size === 'large' ? 'img-large'
-      : item.size === 'xlarge' ? 'img-xlarge'
-      : undefined;
+    const classes = [
+      item.size === 'small' ? 'img-small'
+        : item.size === 'medium' ? 'img-medium'
+        : item.size === 'large' ? 'img-large'
+        : item.size === 'xlarge' ? 'img-xlarge'
+        : null,
+      item.noReflect ? 'no-reflect' : null,
+    ].filter(Boolean).join(' ') || undefined;
 
     const imgElement = (
       <img
@@ -17,13 +20,15 @@ function HomePage() {
         alt={item.alt}
         loading={index < 4 ? 'eager' : 'lazy'}
         decoding="async"
-        className={sizeClass}
+        className={classes}
       />
     );
 
+    const liClass = item.extraSpacing ? 'extra-spacing' : undefined;
+
     if (item.type === 'route') {
       return (
-        <li key={index}>
+        <li key={index} className={liClass}>
           <Link to={item.to!} className="card-link">
             <div className="card-container">
               {imgElement}
@@ -33,7 +38,7 @@ function HomePage() {
       );
     } else if (item.type === 'link') {
       return (
-        <li key={index}>
+        <li key={index} className={liClass}>
           <a href={item.href} target="_blank" rel="noopener noreferrer" className="card-link">
             <div className="card-container">
               {imgElement}
@@ -43,7 +48,7 @@ function HomePage() {
       );
     } else {
       return (
-        <li key={index}>
+        <li key={index} className={liClass}>
           <div className="card-container">
             {imgElement}
           </div>
