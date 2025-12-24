@@ -4,6 +4,32 @@
   --cover-size: 400px;
 }
 
+.social-icons {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  z-index: 1000;
+}
+
+.social-icons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.social-icons a:hover {
+  color: #000;
+}
+
+.social-icons svg {
+  width: 24px;
+  height: 24px;
+}
+
 @keyframes rotate-cover {
   from {
     transform: scale(0.75);

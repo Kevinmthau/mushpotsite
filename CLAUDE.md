@@ -114,3 +114,4 @@ Netlify auto-deploys from GitHub. Config in `netlify.toml`:
 - Node 18
 - 1-year cache headers
 - SPA routing via `public/_redirects`
+- `/outfits/*` proxies to `kevins-outfit-finder.netlify.app`
