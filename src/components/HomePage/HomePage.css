@@ -146,7 +146,7 @@
   }
 
   .cards li img.img-large {
-    height: calc(var(--cover-size) * 1.1);
+    height: calc(var(--cover-size) * 1.3);
   }
 }
 
@@ -176,6 +176,6 @@
   }
 
   .cards li img.img-large {
-    height: var(--cover-size);
+    height: calc(var(--cover-size) * 1.2);
   }
 }

@@ -1,2 +1,3 @@
 # Netlify redirects for SPA
+/outfits/*  https://kevins-outfit-finder.netlify.app/:splat  200
 /*    /index.html   200
