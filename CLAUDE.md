@@ -21,25 +21,17 @@ Personal portfolio site built with React + TypeScript + Vite. Features a homepag
 src/
 ├── components/
 │   ├── HomePage/           # Cover Flow gallery with project thumbnails
-│   │   ├── HomePage.tsx
-│   │   ├── HomePage.css
-│   │   └── index.ts
-│   └── Gallery1040/        # Construction project gallery
-│       ├── Gallery1040.tsx # Main orchestrator
-│       ├── PDFSection.tsx  # PDF preview component
-│       ├── GalleryGrid.tsx # Image grid with skeleton loading
-│       ├── GalleryItem.tsx # Individual image/video item
-│       ├── LoadMoreButton.tsx
-│       ├── SkeletonItem.tsx
-│       ├── Gallery1040.css
-│       └── index.ts
+│   └── Gallery1040/        # Construction project gallery (progressive loading)
 ├── hooks/
 │   ├── useImageLoading.ts      # Async image data loading
-│   └── useIntersectionObserver.ts  # Generic observer for lazy loading
+│   ├── useIntersectionObserver.ts  # Generic observer for lazy loading
+│   └── useVideoLazyLoading.ts  # Video lazy loading with IntersectionObserver
+├── styles/
+│   └── tokens.css              # CSS design tokens (colors, spacing, shadows)
 ├── utils/
 │   └── imageUtils.ts           # formatImageName, isVideoFile, encodeImagePath
 ├── data/
-│   ├── types.ts                # ImageData, HomePageItem interfaces
+│   ├── types.ts                # ImageData, HomePageItem (discriminated union)
 │   ├── gallery1040Images.ts    # 1040 gallery image list
 │   └── homePageItems.ts        # Homepage project items
 ├── App.tsx                     # Router only
@@ -72,18 +64,21 @@ Progressive loading gallery with:
 
 ### Homepage Projects
 
-Edit `src/data/homePageItems.ts`:
+Edit `src/data/homePageItems.ts`. Uses discriminated union types:
 ```typescript
-{
-  type: 'link' | 'route' | 'div',  // link=external, route=internal, div=static
-  href?: string,                    // for external links
-  to?: string,                      // for internal routes
-  src: string,                      // image path
-  alt: string,
-  size?: 'small' | 'medium' | 'large' | 'xlarge',
-  noReflect?: boolean,              // removes CSS reflection
-  extraSpacing?: boolean            // adds margin-right
-}
+// For external links (type: 'link' requires href)
+{ type: 'link', href: 'https://example.com', src: '/images/img.jpg', alt: 'Example' }
+
+// For internal routes (type: 'route' requires to)
+{ type: 'route', to: '/1040', src: '/images/1040.jpg', alt: '1040' }
+
+// For static display (type: 'div' has no link)
+{ type: 'div', src: '/images/img.jpg', alt: 'Static' }
+
+// Optional props for all types:
+// size?: 'small' | 'medium' | 'large' | 'xlarge'
+// noReflect?: boolean (removes CSS reflection)
+// extraSpacing?: boolean (adds margin-right)
 ```
 
 ### 1040 Gallery Images
@@ -99,12 +94,14 @@ Edit `src/data/homePageItems.ts`:
 - Images display in array order (newest first)
 - Videos (.mov, .mp4) are lazy-loaded
 
-## Image Utilities
+## CSS Design Tokens
 
-Located in `src/utils/imageUtils.ts`:
-- `formatImageName(filename)` - Formats filename for display
-- `isVideoFile(filename)` - Checks if file is video
-- `encodeImagePath(basePath, filename)` - URL-encodes path with spaces
+Global design tokens in `src/styles/tokens.css` (imported in main.tsx):
+- Colors: `--color-primary`, `--color-text-primary`, `--color-background-muted`
+- Shadows: `--shadow-sm`, `--shadow-md`
+- Radius: `--radius-sm`, `--radius-md`, `--radius-lg`
+- Spacing: `--spacing-xs` through `--spacing-xl`
+- Transitions: `--transition-fast`, `--transition-normal`
 
 ## Deployment
 
