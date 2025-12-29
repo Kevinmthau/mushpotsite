@@ -29,7 +29,7 @@ function HomePage() {
     if (item.type === 'route') {
       return (
         <li key={index} className={liClass}>
-          <Link to={item.to!} className="card-link">
+          <Link to={item.to} className="card-link">
             <div className="card-container">
               {imgElement}
             </div>

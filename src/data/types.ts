@@ -3,15 +3,15 @@ export interface ImageData {
   date: string;
 }
 
-export interface HomePageItem {
-  type: 'link' | 'route' | 'div';
-  href?: string;
-  to?: string;
-  external?: boolean;
+interface HomePageItemBase {
   src: string;
-  webp?: string;
   alt: string;
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   noReflect?: boolean;
   extraSpacing?: boolean;
 }
+
+export type HomePageItem =
+  | (HomePageItemBase & { type: 'link'; href: string })
+  | (HomePageItemBase & { type: 'route'; to: string })
+  | (HomePageItemBase & { type: 'div' });
