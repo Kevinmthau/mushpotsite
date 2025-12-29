@@ -2,6 +2,7 @@ import type { HomePageItem } from './types';
 
 export const homePageItems: HomePageItem[] = [
   { type: 'link', href: 'http://board.fun', src: '/images/Board.jpg', alt: 'Board', size: 'medium', noReflect: true },
+  { type: 'div', src: '/images/wallet-icon.png', alt: 'Wallet', noReflect: true, extraSpacing: true },
   { type: 'link', href: '/outfits', src: '/images/Outfit-finder.jpg', alt: 'Outfit Finder', extraSpacing: true, noReflect: true },
   { type: 'link', href: 'https://testflight.apple.com/join/VppMNjcA', src: '/images/Whodiss.jpg', alt: 'Whodiss', noReflect: true, extraSpacing: true },
   { type: 'route', to: '/1040', src: '/images/1040.jpg', alt: '1040', size: 'large', extraSpacing: true, noReflect: true },
