@@ -24,15 +24,9 @@ function HomePage() {
       />
     );
 
-    const liClass = [
-      item.extraSpacing ? 'extra-spacing' : null,
-      item.wideSpacing ? 'wide-spacing' : null,
-      item.tightSpacing ? 'tight-spacing' : null,
-    ].filter(Boolean).join(' ') || undefined;
-
     if (item.type === 'route') {
       return (
-        <li key={index} className={liClass}>
+        <li key={index}>
           <Link to={item.to} className="card-link">
             <div className="card-container">
               {imgElement}
@@ -42,7 +36,7 @@ function HomePage() {
       );
     } else if (item.type === 'link') {
       return (
-        <li key={index} className={liClass}>
+        <li key={index}>
           <a href={item.href} target="_blank" rel="noopener noreferrer" className="card-link">
             <div className="card-container">
               {imgElement}
@@ -52,7 +46,7 @@ function HomePage() {
       );
     } else {
       return (
-        <li key={index} className={liClass}>
+        <li key={index}>
           <div className="card-container">
             {imgElement}
           </div>

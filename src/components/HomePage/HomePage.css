@@ -94,19 +94,6 @@
   animation-timeline: --li-in-and-out-of-view;
 }
 
-.cards li.extra-spacing {
-  margin-right: 2rem;
-}
-
-.cards li.wide-spacing {
-  margin-right: 3rem;
-}
-
-.cards li.tight-spacing {
-  margin-left: -1rem;
-  margin-right: -1rem;
-}
-
 .cards li .card-link {
   display: block;
   text-decoration: none;
@@ -164,10 +151,6 @@
     gap: 1.5rem;
   }
 
-  .cards li.extra-spacing {
-    margin-right: 1.5rem;
-  }
-
   .cards li .card-container {
     min-width: 150px;
   }
@@ -192,10 +175,6 @@
 
   .cards {
     gap: 1rem;
-  }
-
-  .cards li.extra-spacing {
-    margin-right: 1rem;
   }
 
   .cards li .card-container {

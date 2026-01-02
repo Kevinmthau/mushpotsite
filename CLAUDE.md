@@ -48,7 +48,7 @@ src/
 The Cover Flow gallery uses scroll-driven animations:
 - Items defined in `src/data/homePageItems.ts`
 - Size options: `small`, `medium`, `large`, `xlarge` (or default)
-- Special props: `noReflect` (removes reflection), `extraSpacing` (adds margin)
+- Special props: `noReflect` (removes reflection)
 - Responsive breakpoints at 768px and 480px
 
 ### 1040 Gallery
@@ -78,7 +78,6 @@ Edit `src/data/homePageItems.ts`. Uses discriminated union types:
 // Optional props for all types:
 // size?: 'small' | 'medium' | 'large' | 'xlarge'
 // noReflect?: boolean (removes CSS reflection)
-// extraSpacing?: boolean (adds margin-right)
 ```
 
 ### 1040 Gallery Images

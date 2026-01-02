@@ -8,9 +8,6 @@ interface HomePageItemBase {
   alt: string;
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   noReflect?: boolean;
-  extraSpacing?: boolean;
-  wideSpacing?: boolean;
-  tightSpacing?: boolean;
 }
 
 export type HomePageItem =
