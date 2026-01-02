@@ -38,6 +38,11 @@ function GalleryItem({ item, index, onVideoRef }: GalleryItemProps) {
             decoding="async"
             fetchPriority={index < 3 ? "high" : "low"}
             className="gallery-image"
+            ref={(img) => {
+              if (img?.complete) {
+                img.classList.add('loaded');
+              }
+            }}
             onLoad={(e) => {
               e.currentTarget.classList.add('loaded');
             }}
