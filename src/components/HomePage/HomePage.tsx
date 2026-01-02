@@ -24,7 +24,11 @@ function HomePage() {
       />
     );
 
-    const liClass = item.extraSpacing ? 'extra-spacing' : undefined;
+    const liClass = [
+      item.extraSpacing ? 'extra-spacing' : null,
+      item.wideSpacing ? 'wide-spacing' : null,
+      item.tightSpacing ? 'tight-spacing' : null,
+    ].filter(Boolean).join(' ') || undefined;
 
     if (item.type === 'route') {
       return (

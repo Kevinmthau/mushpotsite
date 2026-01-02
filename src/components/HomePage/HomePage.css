@@ -98,6 +98,15 @@
   margin-right: 2rem;
 }
 
+.cards li.wide-spacing {
+  margin-right: 3rem;
+}
+
+.cards li.tight-spacing {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
 .cards li .card-link {
   display: block;
   text-decoration: none;
