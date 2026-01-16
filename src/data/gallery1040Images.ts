@@ -1,6 +1,30 @@
 import type { ImageData } from './types';
 
 export const imageData: ImageData[] = [
+  // January 15, 2026 - Shop Visit
+  { filename: "260115/Guestroom 1_Closet.jpg", date: "January 15, 2026" },
+  { filename: "260115/Guestroom 2_Millwork Window Wall.jpg", date: "January 15, 2026" },
+  { filename: "260115/Hallway Closet.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_1.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_2.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_3.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_4.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_5.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_6.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_7.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_8.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_9.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_10.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_Materials.jpg", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_Video.mov", date: "January 15, 2026" },
+  { filename: "260115/Kitchen_Video 2.MOV", date: "January 15, 2026" },
+  { filename: "260115/Primary Closet_1.jpg", date: "January 15, 2026" },
+  { filename: "260115/Primary Closet_2.jpg", date: "January 15, 2026" },
+  { filename: "260115/Primary Closet_3.jpg", date: "January 15, 2026" },
+  { filename: "260115/Primary Closet_4.jpg", date: "January 15, 2026" },
+  { filename: "260115/Primary Closet_Video.MOV", date: "January 15, 2026" },
+  { filename: "260115/Primary Closet_Video 2.mov", date: "January 15, 2026" },
+
   // January 7, 2026 - Latest Construction Progress
   { filename: "260107/10 FL_AGNES_CLOSET MILLWORK.jpg", date: "January 7, 2026" },
   { filename: "260107/10 FL_AGNES_SHOWER.jpg", date: "January 7, 2026" },
