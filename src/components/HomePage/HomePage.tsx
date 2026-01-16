@@ -3,58 +3,61 @@ import { homePageItems } from '../../data/homePageItems';
 import type { HomePageItem } from '../../data/types';
 import './HomePage.css';
 
-function HomePage() {
-  const renderItem = (item: HomePageItem, index: number) => {
-    const classes = [
-      item.size === 'small' ? 'img-small'
-        : item.size === 'medium' ? 'img-medium'
-        : item.size === 'large' ? 'img-large'
-        : item.size === 'xlarge' ? 'img-xlarge'
-        : null,
-      item.noReflect ? 'no-reflect' : null,
-    ].filter(Boolean).join(' ') || undefined;
+const SIZE_CLASS_MAP: Record<string, string> = {
+  small: 'img-small',
+  medium: 'img-medium',
+  large: 'img-large',
+  xlarge: 'img-xlarge',
+};
 
-    const imgElement = (
-      <img
-        src={item.src}
-        alt={item.alt}
-        loading={index < 4 ? 'eager' : 'lazy'}
-        decoding="async"
-        className={classes}
-      />
-    );
+function renderItem(item: HomePageItem, index: number) {
+  const classes = [
+    item.size ? SIZE_CLASS_MAP[item.size] : null,
+    item.noReflect ? 'no-reflect' : null,
+  ].filter(Boolean).join(' ') || undefined;
 
-    if (item.type === 'route') {
-      return (
-        <li key={index}>
-          <Link to={item.to} className="card-link">
-            <div className="card-container">
-              {imgElement}
-            </div>
-          </Link>
-        </li>
-      );
-    } else if (item.type === 'link') {
-      return (
-        <li key={index}>
-          <a href={item.href} target="_blank" rel="noopener noreferrer" className="card-link">
-            <div className="card-container">
-              {imgElement}
-            </div>
-          </a>
-        </li>
-      );
-    } else {
-      return (
-        <li key={index}>
+  const imgElement = (
+    <img
+      src={item.src}
+      alt={item.alt}
+      loading={index < 4 ? 'eager' : 'lazy'}
+      decoding="async"
+      className={classes}
+    />
+  );
+
+  if (item.type === 'route') {
+    return (
+      <li key={index}>
+        <Link to={item.to} className="card-link">
           <div className="card-container">
             {imgElement}
           </div>
-        </li>
-      );
-    }
-  };
+        </Link>
+      </li>
+    );
+  } else if (item.type === 'link') {
+    return (
+      <li key={index}>
+        <a href={item.href} target="_blank" rel="noopener noreferrer" className="card-link">
+          <div className="card-container">
+            {imgElement}
+          </div>
+        </a>
+      </li>
+    );
+  } else {
+    return (
+      <li key={index}>
+        <div className="card-container">
+          {imgElement}
+        </div>
+      </li>
+    );
+  }
+}
 
+function HomePage() {
   return (
     <div className="coverflow-wrapper">
       <div className="social-icons">
@@ -70,7 +73,7 @@ function HomePage() {
         </a>
       </div>
       <ul className="cards">
-        {homePageItems.map((item, index) => renderItem(item, index))}
+        {homePageItems.map(renderItem)}
       </ul>
     </div>
   );

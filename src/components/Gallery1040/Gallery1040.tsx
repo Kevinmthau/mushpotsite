@@ -13,16 +13,12 @@ const LOAD_INCREMENT = 6;
 function Gallery1040() {
   const { imageData, isDataLoaded } = useImageLoading();
   const [visibleImages, setVisibleImages] = useState(INITIAL_VISIBLE);
-  const [isLoading, setIsLoading] = useState(false);
 
   const { getVideoRef } = useVideoLazyLoading();
 
   const loadMoreImages = useCallback(() => {
-    if (isLoading) return;
-    setIsLoading(true);
     setVisibleImages(prev => Math.min(prev + LOAD_INCREMENT, imageData.length));
-    setIsLoading(false);
-  }, [isLoading, imageData.length]);
+  }, [imageData.length]);
 
   const hasMoreImages = visibleImages < imageData.length;
 
@@ -45,7 +41,6 @@ function Gallery1040() {
       {hasMoreImages && (
         <LoadMoreButton
           ref={loadMoreRef}
-          isLoading={isLoading}
           remainingCount={imageData.length - visibleImages}
           onClick={loadMoreImages}
         />

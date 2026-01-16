@@ -1,4 +1,4 @@
-import { useState, type RefCallback } from 'react';
+import { memo, useState, type RefCallback } from 'react';
 import type { ImageData } from '../../data/types';
 import { formatImageName, isVideoFile, encodeImagePath } from '../../utils/imageUtils';
 
@@ -8,7 +8,7 @@ interface GalleryItemProps {
   onVideoRef?: RefCallback<HTMLVideoElement>;
 }
 
-function GalleryItem({ item, index, onVideoRef }: GalleryItemProps) {
+const GalleryItem = memo(function GalleryItem({ item, index, onVideoRef }: GalleryItemProps) {
   const isVideo = isVideoFile(item.filename);
   const [loadState, setLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
 
@@ -49,6 +49,6 @@ function GalleryItem({ item, index, onVideoRef }: GalleryItemProps) {
       </div>
     </div>
   );
-}
+});
 
 export default GalleryItem;

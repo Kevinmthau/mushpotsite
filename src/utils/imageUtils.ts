@@ -9,9 +9,11 @@ export function formatImageName(filename: string): string {
 /**
  * Checks if a filename is a video file based on extension
  */
+const VIDEO_EXTENSIONS = new Set(['.mov', '.mp4', '.webm', '.ogg']);
+
 export function isVideoFile(filename: string): boolean {
-  const videoExtensions = ['.mov', '.mp4', '.webm', '.ogg'];
-  return videoExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+  const ext = filename.slice(filename.lastIndexOf('.')).toLowerCase();
+  return VIDEO_EXTENSIONS.has(ext);
 }
 
 /**

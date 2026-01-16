@@ -1,7 +1,9 @@
+import { memo } from 'react';
+
 const PDF_PATH = '/images/1040/documents/2025_0623 1040FifthAve9-10C DesignPresentation.pdf';
 const COVER_PATH = '/images/1040/documents/pdf-cover.jpg';
 
-function PDFSection() {
+const PDFSection = memo(function PDFSection() {
   return (
     <div className="pdf-section">
       <div className="pdf-container">
@@ -26,6 +28,6 @@ function PDFSection() {
       </div>
     </div>
   );
-}
+});
 
 export default PDFSection;
