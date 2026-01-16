@@ -15,15 +15,13 @@ function Gallery1040() {
   const [visibleImages, setVisibleImages] = useState(INITIAL_VISIBLE);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { getVideoRef } = useVideoLazyLoading(visibleImages);
+  const { getVideoRef } = useVideoLazyLoading();
 
   const loadMoreImages = useCallback(() => {
     if (isLoading) return;
     setIsLoading(true);
-    setTimeout(() => {
-      setVisibleImages(prev => Math.min(prev + LOAD_INCREMENT, imageData.length));
-      setIsLoading(false);
-    }, 100);
+    setVisibleImages(prev => Math.min(prev + LOAD_INCREMENT, imageData.length));
+    setIsLoading(false);
   }, [isLoading, imageData.length]);
 
   const hasMoreImages = visibleImages < imageData.length;

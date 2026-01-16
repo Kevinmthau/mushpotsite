@@ -11,16 +11,16 @@ interface UseVideoLazyLoadingReturn {
 }
 
 export function useVideoLazyLoading(
-  visibleCount: number,
   options: UseVideoLazyLoadingOptions = {}
 ): UseVideoLazyLoadingReturn {
   const { threshold = 0.1, rootMargin = '200px' } = options;
 
-  const videoRefs = useRef<Map<string, HTMLVideoElement>>(new Map());
+  const observerRef = useRef<IntersectionObserver | null>(null);
   const loadedVideos = useRef<Set<string>>(new Set());
 
+  // Create observer once on mount
   useEffect(() => {
-    const videoObserver = new IntersectionObserver(
+    observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -30,7 +30,7 @@ export function useVideoLazyLoading(
               video.src = src;
               video.load();
               loadedVideos.current.add(src);
-              videoObserver.unobserve(video);
+              observerRef.current?.unobserve(video);
             }
           }
         });
@@ -38,21 +38,16 @@ export function useVideoLazyLoading(
       { threshold, rootMargin }
     );
 
-    videoRefs.current.forEach((video) => {
-      if (video) {
-        videoObserver.observe(video);
-      }
-    });
-
     return () => {
-      videoObserver.disconnect();
+      observerRef.current?.disconnect();
     };
-  }, [visibleCount, threshold, rootMargin]);
+  }, [threshold, rootMargin]);
 
+  // Observe videos immediately when they're registered
   const getVideoRef = useCallback((filename: string) => {
     return (el: HTMLVideoElement | null) => {
-      if (el && isVideoFile(filename)) {
-        videoRefs.current.set(filename, el);
+      if (el && isVideoFile(filename) && observerRef.current) {
+        observerRef.current.observe(el);
       }
     };
   }, []);

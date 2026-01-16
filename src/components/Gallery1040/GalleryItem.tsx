@@ -1,4 +1,4 @@
-import type { RefCallback } from 'react';
+import { useState, type RefCallback } from 'react';
 import type { ImageData } from '../../data/types';
 import { formatImageName, isVideoFile, encodeImagePath } from '../../utils/imageUtils';
 
@@ -10,6 +10,7 @@ interface GalleryItemProps {
 
 function GalleryItem({ item, index, onVideoRef }: GalleryItemProps) {
   const isVideo = isVideoFile(item.filename);
+  const [loadState, setLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
 
   return (
     <div className="gallery-item">
@@ -20,13 +21,9 @@ function GalleryItem({ item, index, onVideoRef }: GalleryItemProps) {
             data-src={`/images/1040/${item.filename}`}
             controls
             preload="none"
-            className="gallery-image"
-            onLoadedData={(e) => {
-              e.currentTarget.classList.add('loaded');
-            }}
-            onError={(e) => {
-              e.currentTarget.classList.add('error');
-            }}
+            className={`gallery-image ${loadState}`}
+            onLoadedData={() => setLoadState('loaded')}
+            onError={() => setLoadState('error')}
           >
             Your browser does not support the video tag.
           </video>
@@ -37,18 +34,11 @@ function GalleryItem({ item, index, onVideoRef }: GalleryItemProps) {
             loading={index < 3 ? "eager" : "lazy"}
             decoding="async"
             fetchPriority={index < 3 ? "high" : "low"}
-            className="gallery-image"
-            ref={(img) => {
-              if (img?.complete) {
-                img.classList.add('loaded');
-              }
-            }}
-            onLoad={(e) => {
-              e.currentTarget.classList.add('loaded');
-            }}
-            onError={(e) => {
-              e.currentTarget.classList.add('error');
-              console.error('Failed to load image:', item.filename, 'URL:', e.currentTarget.src);
+            className={`gallery-image ${loadState}`}
+            onLoad={() => setLoadState('loaded')}
+            onError={() => {
+              setLoadState('error');
+              console.error('Failed to load image:', item.filename);
             }}
           />
         )}
