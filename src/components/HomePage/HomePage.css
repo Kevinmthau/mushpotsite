@@ -125,6 +125,10 @@
   line-height: 0;
 }
 
+.cards li img.img-xsmall {
+  height: calc(var(--cover-size) * 0.5);
+}
+
 .cards li img.img-small {
   height: calc(var(--cover-size) * 0.7);
 }
@@ -150,6 +154,10 @@
     gap: 1.5rem;
   }
 
+  .cards li img.img-xsmall {
+    height: calc(var(--cover-size) * 0.45);
+  }
+
   .cards li img.img-small {
     height: calc(var(--cover-size) * 0.65);
   }
@@ -170,6 +178,10 @@
 
   .cards {
     gap: 1rem;
+  }
+
+  .cards li img.img-xsmall {
+    height: calc(var(--cover-size) * 0.4);
   }
 
   .cards li img.img-small {

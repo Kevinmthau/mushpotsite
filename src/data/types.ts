@@ -6,7 +6,7 @@ export interface ImageData {
 interface HomePageItemBase {
   src: string;
   alt: string;
-  size?: 'small' | 'medium' | 'large' | 'xlarge';
+  size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
   noReflect?: boolean;
 }
 
