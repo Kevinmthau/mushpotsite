@@ -2,10 +2,10 @@ import type { HomePageItem } from './types';
 
 export const homePageItems: HomePageItem[] = [
   { type: 'link', href: 'http://board.fun', src: '/images/Board.jpg', alt: 'Board', size: 'large', noReflect: true },
-  { type: 'link', href: 'https://testflight.apple.com/join/1MC5wtQe', src: '/images/wallet-icon.png', alt: 'Wallet', noReflect: true },
-  { type: 'div', src: '/images/esc-app-icon.png', alt: 'Esc', noReflect: true },
-  { type: 'link', href: '/outfits', src: '/images/Outfit-finder.jpg', alt: 'Outfit Finder', noReflect: true },
-  { type: 'link', href: 'https://testflight.apple.com/join/VppMNjcA', src: '/images/Whodiss.jpg', alt: 'Whodiss', noReflect: true },
+  { type: 'link', href: 'https://testflight.apple.com/join/1MC5wtQe', src: '/images/wallet-icon.png', alt: 'Wallet', size: 'small', noReflect: true },
+  { type: 'div', src: '/images/esc-app-icon.png', alt: 'Esc', size: 'small', noReflect: true },
+  { type: 'link', href: '/outfits', src: '/images/Outfit-finder.jpg', alt: 'Outfit Finder', size: 'small', noReflect: true },
+  { type: 'link', href: 'https://testflight.apple.com/join/VppMNjcA', src: '/images/Whodiss.jpg', alt: 'Whodiss', size: 'small', noReflect: true },
   { type: 'link', href: '/1040', src: '/images/1040.jpg', alt: '1040', size: 'large', noReflect: true },
   { type: 'div', src: '/images/twitter-music.jpg', alt: 'Twitter Music', noReflect: true },
   { type: 'link', href: '/ios5-features.html', src: '/images/Twitter-IOS5-integration.png', alt: 'Twitter iOS 5', size: 'xsmall', noReflect: true },

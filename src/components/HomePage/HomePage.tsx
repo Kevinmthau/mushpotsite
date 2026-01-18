@@ -4,6 +4,7 @@ import type { HomePageItem } from '../../data/types';
 import './HomePage.css';
 
 const SIZE_CLASS_MAP: Record<string, string> = {
+  xsmall: 'img-xsmall',
   small: 'img-small',
   medium: 'img-medium',
   large: 'img-large',

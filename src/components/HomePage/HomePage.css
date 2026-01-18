@@ -126,7 +126,18 @@
 }
 
 .cards li img.img-xsmall {
-  height: calc(var(--cover-size) * 0.35);
+  height: calc(var(--cover-size) * 0.6);
+  margin-top: calc(var(--cover-size) * 0.4);
+}
+
+.cards li:has(img[alt="Esc"]),
+.cards li:has(img[alt="Outfit Finder"]),
+.cards li:has(img[alt="Whodiss"]),
+.cards li:has(img[alt="1040"]),
+.cards li:has(img[alt="Twitter Music"]),
+.cards li:has(img[alt="Post.Office"]),
+.cards li:has(img[alt="SGI"]) {
+  margin-left: 2rem;
 }
 
 .cards li img.img-small {
@@ -155,7 +166,8 @@
   }
 
   .cards li img.img-xsmall {
-    height: calc(var(--cover-size) * 0.3);
+    height: calc(var(--cover-size) * 0.55);
+    margin-top: calc(var(--cover-size) * 0.45);
   }
 
   .cards li img.img-small {
@@ -181,7 +193,8 @@
   }
 
   .cards li img.img-xsmall {
-    height: calc(var(--cover-size) * 0.25);
+    height: calc(var(--cover-size) * 0.5);
+    margin-top: calc(var(--cover-size) * 0.5);
   }
 
   .cards li img.img-small {
