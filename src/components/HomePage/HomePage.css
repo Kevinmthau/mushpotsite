@@ -126,7 +126,7 @@
 }
 
 .cards li img.img-xsmall {
-  height: calc(var(--cover-size) * 0.5);
+  height: calc(var(--cover-size) * 0.35);
 }
 
 .cards li img.img-small {
@@ -155,7 +155,7 @@
   }
 
   .cards li img.img-xsmall {
-    height: calc(var(--cover-size) * 0.45);
+    height: calc(var(--cover-size) * 0.3);
   }
 
   .cards li img.img-small {
@@ -181,7 +181,7 @@
   }
 
   .cards li img.img-xsmall {
-    height: calc(var(--cover-size) * 0.4);
+    height: calc(var(--cover-size) * 0.25);
   }
 
   .cards li img.img-small {
