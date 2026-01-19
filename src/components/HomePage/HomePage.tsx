@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { homePageItems } from '../../data/homePageItems';
 import type { HomePageItem } from '../../data/types';
@@ -11,54 +12,101 @@ const SIZE_CLASS_MAP: Record<string, string> = {
   xlarge: 'img-xlarge',
 };
 
-function renderItem(item: HomePageItem, index: number) {
-  const classes = [
-    item.size ? SIZE_CLASS_MAP[item.size] : null,
-    item.noReflect ? 'no-reflect' : null,
-  ].filter(Boolean).join(' ') || undefined;
-
-  const imgElement = (
-    <img
-      src={item.src}
-      alt={item.alt}
-      loading={index < 4 ? 'eager' : 'lazy'}
-      decoding="async"
-      className={classes}
-    />
-  );
-
-  if (item.type === 'route') {
-    return (
-      <li key={index}>
-        <Link to={item.to} className="card-link">
-          <div className="card-container">
-            {imgElement}
-          </div>
-        </Link>
-      </li>
-    );
-  } else if (item.type === 'link') {
-    return (
-      <li key={index}>
-        <a href={item.href} target="_blank" rel="noopener noreferrer" className="card-link">
-          <div className="card-container">
-            {imgElement}
-          </div>
-        </a>
-      </li>
-    );
-  } else {
-    return (
-      <li key={index}>
-        <div className="card-container">
-          {imgElement}
-        </div>
-      </li>
-    );
-  }
-}
-
 function HomePage() {
+  const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && playingVideoIndex !== null) {
+        setPlayingVideoIndex(null);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [playingVideoIndex]);
+
+  function renderItem(item: HomePageItem, index: number) {
+    const classes = [
+      item.size ? SIZE_CLASS_MAP[item.size] : null,
+      item.noReflect ? 'no-reflect' : null,
+    ].filter(Boolean).join(' ') || undefined;
+
+    const imgElement = (
+      <img
+        src={item.src}
+        alt={item.alt}
+        loading={index < 4 ? 'eager' : 'lazy'}
+        decoding="async"
+        className={classes}
+      />
+    );
+
+    if (item.type === 'route') {
+      return (
+        <li key={index}>
+          <Link to={item.to} className="card-link">
+            <div className="card-container">
+              {imgElement}
+            </div>
+          </Link>
+        </li>
+      );
+    } else if (item.type === 'link') {
+      return (
+        <li key={index}>
+          <a href={item.href} target="_blank" rel="noopener noreferrer" className="card-link">
+            <div className="card-container">
+              {imgElement}
+            </div>
+          </a>
+        </li>
+      );
+    } else if (item.type === 'video') {
+      const isPlaying = playingVideoIndex === index;
+
+      return (
+        <li key={index}>
+          <div className="card-container video-card">
+            {isPlaying ? (
+              <div className="video-wrapper">
+                <video
+                  src={item.videoSrc}
+                  autoPlay
+                  controls
+                  className={classes}
+                  onEnded={() => setPlayingVideoIndex(null)}
+                />
+                <button
+                  className="video-close-btn"
+                  onClick={() => setPlayingVideoIndex(null)}
+                  aria-label="Close video"
+                >
+                  ×
+                </button>
+              </div>
+            ) : (
+              <button
+                className="video-thumbnail-btn"
+                onClick={() => setPlayingVideoIndex(index)}
+              >
+                {imgElement}
+              </button>
+            )}
+          </div>
+        </li>
+      );
+    } else {
+      return (
+        <li key={index}>
+          <div className="card-container">
+            {imgElement}
+          </div>
+        </li>
+      );
+    }
+  }
+
   return (
     <div className="coverflow-wrapper">
       <div className="social-icons">
@@ -74,7 +122,7 @@ function HomePage() {
         </a>
       </div>
       <ul className="cards">
-        {homePageItems.map(renderItem)}
+        {homePageItems.map((item, index) => renderItem(item, index))}
       </ul>
     </div>
   );

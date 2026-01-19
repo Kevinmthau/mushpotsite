@@ -13,4 +13,5 @@ interface HomePageItemBase {
 export type HomePageItem =
   | (HomePageItemBase & { type: 'link'; href: string })
   | (HomePageItemBase & { type: 'route'; to: string })
-  | (HomePageItemBase & { type: 'div' });
+  | (HomePageItemBase & { type: 'div' })
+  | (HomePageItemBase & { type: 'video'; videoSrc: string });

@@ -209,3 +209,52 @@
     height: calc(var(--cover-size) * 1.2);
   }
 }
+
+/* Video card styles */
+.video-card {
+  position: relative;
+}
+
+.video-thumbnail-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.video-wrapper {
+  position: relative;
+  line-height: 0;
+}
+
+.video-wrapper video {
+  display: block;
+  height: var(--cover-size);
+  width: auto;
+  border-radius: var(--radius-lg);
+  transition: opacity 0.2s ease;
+}
+
+.video-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+}
+
+.video-close-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
