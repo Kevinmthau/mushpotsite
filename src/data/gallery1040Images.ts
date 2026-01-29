@@ -7,6 +7,38 @@ interface DateGroup {
 
 const imageGroups: DateGroup[] = [
   {
+    date: "January 28, 2026",
+    files: [
+      "260128/10fl_agnes_door frame.jpg",
+      "260128/10fl_agnes_tub framing.jpg",
+      "260128/10fl_corridor.jpg",
+      "260128/10fl_gallery_crown! 1.jpg",
+      "260128/10fl_gallery_crown! 2.jpg",
+      "260128/10fl_gallery_crown! 3.jpg",
+      "260128/10fl_gallery_crown! 4.jpg",
+      "260128/10fl_gallery_crown! 5.MOV",
+      "260128/10fl_guestroom 2_crown.jpg",
+      "260128/10fl_guestroom1_crown.jpg",
+      "260128/10fl_laundry room.jpg",
+      "260128/10fl_primary closet! 1.jpg",
+      "260128/10fl_primary_closet! 2.jpg",
+      "260128/10fl_primary_crown 1.jpg",
+      "260128/10fl_primary_crown 2.jpg",
+      "260128/9fl_dining room millwork 1.jpg",
+      "260128/9fl_dining room_millwork 1.jpg",
+      "260128/9fl_dining room_millwork 2.jpg",
+      "260128/9fl_dining room_millwork 3.jpg",
+      "260128/9fl_dining room_panel 2.jpg",
+      "260128/9fl_dining room_panels 1.jpg",
+      "260128/9fl_dining room.jpg",
+      "260128/9fl_Door frames 1.jpg",
+      "260128/9fl_Door frames 2.jpg",
+      "260128/9fl_Door frames 3.jpg",
+      "260128/9fl_Kitchen Stone! 1.jpg",
+      "260128/9fl_Kitchen stone! 2.jpg",
+    ],
+  },
+  {
     date: "January 22, 2026",
     files: [
       "260122/10 FL_AGNES CLOSET_1.jpg",
