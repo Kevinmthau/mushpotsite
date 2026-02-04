@@ -32,25 +32,25 @@
 
 @keyframes rotate-cover {
   from {
-    transform: scale(0.75);
+    transform: scale(0.75) translateZ(0px);
     opacity: 0.6;
     z-index: 1;
   }
   35% {
-    transform: scale(0.85);
+    transform: scale(0.85) translateZ(10px);
     opacity: 0.8;
   }
   50% {
-    transform: scale(1);
+    transform: scale(1) translateZ(40px);
     opacity: 1;
     z-index: 100;
   }
   65% {
-    transform: scale(0.85);
+    transform: scale(0.85) translateZ(10px);
     opacity: 0.8;
   }
   to {
-    transform: scale(0.75);
+    transform: scale(0.75) translateZ(0px);
     opacity: 0.6;
     z-index: 1;
   }
@@ -76,6 +76,7 @@
   scroll-snap-type: x mandatory;
   transform-style: preserve-3d;
   scrollbar-width: none;
+  will-change: transform;
 }
 
 .cards::-webkit-scrollbar {
@@ -85,13 +86,24 @@
 .cards li {
   flex: 0 0 auto;
   scroll-snap-align: center;
+  scroll-snap-stop: always;
   transform-style: preserve-3d;
   will-change: transform;
+  transform: scale(0.85);
+  opacity: 0.8;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
 
-  view-timeline: --li-in-and-out-of-view inline;
+@supports (animation-timeline: auto) {
+  .cards li {
+    transform: none;
+    opacity: 1;
+    transition: none;
 
-  animation: rotate-cover linear both;
-  animation-timeline: --li-in-and-out-of-view;
+    view-timeline: --li-in-and-out-of-view inline;
+    animation: rotate-cover linear both;
+    animation-timeline: --li-in-and-out-of-view;
+  }
 }
 
 .cards li .card-link {
@@ -114,6 +126,15 @@
   border-radius: var(--radius-lg);
   user-select: none;
   -webkit-box-reflect: below 0.3em linear-gradient(rgba(0,0,0,0.08), transparent 20%);
+}
+
+@supports not (animation-timeline: auto) {
+  .cards li:hover,
+  .cards li:focus-within {
+    transform: scale(1);
+    opacity: 1;
+    z-index: 100;
+  }
 }
 
 .cards li img.no-reflect {
@@ -180,6 +201,19 @@
 
   .cards li img.img-large {
     height: calc(var(--cover-size) * 1.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cards li {
+    animation: none;
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+
+  .cards li img {
+    -webkit-box-reflect: none;
   }
 }
 

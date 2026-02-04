@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback, type WheelEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { homePageItems } from '../../data/homePageItems';
 import type { HomePageItem } from '../../data/types';
@@ -14,6 +14,26 @@ const SIZE_CLASS_MAP: Record<string, string> = {
 
 function HomePage() {
   const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
+  const cardsRef = useRef<HTMLUListElement | null>(null);
+  const bounceTimeout = useRef<number | null>(null);
+
+  const triggerBounce = useCallback((offset: number) => {
+    const el = cardsRef.current;
+    if (!el) return;
+
+    if (bounceTimeout.current !== null) {
+      window.clearTimeout(bounceTimeout.current);
+      bounceTimeout.current = null;
+    }
+
+    el.style.transition = 'transform 120ms ease-out';
+    el.style.transform = `translateX(${offset}px)`;
+
+    bounceTimeout.current = window.setTimeout(() => {
+      el.style.transition = 'transform 180ms ease-out';
+      el.style.transform = 'translateX(0px)';
+    }, 120);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -23,8 +43,35 @@ function HomePage() {
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      if (bounceTimeout.current !== null) {
+        window.clearTimeout(bounceTimeout.current);
+        bounceTimeout.current = null;
+      }
+      if (cardsRef.current) {
+        cardsRef.current.style.transform = 'translateX(0px)';
+      }
+    };
   }, [playingVideoIndex]);
+
+  const handleWheel = useCallback((e: WheelEvent<HTMLUListElement>) => {
+    const el = cardsRef.current;
+    if (!el) return;
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) return;
+
+    const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+    const atStart = el.scrollLeft <= 0;
+    const atEnd = el.scrollLeft >= maxScroll;
+
+    if ((atStart && delta < 0) || (atEnd && delta > 0)) {
+      e.preventDefault();
+      const strength = Math.min(30, Math.abs(delta) * 0.2);
+      triggerBounce(delta < 0 ? strength : -strength);
+    }
+  }, [triggerBounce]);
 
   function renderItem(item: HomePageItem, index: number) {
     const classes = [
@@ -127,7 +174,7 @@ function HomePage() {
           </svg>
         </a>
       </div>
-      <ul className="cards">
+      <ul className="cards" ref={cardsRef} onWheel={handleWheel}>
         {homePageItems.map((item, index) => renderItem(item, index))}
       </ul>
     </div>
