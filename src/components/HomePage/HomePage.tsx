@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, type WheelEvent } from 'react';
+import { useState, useEffect, useRef, useCallback, type WheelEvent, type TouchEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { homePageItems } from '../../data/homePageItems';
 import type { HomePageItem } from '../../data/types';
@@ -15,25 +15,48 @@ const SIZE_CLASS_MAP: Record<string, string> = {
 function HomePage() {
   const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
   const cardsRef = useRef<HTMLUListElement | null>(null);
-  const bounceTimeout = useRef<number | null>(null);
+  const bounceAnimation = useRef<Animation | null>(null);
+  const touchLastX = useRef<number | null>(null);
+  const isTouching = useRef(false);
+  const edgeOffset = useRef(0);
+
+  const animateElasticReturn = useCallback((fromOffset: number) => {
+    const el = cardsRef.current;
+    if (!el) return;
+
+    if (bounceAnimation.current) {
+      bounceAnimation.current.cancel();
+      bounceAnimation.current = null;
+    }
+
+    if (el.animate) {
+      bounceAnimation.current = el.animate([
+        { transform: `translateX(${fromOffset}px)` },
+        { transform: `translateX(${fromOffset * -0.2}px)` },
+        { transform: 'translateX(0px)' },
+      ], {
+        duration: 420,
+        easing: 'cubic-bezier(0.22, 1.0, 0.36, 1.0)',
+      });
+
+      bounceAnimation.current.onfinish = () => {
+        bounceAnimation.current = null;
+        el.style.transform = 'translateX(0px)';
+      };
+      return;
+    }
+
+    el.style.transition = 'transform 220ms cubic-bezier(0.22, 1.0, 0.36, 1.0)';
+    el.style.transform = 'translateX(0px)';
+  }, []);
 
   const triggerBounce = useCallback((offset: number) => {
     const el = cardsRef.current;
     if (!el) return;
 
-    if (bounceTimeout.current !== null) {
-      window.clearTimeout(bounceTimeout.current);
-      bounceTimeout.current = null;
-    }
-
-    el.style.transition = 'transform 120ms ease-out';
     el.style.transform = `translateX(${offset}px)`;
-
-    bounceTimeout.current = window.setTimeout(() => {
-      el.style.transition = 'transform 180ms ease-out';
-      el.style.transform = 'translateX(0px)';
-    }, 120);
-  }, []);
+    animateElasticReturn(offset);
+  }, [animateElasticReturn]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -45,9 +68,9 @@ function HomePage() {
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      if (bounceTimeout.current !== null) {
-        window.clearTimeout(bounceTimeout.current);
-        bounceTimeout.current = null;
+      if (bounceAnimation.current) {
+        bounceAnimation.current.cancel();
+        bounceAnimation.current = null;
       }
       if (cardsRef.current) {
         cardsRef.current.style.transform = 'translateX(0px)';
@@ -72,6 +95,54 @@ function HomePage() {
       triggerBounce(delta < 0 ? strength : -strength);
     }
   }, [triggerBounce]);
+
+  const handleTouchStart = useCallback((e: TouchEvent<HTMLUListElement>) => {
+    if (e.touches.length !== 1) return;
+    const x = e.touches[0].clientX;
+    touchLastX.current = x;
+    isTouching.current = true;
+    edgeOffset.current = 0;
+  }, []);
+
+  const handleTouchMove = useCallback((e: TouchEvent<HTMLUListElement>) => {
+    const el = cardsRef.current;
+    if (!el || !isTouching.current || e.touches.length !== 1) return;
+
+    const x = e.touches[0].clientX;
+    const lastX = touchLastX.current ?? x;
+    const deltaX = x - lastX;
+    touchLastX.current = x;
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) return;
+
+    const atStart = el.scrollLeft <= 0;
+    const atEnd = el.scrollLeft >= maxScroll;
+
+    if ((atStart && deltaX > 0) || (atEnd && deltaX < 0)) {
+      e.preventDefault();
+      const nextOffset = edgeOffset.current + deltaX * 0.6;
+      edgeOffset.current = Math.max(-40, Math.min(40, nextOffset));
+      if (bounceAnimation.current) {
+        bounceAnimation.current.cancel();
+        bounceAnimation.current = null;
+      }
+      el.style.transition = 'none';
+      el.style.transform = `translateX(${edgeOffset.current}px)`;
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    const el = cardsRef.current;
+    if (el && Math.abs(edgeOffset.current) > 0.5) {
+      animateElasticReturn(edgeOffset.current);
+    } else if (el) {
+      el.style.transform = 'translateX(0px)';
+    }
+    isTouching.current = false;
+    touchLastX.current = null;
+    edgeOffset.current = 0;
+  }, [animateElasticReturn]);
 
   function renderItem(item: HomePageItem, index: number) {
     const classes = [
@@ -174,7 +245,15 @@ function HomePage() {
           </svg>
         </a>
       </div>
-      <ul className="cards" ref={cardsRef} onWheel={handleWheel}>
+      <ul
+        className="cards"
+        ref={cardsRef}
+        onWheel={handleWheel}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
+      >
         {homePageItems.map((item, index) => renderItem(item, index))}
       </ul>
     </div>
