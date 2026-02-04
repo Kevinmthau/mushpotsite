@@ -53,9 +53,15 @@ function HomePage() {
         </li>
       );
     } else if (item.type === 'link') {
+      const isExternal = /^https?:\/\//i.test(item.href);
       return (
         <li key={index}>
-          <a href={item.href} target="_blank" rel="noopener noreferrer" className="card-link">
+          <a
+            href={item.href}
+            target={isExternal ? '_blank' : undefined}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            className="card-link"
+          >
             <div className="card-container">
               {imgElement}
             </div>

@@ -19,19 +19,25 @@ export function useIntersectionObserver<T extends HTMLElement>({
 }: UseIntersectionObserverOptions): RefObject<T | null> {
   const targetRef = useRef<T>(null);
   const onIntersectRef = useRef(onIntersect);
+  const isIntersectingRef = useRef(false);
   onIntersectRef.current = onIntersect;
 
   useEffect(() => {
     if (!enabled) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+
+      if (entry.isIntersecting) {
+        if (!isIntersectingRef.current) {
+          isIntersectingRef.current = true;
           onIntersectRef.current();
         }
-      },
-      { threshold, rootMargin }
-    );
+      } else {
+        isIntersectingRef.current = false;
+      }
+    }, { threshold, rootMargin });
 
     const currentRef = targetRef.current;
     if (currentRef) {

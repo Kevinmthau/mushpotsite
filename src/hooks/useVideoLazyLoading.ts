@@ -17,6 +17,7 @@ export function useVideoLazyLoading(
 
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadedVideos = useRef<Set<string>>(new Set());
+  const pendingElements = useRef<HTMLVideoElement[]>([]);
 
   // Create observer once on mount
   useEffect(() => {
@@ -38,6 +39,11 @@ export function useVideoLazyLoading(
       { threshold, rootMargin }
     );
 
+    if (pendingElements.current.length > 0) {
+      pendingElements.current.forEach((el) => observerRef.current?.observe(el));
+      pendingElements.current = [];
+    }
+
     return () => {
       observerRef.current?.disconnect();
     };
@@ -46,8 +52,14 @@ export function useVideoLazyLoading(
   // Observe videos immediately when they're registered
   const getVideoRef = useCallback((filename: string) => {
     return (el: HTMLVideoElement | null) => {
-      if (el && isVideoFile(filename) && observerRef.current) {
+      if (!el || !isVideoFile(filename)) {
+        return;
+      }
+
+      if (observerRef.current) {
         observerRef.current.observe(el);
+      } else {
+        pendingElements.current.push(el);
       }
     };
   }, []);
