@@ -11,6 +11,13 @@ interface GalleryItemProps {
 const GalleryItem = memo(function GalleryItem({ item, index, onVideoRef }: GalleryItemProps) {
   const isVideo = isVideoFile(item.filename);
   const [loadState, setLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const isAlreadyWebp = item.filename.toLowerCase().endsWith('.webp');
+  const webpFilename = isAlreadyWebp
+    ? item.filename
+    : item.filename.replace(/\.[^/.]+$/, '.webp');
+  const originalSrc = encodeImagePath('/images/1040', item.filename);
+  const webpSrc = encodeImagePath('/images/1040', webpFilename);
+  const [imgSrc, setImgSrc] = useState(isAlreadyWebp ? originalSrc : webpSrc);
 
   return (
     <div className="gallery-item">
@@ -29,7 +36,7 @@ const GalleryItem = memo(function GalleryItem({ item, index, onVideoRef }: Galle
           </video>
         ) : (
           <img
-            src={encodeImagePath('/images/1040', item.filename)}
+            src={imgSrc}
             alt={item.filename}
             loading={index < 3 ? "eager" : "lazy"}
             decoding="async"
@@ -37,6 +44,11 @@ const GalleryItem = memo(function GalleryItem({ item, index, onVideoRef }: Galle
             className={`gallery-image ${loadState}`}
             onLoad={() => setLoadState('loaded')}
             onError={() => {
+              if (imgSrc === webpSrc && webpSrc !== originalSrc) {
+                setImgSrc(originalSrc);
+                setLoadState('loading');
+                return;
+              }
               setLoadState('error');
               console.error('Failed to load image:', item.filename);
             }}

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 const PDF_PATH = '/images/1040/documents/2026_0129 1040FifthAve9-10C ProposedArt.pdf';
-const COVER_PATH = '/images/1040/documents/pdf-cover.jpg';
+const COVER_PATH = '/images/1040/documents/pdf-cover.webp';
 
 const PDFSection = memo(function PDFSection() {
   return (
