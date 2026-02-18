@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, type WheelEvent, type TouchEvent } from 'react';
+import { useState, useEffect, useRef, useCallback, type TouchEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { homePageItems } from '../../data/homePageItems';
 import type { HomePageItem } from '../../data/types';
@@ -19,6 +19,8 @@ function HomePage() {
   const touchLastX = useRef<number | null>(null);
   const isTouching = useRef(false);
   const edgeOffset = useRef(0);
+  const wheelEdgeOffset = useRef(0);
+  const wheelTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const animateElasticReturn = useCallback((fromOffset: number) => {
     const el = cardsRef.current;
@@ -50,14 +52,6 @@ function HomePage() {
     el.style.transform = 'translateX(0px)';
   }, []);
 
-  const triggerBounce = useCallback((offset: number) => {
-    const el = cardsRef.current;
-    if (!el) return;
-
-    el.style.transform = `translateX(${offset}px)`;
-    animateElasticReturn(offset);
-  }, [animateElasticReturn]);
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && playingVideoIndex !== null) {
@@ -65,6 +59,7 @@ function HomePage() {
       }
     };
 
+    const el = cardsRef.current;
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
@@ -72,29 +67,59 @@ function HomePage() {
         bounceAnimation.current.cancel();
         bounceAnimation.current = null;
       }
-      if (cardsRef.current) {
-        cardsRef.current.style.transform = 'translateX(0px)';
+      if (el) {
+        el.style.transform = 'translateX(0px)';
       }
     };
   }, [playingVideoIndex]);
 
-  const handleWheel = useCallback((e: WheelEvent<HTMLUListElement>) => {
+  useEffect(() => {
     const el = cardsRef.current;
     if (!el) return;
 
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    if (maxScroll <= 0) return;
+    const handleWheel = (e: WheelEvent) => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll <= 0) return;
 
-    const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
-    const atStart = el.scrollLeft <= 0;
-    const atEnd = el.scrollLeft >= maxScroll;
+      const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+      const atStart = el.scrollLeft <= 1;
+      const atEnd = el.scrollLeft >= maxScroll - 1;
 
-    if ((atStart && delta < 0) || (atEnd && delta > 0)) {
-      e.preventDefault();
-      const strength = Math.min(30, Math.abs(delta) * 0.2);
-      triggerBounce(delta < 0 ? strength : -strength);
-    }
-  }, [triggerBounce]);
+      if ((atStart && delta < 0) || (atEnd && delta > 0)) {
+        e.preventDefault();
+
+        if (bounceAnimation.current) {
+          bounceAnimation.current.cancel();
+          bounceAnimation.current = null;
+        }
+
+        const dampedDelta = Math.abs(delta) * 0.2;
+        const direction = (atStart && delta < 0) ? 1 : -1;
+        wheelEdgeOffset.current = Math.max(-30, Math.min(30,
+          wheelEdgeOffset.current + dampedDelta * direction
+        ));
+
+        el.style.transition = 'none';
+        el.style.transform = `translateX(${wheelEdgeOffset.current}px)`;
+
+        if (wheelTimeout.current) clearTimeout(wheelTimeout.current);
+        wheelTimeout.current = setTimeout(() => {
+          animateElasticReturn(wheelEdgeOffset.current);
+          wheelEdgeOffset.current = 0;
+          wheelTimeout.current = null;
+        }, 150);
+      }
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+      if (wheelTimeout.current) {
+        clearTimeout(wheelTimeout.current);
+        wheelTimeout.current = null;
+      }
+    };
+  }, [animateElasticReturn]);
 
   const handleTouchStart = useCallback((e: TouchEvent<HTMLUListElement>) => {
     if (e.touches.length !== 1) return;
@@ -116,8 +141,8 @@ function HomePage() {
     const maxScroll = el.scrollWidth - el.clientWidth;
     if (maxScroll <= 0) return;
 
-    const atStart = el.scrollLeft <= 0;
-    const atEnd = el.scrollLeft >= maxScroll;
+    const atStart = el.scrollLeft <= 1;
+    const atEnd = el.scrollLeft >= maxScroll - 1;
 
     if ((atStart && deltaX > 0) || (atEnd && deltaX < 0)) {
       e.preventDefault();
@@ -248,7 +273,6 @@ function HomePage() {
       <ul
         className="cards"
         ref={cardsRef}
-        onWheel={handleWheel}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
