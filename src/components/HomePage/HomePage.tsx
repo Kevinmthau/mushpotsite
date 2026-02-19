@@ -25,6 +25,11 @@ const TOUCH_EDGE_BOUNCE_MAX = 20;
 const TOUCH_EDGE_BOUNCE_SCALE = 0.9;
 
 type EdgeDirection = 'start' | 'end';
+type EdgeBounds = {
+  maxScroll: number;
+  start: number;
+  end: number;
+};
 
 function readTranslateX(el: HTMLElement): number {
   const transform = window.getComputedStyle(el).transform;
@@ -43,6 +48,26 @@ function readTranslateX(el: HTMLElement): number {
   }
 
   return 0;
+}
+
+function getEdgeBounds(el: HTMLUListElement): EdgeBounds {
+  const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+  if (maxScroll <= 0) {
+    return { maxScroll: 0, start: 0, end: 0 };
+  }
+
+  const firstItem = el.firstElementChild as HTMLElement | null;
+  const lastItem = el.lastElementChild as HTMLElement | null;
+  if (!firstItem || !lastItem) {
+    return { maxScroll, start: 0, end: maxScroll };
+  }
+
+  const viewportCenter = el.clientWidth / 2;
+  const firstCenter = firstItem.offsetLeft + (firstItem.offsetWidth / 2);
+  const lastCenter = lastItem.offsetLeft + (lastItem.offsetWidth / 2);
+  const start = Math.max(0, Math.min(maxScroll, firstCenter - viewportCenter));
+  const end = Math.max(start, Math.min(maxScroll, lastCenter - viewportCenter));
+  return { maxScroll, start, end };
 }
 
 function HomePage() {
@@ -177,11 +202,11 @@ function HomePage() {
     const el = cardsRef.current;
     if (!el || intentDelta === 0) return false;
 
-    const maxScroll = el.scrollWidth - el.clientWidth;
+    const { maxScroll, start, end } = getEdgeBounds(el);
     if (maxScroll <= 0) return false;
 
-    const atStart = el.scrollLeft <= EDGE_EPSILON;
-    const atEnd = el.scrollLeft >= maxScroll - EDGE_EPSILON;
+    const atStart = el.scrollLeft <= start + EDGE_EPSILON;
+    const atEnd = el.scrollLeft >= end - EDGE_EPSILON;
     const overflowingStart = atStart && intentDelta < 0;
     const overflowingEnd = atEnd && intentDelta > 0;
 
@@ -195,7 +220,7 @@ function HomePage() {
       syncOffsetFromDom();
     }
 
-    const boundary = overflowingStart ? 0 : maxScroll;
+    const boundary = overflowingStart ? start : end;
     if (Math.abs(el.scrollLeft - boundary) > 0.1) {
       el.scrollLeft = boundary;
     }
@@ -293,14 +318,14 @@ function HomePage() {
       return;
     }
 
-    const maxScroll = el.scrollWidth - el.clientWidth;
+    const { maxScroll, start, end } = getEdgeBounds(el);
     if (maxScroll <= 0) {
       pendingTouchMomentumEdge.current = null;
       return;
     }
 
-    const atStart = el.scrollLeft <= EDGE_EPSILON;
-    const atEnd = el.scrollLeft >= maxScroll - EDGE_EPSILON;
+    const atStart = el.scrollLeft <= start + EDGE_EPSILON;
+    const atEnd = el.scrollLeft >= end - EDGE_EPSILON;
 
     if (pendingEdge === 'start' && atStart) {
       pendingTouchMomentumEdge.current = null;
@@ -338,9 +363,9 @@ function HomePage() {
       return;
     }
 
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    const atStart = maxScroll > 0 && el.scrollLeft <= EDGE_EPSILON;
-    const atEnd = maxScroll > 0 && el.scrollLeft >= maxScroll - EDGE_EPSILON;
+    const { maxScroll, start, end } = getEdgeBounds(el);
+    const atStart = maxScroll > 0 && el.scrollLeft <= start + EDGE_EPSILON;
+    const atEnd = maxScroll > 0 && el.scrollLeft >= end - EDGE_EPSILON;
     const hasActiveEdgeOffset = (
       Math.abs(edgeTargetOffset.current) >= MIN_BOUNCE_OFFSET
       || Math.abs(edgeRenderedOffset.current) >= MIN_BOUNCE_OFFSET
