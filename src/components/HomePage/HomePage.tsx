@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, type WheelEvent, type TouchEvent } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { homePageItems } from '../../data/homePageItems';
 import type { HomePageItem } from '../../data/types';
@@ -12,224 +12,9 @@ const SIZE_CLASS_MAP: Record<string, string> = {
   xlarge: 'img-xlarge',
 };
 
-const EDGE_EPSILON = 2;
-const MAX_EDGE_OFFSET = 40;
-const MIN_BOUNCE_OFFSET = 0.5;
-const TOUCH_EDGE_RESISTANCE = 0.45;
-const WHEEL_EDGE_RESISTANCE = 0.2;
-const EDGE_FOLLOW_FACTOR = 0.45;
-const EDGE_SNAP_EPSILON = 0.15;
-const WHEEL_RELEASE_DELAY_MS = 70;
-const TOUCH_EDGE_BOUNCE_MIN = 8;
-const TOUCH_EDGE_BOUNCE_MAX = 20;
-const TOUCH_EDGE_BOUNCE_SCALE = 0.9;
-
-type EdgeDirection = 'start' | 'end';
-type EdgeBounds = {
-  maxScroll: number;
-  start: number;
-  end: number;
-};
-
-function readTranslateX(el: HTMLElement): number {
-  const transform = window.getComputedStyle(el).transform;
-  if (!transform || transform === 'none') return 0;
-
-  const matrix2d = /^matrix\((.+)\)$/.exec(transform);
-  if (matrix2d) {
-    const values = matrix2d[1].split(',').map((value) => Number(value.trim()));
-    return Number.isFinite(values[4]) ? values[4] : 0;
-  }
-
-  const matrix3d = /^matrix3d\((.+)\)$/.exec(transform);
-  if (matrix3d) {
-    const values = matrix3d[1].split(',').map((value) => Number(value.trim()));
-    return Number.isFinite(values[12]) ? values[12] : 0;
-  }
-
-  return 0;
-}
-
-function getEdgeBounds(el: HTMLUListElement): EdgeBounds {
-  const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
-  if (maxScroll <= 0) {
-    return { maxScroll: 0, start: 0, end: 0 };
-  }
-
-  const firstItem = el.firstElementChild as HTMLElement | null;
-  const lastItem = el.lastElementChild as HTMLElement | null;
-  if (!firstItem || !lastItem) {
-    return { maxScroll, start: 0, end: maxScroll };
-  }
-
-  const viewportCenter = el.clientWidth / 2;
-  const firstCenter = firstItem.offsetLeft + (firstItem.offsetWidth / 2);
-  const lastCenter = lastItem.offsetLeft + (lastItem.offsetWidth / 2);
-  const start = Math.max(0, Math.min(maxScroll, firstCenter - viewportCenter));
-  const end = Math.max(start, Math.min(maxScroll, lastCenter - viewportCenter));
-  return { maxScroll, start, end };
-}
-
 function HomePage() {
   const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
   const cardsRef = useRef<HTMLUListElement | null>(null);
-  const bounceAnimation = useRef<Animation | null>(null);
-  const touchLastX = useRef<number | null>(null);
-  const isTouching = useRef(false);
-  const lastTouchDeltaX = useRef(0);
-  const pendingTouchMomentumEdge = useRef<EdgeDirection | null>(null);
-  const edgeTargetOffset = useRef(0);
-  const edgeRenderedOffset = useRef(0);
-  const edgeFrame = useRef<number | null>(null);
-  const wheelReleaseTimer = useRef<number | null>(null);
-
-  const setEdgeTransform = useCallback((offset: number) => {
-    const el = cardsRef.current;
-    if (!el) return;
-
-    el.style.transition = 'none';
-    el.style.transform = `translateX(${offset}px)`;
-  }, []);
-
-  const clearWheelReleaseTimer = useCallback(() => {
-    if (wheelReleaseTimer.current !== null) {
-      window.clearTimeout(wheelReleaseTimer.current);
-      wheelReleaseTimer.current = null;
-    }
-  }, []);
-
-  const clearEdgeFrame = useCallback(() => {
-    if (edgeFrame.current !== null) {
-      cancelAnimationFrame(edgeFrame.current);
-      edgeFrame.current = null;
-    }
-  }, []);
-
-  const syncOffsetFromDom = useCallback(() => {
-    const el = cardsRef.current;
-    if (!el) return 0;
-
-    const offset = readTranslateX(el);
-    edgeRenderedOffset.current = offset;
-    edgeTargetOffset.current = offset;
-    return offset;
-  }, []);
-
-  const queueOffsetRender = useCallback(() => {
-    if (edgeFrame.current !== null) return;
-
-    const tick = () => {
-      const diff = edgeTargetOffset.current - edgeRenderedOffset.current;
-      if (Math.abs(diff) <= EDGE_SNAP_EPSILON) {
-        edgeRenderedOffset.current = edgeTargetOffset.current;
-        setEdgeTransform(edgeRenderedOffset.current);
-        edgeFrame.current = null;
-        return;
-      }
-
-      edgeRenderedOffset.current += diff * EDGE_FOLLOW_FACTOR;
-      setEdgeTransform(edgeRenderedOffset.current);
-      edgeFrame.current = requestAnimationFrame(tick);
-    };
-
-    edgeFrame.current = requestAnimationFrame(tick);
-  }, [setEdgeTransform]);
-
-  const animateElasticReturn = useCallback((fromOffset?: number) => {
-    const el = cardsRef.current;
-    if (!el) return;
-
-    clearWheelReleaseTimer();
-    clearEdgeFrame();
-
-    if (bounceAnimation.current) {
-      bounceAnimation.current.cancel();
-      bounceAnimation.current = null;
-    }
-
-    const startOffset = Math.max(
-      -MAX_EDGE_OFFSET,
-      Math.min(MAX_EDGE_OFFSET, fromOffset ?? syncOffsetFromDom())
-    );
-
-    edgeRenderedOffset.current = startOffset;
-    edgeTargetOffset.current = 0;
-    setEdgeTransform(startOffset);
-
-    if (Math.abs(startOffset) < MIN_BOUNCE_OFFSET) {
-      edgeRenderedOffset.current = 0;
-      setEdgeTransform(0);
-      return;
-    }
-
-    if (el.animate) {
-      bounceAnimation.current = el.animate([
-        { transform: `translateX(${startOffset}px)` },
-        { transform: `translateX(${startOffset * -0.2}px)` },
-        { transform: 'translateX(0px)' },
-      ], {
-        duration: 420,
-        easing: 'cubic-bezier(0.22, 1.0, 0.36, 1.0)',
-      });
-
-      bounceAnimation.current.onfinish = () => {
-        bounceAnimation.current = null;
-        edgeRenderedOffset.current = 0;
-        edgeTargetOffset.current = 0;
-        setEdgeTransform(0);
-      };
-
-      bounceAnimation.current.oncancel = () => {
-        bounceAnimation.current = null;
-      };
-      return;
-    }
-
-    el.style.transition = 'transform 220ms cubic-bezier(0.22, 1.0, 0.36, 1.0)';
-    el.style.transform = 'translateX(0px)';
-    edgeRenderedOffset.current = 0;
-    edgeTargetOffset.current = 0;
-  }, [clearEdgeFrame, clearWheelReleaseTimer, setEdgeTransform, syncOffsetFromDom]);
-
-  const scheduleElasticReturn = useCallback(() => {
-    clearWheelReleaseTimer();
-    wheelReleaseTimer.current = window.setTimeout(() => {
-      animateElasticReturn();
-    }, WHEEL_RELEASE_DELAY_MS);
-  }, [animateElasticReturn, clearWheelReleaseTimer]);
-
-  const applyEdgeResistance = useCallback((intentDelta: number, resistance: number) => {
-    const el = cardsRef.current;
-    if (!el || intentDelta === 0) return false;
-
-    const { maxScroll, start, end } = getEdgeBounds(el);
-    if (maxScroll <= 0) return false;
-
-    const atStart = el.scrollLeft <= start + EDGE_EPSILON;
-    const atEnd = el.scrollLeft >= end - EDGE_EPSILON;
-    const overflowingStart = atStart && intentDelta < 0;
-    const overflowingEnd = atEnd && intentDelta > 0;
-
-    if (!overflowingStart && !overflowingEnd) {
-      return false;
-    }
-
-    if (bounceAnimation.current) {
-      bounceAnimation.current.cancel();
-      bounceAnimation.current = null;
-      syncOffsetFromDom();
-    }
-
-    const boundary = overflowingStart ? start : end;
-    if (Math.abs(el.scrollLeft - boundary) > 0.1) {
-      el.scrollLeft = boundary;
-    }
-
-    const nextOffset = edgeTargetOffset.current + (-intentDelta * resistance);
-    edgeTargetOffset.current = Math.max(-MAX_EDGE_OFFSET, Math.min(MAX_EDGE_OFFSET, nextOffset));
-    queueOffsetRender();
-    return true;
-  }, [queueOffsetRender, syncOffsetFromDom]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -245,156 +30,28 @@ function HomePage() {
   }, [playingVideoIndex]);
 
   useEffect(() => {
-    return () => {
-      clearWheelReleaseTimer();
-      clearEdgeFrame();
-      if (bounceAnimation.current) {
-        bounceAnimation.current.cancel();
-        bounceAnimation.current = null;
+    const el = cardsRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) return;
+
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        const previousScroll = el.scrollLeft;
+        el.scrollLeft += e.deltaY;
+
+        if (el.scrollLeft !== previousScroll) {
+          // At edges we do not prevent default, so native overscroll stays intact.
+          e.preventDefault();
+        }
       }
-      if (cardsRef.current) {
-        cardsRef.current.style.transition = 'none';
-        cardsRef.current.style.transform = 'translateX(0px)';
-      }
-      pendingTouchMomentumEdge.current = null;
-      lastTouchDeltaX.current = 0;
-      edgeRenderedOffset.current = 0;
-      edgeTargetOffset.current = 0;
     };
-  }, [clearEdgeFrame, clearWheelReleaseTimer]);
 
-  const handleWheel = useCallback((e: WheelEvent<HTMLUListElement>) => {
-    pendingTouchMomentumEdge.current = null;
-    const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
-    if (applyEdgeResistance(delta, WHEEL_EDGE_RESISTANCE)) {
-      e.preventDefault();
-      scheduleElasticReturn();
-    }
-  }, [applyEdgeResistance, scheduleElasticReturn]);
-
-  const handleTouchStart = useCallback((e: TouchEvent<HTMLUListElement>) => {
-    if (e.touches.length !== 1) return;
-
-    clearWheelReleaseTimer();
-
-    if (bounceAnimation.current) {
-      bounceAnimation.current.cancel();
-      bounceAnimation.current = null;
-      syncOffsetFromDom();
-    }
-
-    const x = e.touches[0].clientX;
-    touchLastX.current = x;
-    isTouching.current = true;
-    lastTouchDeltaX.current = 0;
-    pendingTouchMomentumEdge.current = null;
-  }, [clearWheelReleaseTimer, syncOffsetFromDom]);
-
-  const handleTouchMove = useCallback((e: TouchEvent<HTMLUListElement>) => {
-    if (!isTouching.current || e.touches.length !== 1) return;
-
-    const x = e.touches[0].clientX;
-    const lastX = touchLastX.current ?? x;
-    const deltaX = x - lastX;
-    touchLastX.current = x;
-    lastTouchDeltaX.current = deltaX;
-
-    if (applyEdgeResistance(-deltaX, TOUCH_EDGE_RESISTANCE)) {
-      e.preventDefault();
-    }
-  }, [applyEdgeResistance]);
-
-  const handleScroll = useCallback(() => {
-    const el = cardsRef.current;
-    if (!el || isTouching.current || bounceAnimation.current) return;
-
-    const pendingEdge = pendingTouchMomentumEdge.current;
-    if (!pendingEdge) return;
-
-    if (
-      Math.abs(edgeTargetOffset.current) >= MIN_BOUNCE_OFFSET
-      || Math.abs(edgeRenderedOffset.current) >= MIN_BOUNCE_OFFSET
-    ) {
-      return;
-    }
-
-    const { maxScroll, start, end } = getEdgeBounds(el);
-    if (maxScroll <= 0) {
-      pendingTouchMomentumEdge.current = null;
-      return;
-    }
-
-    const atStart = el.scrollLeft <= start + EDGE_EPSILON;
-    const atEnd = el.scrollLeft >= end - EDGE_EPSILON;
-
-    if (pendingEdge === 'start' && atStart) {
-      pendingTouchMomentumEdge.current = null;
-      animateElasticReturn(TOUCH_EDGE_BOUNCE_MIN);
-      return;
-    }
-
-    if (pendingEdge === 'end' && atEnd) {
-      pendingTouchMomentumEdge.current = null;
-      animateElasticReturn(-TOUCH_EDGE_BOUNCE_MIN);
-      return;
-    }
-
-    if ((pendingEdge === 'start' && atEnd) || (pendingEdge === 'end' && atStart)) {
-      pendingTouchMomentumEdge.current = null;
-    }
-  }, [animateElasticReturn]);
-
-  const handleTouchEnd = useCallback(() => {
-    isTouching.current = false;
-    touchLastX.current = null;
-    clearWheelReleaseTimer();
-
-    const el = cardsRef.current;
-    const direction: EdgeDirection | null = lastTouchDeltaX.current < -0.1
-      ? 'end'
-      : lastTouchDeltaX.current > 0.1
-        ? 'start'
-        : null;
-
-    if (!el) {
-      pendingTouchMomentumEdge.current = null;
-      lastTouchDeltaX.current = 0;
-      animateElasticReturn();
-      return;
-    }
-
-    const { maxScroll, start, end } = getEdgeBounds(el);
-    const atStart = maxScroll > 0 && el.scrollLeft <= start + EDGE_EPSILON;
-    const atEnd = maxScroll > 0 && el.scrollLeft >= end - EDGE_EPSILON;
-    const hasActiveEdgeOffset = (
-      Math.abs(edgeTargetOffset.current) >= MIN_BOUNCE_OFFSET
-      || Math.abs(edgeRenderedOffset.current) >= MIN_BOUNCE_OFFSET
-    );
-
-    if (hasActiveEdgeOffset) {
-      pendingTouchMomentumEdge.current = null;
-      animateElasticReturn();
-    } else if (direction === 'start' && atStart) {
-      const strength = Math.max(
-        TOUCH_EDGE_BOUNCE_MIN,
-        Math.min(TOUCH_EDGE_BOUNCE_MAX, Math.abs(lastTouchDeltaX.current) * TOUCH_EDGE_BOUNCE_SCALE)
-      );
-      pendingTouchMomentumEdge.current = null;
-      animateElasticReturn(strength);
-    } else if (direction === 'end' && atEnd) {
-      const strength = Math.max(
-        TOUCH_EDGE_BOUNCE_MIN,
-        Math.min(TOUCH_EDGE_BOUNCE_MAX, Math.abs(lastTouchDeltaX.current) * TOUCH_EDGE_BOUNCE_SCALE)
-      );
-      pendingTouchMomentumEdge.current = null;
-      animateElasticReturn(-strength);
-    } else {
-      pendingTouchMomentumEdge.current = direction;
-      animateElasticReturn();
-    }
-
-    lastTouchDeltaX.current = 0;
-  }, [animateElasticReturn, clearWheelReleaseTimer]);
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   function renderItem(item: HomePageItem, index: number) {
     const classes = [
@@ -500,12 +157,6 @@ function HomePage() {
       <ul
         className="cards"
         ref={cardsRef}
-        onWheel={handleWheel}
-        onScroll={handleScroll}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchEnd}
       >
         {homePageItems.map((item, index) => renderItem(item, index))}
       </ul>

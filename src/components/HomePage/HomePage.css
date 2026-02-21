@@ -72,8 +72,9 @@
   padding-inline: 50vw;
   overflow-x: auto;
   overflow-y: hidden;
-  overscroll-behavior-x: none;
-  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
   transform-style: preserve-3d;
   scrollbar-width: none;
   will-change: transform;
@@ -86,7 +87,6 @@
 .cards li {
   flex: 0 0 auto;
   scroll-snap-align: center;
-  scroll-snap-stop: always;
   transform-style: preserve-3d;
   will-change: transform;
   transform: scale(0.85);
@@ -184,6 +184,7 @@
 
   .cards {
     gap: 1.5rem;
+    scroll-snap-type: x mandatory;
   }
 
   .cards li img.img-xsmall {
