@@ -11,7 +11,7 @@ const INITIAL_VISIBLE = 6;
 const LOAD_INCREMENT = 6;
 
 function Gallery1040() {
-  const { imageData, isDataLoaded } = useImageLoading();
+  const { imageData, isDataLoaded, loadError } = useImageLoading();
   const [visibleImages, setVisibleImages] = useState(INITIAL_VISIBLE);
 
   const { getVideoRef } = useVideoLazyLoading();
@@ -32,6 +32,7 @@ function Gallery1040() {
   return (
     <div className="gallery-app">
       <PDFSection />
+      {loadError && <p className="gallery-error">{loadError}</p>}
       <GalleryGrid
         imageData={imageData}
         visibleCount={visibleImages}

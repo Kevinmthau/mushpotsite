@@ -49,9 +49,14 @@ export function useVideoLazyLoading(
     };
   }, [threshold, rootMargin]);
 
+  const refCacheRef = useRef<Map<string, (el: HTMLVideoElement | null) => void>>(new Map());
+
   // Observe videos immediately when they're registered
   const getVideoRef = useCallback((filename: string) => {
-    return (el: HTMLVideoElement | null) => {
+    const cached = refCacheRef.current.get(filename);
+    if (cached) return cached;
+
+    const refCallback = (el: HTMLVideoElement | null) => {
       if (!el || !isVideoFile(filename)) {
         return;
       }
@@ -62,6 +67,9 @@ export function useVideoLazyLoading(
         pendingElements.current.push(el);
       }
     };
+
+    refCacheRef.current.set(filename, refCallback);
+    return refCallback;
   }, []);
 
   return { getVideoRef };

@@ -381,3 +381,10 @@
 .gallery-image.loaded {
   opacity: 1;
 }
+
+.gallery-error {
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: var(--spacing-lg);
+  font-size: 1em;
+}

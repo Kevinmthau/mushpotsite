@@ -7,13 +7,19 @@ import type { ImageData } from '../data/types';
 export function useImageLoading() {
   const [imageData, setImageData] = useState<ImageData[]>([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
-    import('../data/gallery1040Images').then(module => {
-      setImageData(module.imageData);
-      setIsDataLoaded(true);
-    });
+    import('../data/gallery1040Images')
+      .then(module => {
+        setImageData(module.imageData);
+        setIsDataLoaded(true);
+      })
+      .catch(() => {
+        setLoadError('Failed to load gallery data. Please refresh the page.');
+        setIsDataLoaded(true);
+      });
   }, []);
 
-  return { imageData, isDataLoaded };
+  return { imageData, isDataLoaded, loadError };
 }
