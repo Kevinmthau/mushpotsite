@@ -14,5 +14,4 @@ export const homePageItems: HomePageItem[] = [
   { type: 'div', src: '/images/wap_browser.jpg', alt: 'Openwave', size: 'large', noReflect: true },
   { type: 'div', src: '/images/smtp_pop3_server.gif', alt: 'Post.Office', noReflect: true },
   { type: 'link', href: 'https://sgi-demos.github.io', src: '/images/SGI-home.jpg', alt: 'SGI', size: 'large', noReflect: true },
-  { type: 'div', src: '/images/Yoach-logo.png', alt: 'YOACH Inactivewear', size: 'large', noReflect: true },
 ];
