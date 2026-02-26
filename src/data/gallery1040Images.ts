@@ -790,7 +790,7 @@ const imageGroups: DateGroup[] = [
       "250724/Walls up!_10th floor gallery and primary entry 2.jpg",
       "250724/Walls up!_10th floor corridor.jpg",
       "250724/Site condition_cracking wall to be removed and rebuilt.jpg",
-      "250724/Site condition 2_Existing plumbing through beams.jpg",
+      "250724/Site condition 2_Existing plumbing running through beams.jpg",
       "250724/Site Condition 2_Cracking wall to be rebuild.jpg",
       "250724/Sheetrock! 10th floor corridor.jpg",
       "250724/Plumbing_9th floor back bathroom.jpg",

@@ -3,7 +3,7 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "22"
 
 [[headers]]
   for = "/*"
@@ -22,6 +22,13 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
+    Vary = "Accept"
+
+[[headers]]
+  for = "/images/1040/documents/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+    Vary = "Accept"
 
 [[headers]]
   for = "*.js"
@@ -39,12 +46,3 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # Legacy build.processing removed (deprecated since 2021)
-# Using Netlify Image CDN instead for better optimization
-
-# Enable automatic WebP conversion for better performance
-# Netlify will automatically serve WebP to supporting browsers
-[[headers]]
-  for = "/images/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-    Vary = "Accept"

@@ -1,7 +1,8 @@
 import { memo } from 'react';
 
-const PDF_PATH = '/images/1040/documents/2026_0129 1040FifthAve9-10C ProposedArt.pdf';
-const COVER_PATH = '/images/1040/documents/pdf-cover.webp';
+const PDF_VERSION = '2026-01-29';
+const PDF_PATH = `/images/1040/documents/2026_0129 1040FifthAve9-10C ProposedArt.pdf?v=${PDF_VERSION}`;
+const COVER_PATH = `/images/1040/documents/pdf-cover.webp?v=${PDF_VERSION}`;
 
 const PDFSection = memo(function PDFSection() {
   return (
