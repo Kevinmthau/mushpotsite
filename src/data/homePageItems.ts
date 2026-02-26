@@ -6,7 +6,6 @@ export const homePageItems: HomePageItem[] = [
   { type: 'div', src: '/images/esc-app-icon-home.jpg', alt: 'Esc', size: 'small', noReflect: true },
   { type: 'link', href: 'https://kevins-outfit-finder.netlify.app/kevin/', src: '/images/Outfit-finder.jpg', alt: 'Outfit Finder', size: 'small', noReflect: true },
   { type: 'link', href: 'https://testflight.apple.com/join/VppMNjcA', src: '/images/Whodiss.jpg', alt: 'Whodiss', size: 'small', noReflect: true },
-  { type: 'link', href: '/1040', src: '/images/1040-home.jpg', alt: '1040', size: 'large', noReflect: true },
   { type: 'div', src: '/images/twitter-music.jpg', alt: 'Twitter Music', noReflect: true },
   { type: 'link', href: '/ios5-features.html', src: '/images/Twitter-IOS5-integration-home.jpg', alt: 'Twitter iOS 5', size: 'xsmall', noReflect: true },
   { type: 'video', videoSrc: '/images/Twitter for iPad 1.0 Demo.mp4', src: '/images/Twitter-for-ipad-home.jpg', alt: 'Twitter for iPad', noReflect: true },
