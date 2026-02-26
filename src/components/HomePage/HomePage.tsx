@@ -53,6 +53,33 @@ function HomePage() {
     };
   }, []);
 
+  useEffect(() => {
+    const el = cardsRef.current;
+    if (!el) return;
+
+    const firstCard = el.querySelector('li');
+    if (!firstCard) return;
+
+    const centerFirstCard = () => {
+      const targetLeft = firstCard.offsetLeft - (el.clientWidth - firstCard.clientWidth) / 2;
+      el.scrollTo({ left: Math.max(0, targetLeft), behavior: 'auto' });
+    };
+
+    const frameId = requestAnimationFrame(centerFirstCard);
+    const firstImage = firstCard.querySelector('img');
+
+    if (firstImage && !firstImage.complete) {
+      firstImage.addEventListener('load', centerFirstCard, { once: true });
+    }
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      if (firstImage && !firstImage.complete) {
+        firstImage.removeEventListener('load', centerFirstCard);
+      }
+    };
+  }, []);
+
   function renderItem(item: HomePageItem, index: number) {
     const classes = [
       item.size ? SIZE_CLASS_MAP[item.size] : null,
