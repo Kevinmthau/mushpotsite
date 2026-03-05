@@ -161,6 +161,11 @@
   margin-left: 2rem;
 }
 
+/* Slightly bias Mushpot left between Board and Wallet */
+.cards li:has(img[alt="Mushpot App"]) {
+  margin-right: 2rem;
+}
+
 .cards li img.img-small {
   height: calc(var(--cover-size) * 0.7);
 }
