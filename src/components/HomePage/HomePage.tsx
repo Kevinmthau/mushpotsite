@@ -92,6 +92,130 @@ function HomePage() {
     };
   }, []);
 
+  // Elastic overscroll bounce at scroll edges
+  useEffect(() => {
+    const el = cardsRef.current;
+    if (!el) return;
+
+    let overscroll = 0;
+    let wheelEndTimer: ReturnType<typeof setTimeout> | null = null;
+    let springBackTimer: ReturnType<typeof setTimeout> | null = null;
+    let springBackEndHandler: (() => void) | null = null;
+    const DAMPING = 0.4;
+    const MAX_OVERSCROLL = 100;
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let prefersReducedMotion = reducedMotionQuery.matches;
+
+    const setTransform = (px: number) => {
+      el.style.transform = px ? `translateX(${px}px)` : '';
+    };
+
+    const clearWheelEndTimer = () => {
+      if (wheelEndTimer !== null) {
+        clearTimeout(wheelEndTimer);
+        wheelEndTimer = null;
+      }
+    };
+
+    const finishSpringBack = () => {
+      if (springBackTimer !== null) {
+        clearTimeout(springBackTimer);
+        springBackTimer = null;
+      }
+
+      if (springBackEndHandler) {
+        el.removeEventListener('transitionend', springBackEndHandler);
+        springBackEndHandler = null;
+      }
+
+      el.classList.remove('elastic-springback');
+    };
+
+    const springBack = () => {
+      finishSpringBack();
+      overscroll = 0;
+      setTransform(0);
+
+      if (prefersReducedMotion) return;
+
+      el.classList.add('elastic-springback');
+
+      springBackEndHandler = () => {
+        finishSpringBack();
+      };
+      el.addEventListener('transitionend', springBackEndHandler);
+      springBackTimer = setTimeout(() => {
+        finishSpringBack();
+      }, 500);
+    };
+
+    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
+      prefersReducedMotion = event.matches;
+
+      if (prefersReducedMotion) {
+        clearWheelEndTimer();
+        springBack();
+      }
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+      if (delta === 0) return;
+
+      finishSpringBack();
+
+      if (prefersReducedMotion) {
+        overscroll = 0;
+        setTransform(0);
+        return;
+      }
+
+      const atStart = el.scrollLeft <= 0;
+      const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 2;
+
+      if (overscroll !== 0) {
+        // Currently in overscroll — manage the transform directly
+        e.preventDefault();
+        el.classList.remove('elastic-springback');
+
+        const prev = overscroll;
+        overscroll -= delta * DAMPING;
+
+        // If crossed zero, user scrolled back past the edge — reset
+        if ((prev > 0 && overscroll <= 0) || (prev < 0 && overscroll >= 0)) {
+          overscroll = 0;
+          setTransform(0);
+          return;
+        }
+
+        overscroll = Math.max(-MAX_OVERSCROLL, Math.min(MAX_OVERSCROLL, overscroll));
+        setTransform(overscroll);
+      } else if ((atStart && delta < 0) || (atEnd && delta > 0)) {
+        // Entering overscroll at a boundary
+        e.preventDefault();
+        overscroll -= delta * DAMPING;
+        overscroll = Math.max(-MAX_OVERSCROLL, Math.min(MAX_OVERSCROLL, overscroll));
+        setTransform(overscroll);
+      }
+
+      clearWheelEndTimer();
+      wheelEndTimer = setTimeout(() => {
+        if (overscroll !== 0) springBack();
+      }, 150);
+    };
+
+    reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
+    el.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      reducedMotionQuery.removeEventListener('change', handleReducedMotionChange);
+      el.removeEventListener('wheel', handleWheel);
+      clearWheelEndTimer();
+      finishSpringBack();
+      setTransform(0);
+    };
+  }, []);
+
   useEffect(() => {
     const el = cardsRef.current;
     if (!el) return;
