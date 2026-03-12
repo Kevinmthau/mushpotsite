@@ -2,6 +2,7 @@
 
 :root {
   --cover-size: 400px;
+  --card-gap: 2.5rem;
 }
 
 .social-icons {
@@ -42,7 +43,7 @@
   height: 100%;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: var(--card-gap);
   padding-inline: 50vw;
   overflow-x: auto;
   overflow-y: hidden;
@@ -67,6 +68,10 @@
   transition: transform 180ms ease, opacity 180ms ease;
 }
 
+.cards li.has-group-break-after {
+  margin-right: calc(var(--card-gap) * 2);
+}
+
 .cards li .card-link {
   display: block;
   text-decoration: none;
@@ -78,14 +83,31 @@
   justify-content: center;
 }
 
-.cards li img {
+.media-frame {
+  --media-height: var(--cover-size);
+  display: block;
+  height: var(--media-height);
+  width: fit-content;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.media-frame.has-auto-trim {
+  width: calc(var(--media-height) * var(--trimmed-width-ratio));
+}
+
+.media-frame img {
   display: block;
   width: auto;
-  height: var(--cover-size);
-  object-fit: contain;
+  height: 100%;
+  max-width: none;
   border-radius: var(--radius-lg);
   user-select: none;
   -webkit-user-drag: none;
+}
+
+.media-frame.has-auto-trim img {
+  transform: translateX(calc(var(--media-height) * var(--trim-left-ratio) * -1));
 }
 
 .cards li.is-active,
@@ -96,7 +118,8 @@
   z-index: 1;
 }
 
-.cards li img.with-reflect {
+.media-frame.with-reflect,
+.video-wrapper video.with-reflect {
   -webkit-box-reflect: below 0.3em linear-gradient(rgba(0,0,0,0.08), transparent 20%);
 }
 
@@ -105,66 +128,57 @@
   line-height: 0;
 }
 
-.cards li img.img-xsmall {
-  height: calc(var(--cover-size) * 0.6);
+.media-frame.img-xsmall,
+.video-wrapper video.img-xsmall {
+  --media-height: calc(var(--cover-size) * 0.6);
   margin-top: calc(var(--cover-size) * 0.4);
 }
 
-.cards li:has(img[alt="Esc"]),
-.cards li:has(img[alt="Outfit Finder"]),
-.cards li:has(img[alt="Whodiss"]),
-.cards li:has(img[alt="1040"]),
-.cards li:has(img[alt="Twitter Music"]),
-.cards li:has(img[alt="Post.Office"]),
-.cards li:has(img[alt="SGI"]) {
-  margin-left: 2rem;
+.media-frame.img-small,
+.video-wrapper video.img-small {
+  --media-height: calc(var(--cover-size) * 0.7);
 }
 
-/* Slightly bias Mushpot left between Board and Wallet */
-.cards li:has(img[alt="Mushpot App"]) {
-  margin-right: 2rem;
+.media-frame.img-medium,
+.video-wrapper video.img-medium {
+  --media-height: calc(var(--cover-size) * 1.1);
 }
 
-.cards li img.img-small {
-  height: calc(var(--cover-size) * 0.7);
+.media-frame.img-large,
+.video-wrapper video.img-large {
+  --media-height: calc(var(--cover-size) * 1.3);
 }
 
-.cards li img.img-medium {
-  height: calc(var(--cover-size) * 1.1);
-}
-
-.cards li img.img-large {
-  height: calc(var(--cover-size) * 1.3);
-}
-
-.cards li img.img-xlarge {
-  height: calc(var(--cover-size) * 1.6);
+.media-frame.img-xlarge,
+.video-wrapper video.img-xlarge {
+  --media-height: calc(var(--cover-size) * 1.6);
 }
 
 @media (max-width: 768px) {
   :root {
     --cover-size: 300px;
+    --card-gap: 2rem;
   }
 
-  .cards {
-    gap: 1.5rem;
-  }
-
-  .cards li img.img-xsmall {
-    height: calc(var(--cover-size) * 0.55);
+  .media-frame.img-xsmall,
+  .video-wrapper video.img-xsmall {
+    --media-height: calc(var(--cover-size) * 0.55);
     margin-top: calc(var(--cover-size) * 0.45);
   }
 
-  .cards li img.img-small {
-    height: calc(var(--cover-size) * 0.65);
+  .media-frame.img-small,
+  .video-wrapper video.img-small {
+    --media-height: calc(var(--cover-size) * 0.65);
   }
 
-  .cards li img.img-medium {
-    height: var(--cover-size);
+  .media-frame.img-medium,
+  .video-wrapper video.img-medium {
+    --media-height: var(--cover-size);
   }
 
-  .cards li img.img-large {
-    height: calc(var(--cover-size) * 1.3);
+  .media-frame.img-large,
+  .video-wrapper video.img-large {
+    --media-height: calc(var(--cover-size) * 1.3);
   }
 }
 
@@ -179,7 +193,8 @@
     transition: none;
   }
 
-  .cards li img.with-reflect {
+  .media-frame.with-reflect,
+  .video-wrapper video.with-reflect {
     -webkit-box-reflect: none;
   }
 }
@@ -187,27 +202,28 @@
 @media (max-width: 480px) {
   :root {
     --cover-size: 240px;
+    --card-gap: 1.5rem;
   }
 
-  .cards {
-    gap: 1rem;
-  }
-
-  .cards li img.img-xsmall {
-    height: calc(var(--cover-size) * 0.5);
+  .media-frame.img-xsmall,
+  .video-wrapper video.img-xsmall {
+    --media-height: calc(var(--cover-size) * 0.5);
     margin-top: calc(var(--cover-size) * 0.5);
   }
 
-  .cards li img.img-small {
-    height: calc(var(--cover-size) * 0.6);
+  .media-frame.img-small,
+  .video-wrapper video.img-small {
+    --media-height: calc(var(--cover-size) * 0.6);
   }
 
-  .cards li img.img-medium {
-    height: calc(var(--cover-size) * 0.9);
+  .media-frame.img-medium,
+  .video-wrapper video.img-medium {
+    --media-height: calc(var(--cover-size) * 0.9);
   }
 
-  .cards li img.img-large {
-    height: calc(var(--cover-size) * 1.2);
+  .media-frame.img-large,
+  .video-wrapper video.img-large {
+    --media-height: calc(var(--cover-size) * 1.2);
   }
 }
 
@@ -231,7 +247,7 @@
 
 .video-wrapper video {
   display: block;
-  height: var(--cover-size);
+  height: var(--media-height, var(--cover-size));
   width: auto;
   border-radius: var(--radius-lg);
   transition: opacity 0.2s ease;

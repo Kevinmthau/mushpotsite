@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { homePageItems } from '../../data/homePageItems';
 import type { HomePageItem } from '../../data/types';
+import AutoTrimImage from './AutoTrimImage';
 import './HomePage.css';
 
 const SIZE_CLASS_MAP: Record<string, string> = {
@@ -249,18 +250,22 @@ function HomePage() {
   }, []);
 
   function renderItem(item: HomePageItem, index: number) {
-    const classes = [
+    const itemClassName = [
+      index === activeIndex ? 'is-active' : null,
+      item.groupBreakAfter ? 'has-group-break-after' : null,
+    ].filter(Boolean).join(' ') || undefined;
+    const mediaClassName = [
       item.size ? SIZE_CLASS_MAP[item.size] : null,
       item.noReflect ? null : 'with-reflect',
     ].filter(Boolean).join(' ') || undefined;
 
     const imgElement = (
-      <img
+      <AutoTrimImage
         src={item.src}
         alt={item.alt}
         loading={index < 4 ? 'eager' : 'lazy'}
         decoding="async"
-        className={classes}
+        className={mediaClassName}
       />
     );
 
@@ -271,7 +276,7 @@ function HomePage() {
           ref={(node) => {
             itemRefs.current[index] = node;
           }}
-          className={index === activeIndex ? 'is-active' : undefined}
+          className={itemClassName}
         >
           <Link to={item.to} className="card-link">
             <div className="card-container">
@@ -288,7 +293,7 @@ function HomePage() {
           ref={(node) => {
             itemRefs.current[index] = node;
           }}
-          className={index === activeIndex ? 'is-active' : undefined}
+          className={itemClassName}
         >
           <a
             href={item.href}
@@ -311,7 +316,7 @@ function HomePage() {
           ref={(node) => {
             itemRefs.current[index] = node;
           }}
-          className={index === activeIndex ? 'is-active' : undefined}
+          className={itemClassName}
         >
           <div className="card-container video-card">
             {isPlaying ? (
@@ -320,7 +325,7 @@ function HomePage() {
                   src={item.videoSrc}
                   autoPlay
                   controls
-                  className={classes}
+                  className={mediaClassName}
                   onEnded={() => setPlayingVideoIndex(null)}
                 />
                 <button
@@ -349,7 +354,7 @@ function HomePage() {
           ref={(node) => {
             itemRefs.current[index] = node;
           }}
-          className={index === activeIndex ? 'is-active' : undefined}
+          className={itemClassName}
         >
           <div className="card-container">
             {imgElement}
