@@ -14,7 +14,9 @@ const SIZE_CLASS_MAP: Record<string, string> = {
 
 function HomePage() {
   const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const cardsRef = useRef<HTMLUListElement | null>(null);
+  const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -33,23 +35,60 @@ function HomePage() {
     const el = cardsRef.current;
     if (!el) return;
 
-    const handleWheel = (e: WheelEvent) => {
-      if (e.ctrlKey) return;
+    let frameId: number | null = null;
 
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        const previousScroll = el.scrollLeft;
-        el.scrollLeft += e.deltaY;
+    const updateActiveCard = () => {
+      const containerCenter = el.scrollLeft + el.clientWidth / 2;
+      let nextActiveIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
 
-        if (el.scrollLeft !== previousScroll) {
-          // At edges we do not prevent default, so native overscroll stays intact.
-          e.preventDefault();
+      itemRefs.current.forEach((card, index) => {
+        if (!card) return;
+
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const distance = Math.abs(cardCenter - containerCenter);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          nextActiveIndex = index;
         }
-      }
+      });
+
+      setActiveIndex((currentIndex) => (
+        currentIndex === nextActiveIndex ? currentIndex : nextActiveIndex
+      ));
     };
 
-    el.addEventListener('wheel', handleWheel, { passive: false });
+    const scheduleActiveCardUpdate = () => {
+      if (frameId !== null) return;
+
+      frameId = requestAnimationFrame(() => {
+        frameId = null;
+        updateActiveCard();
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(scheduleActiveCardUpdate);
+    resizeObserver.observe(el);
+
+    itemRefs.current.forEach((card) => {
+      if (card) {
+        resizeObserver.observe(card);
+      }
+    });
+
+    el.addEventListener('scroll', scheduleActiveCardUpdate, { passive: true });
+    window.addEventListener('resize', scheduleActiveCardUpdate);
+    scheduleActiveCardUpdate();
+
     return () => {
-      el.removeEventListener('wheel', handleWheel);
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+
+      resizeObserver.disconnect();
+      el.removeEventListener('scroll', scheduleActiveCardUpdate);
+      window.removeEventListener('resize', scheduleActiveCardUpdate);
     };
   }, []);
 
@@ -57,12 +96,17 @@ function HomePage() {
     const el = cardsRef.current;
     if (!el) return;
 
-    const firstCard = el.querySelector('li');
+    const firstCard = itemRefs.current[0];
     if (!firstCard) return;
 
     const centerFirstCard = () => {
       const targetLeft = firstCard.offsetLeft - (el.clientWidth - firstCard.clientWidth) / 2;
-      el.scrollTo({ left: Math.max(0, targetLeft), behavior: 'auto' });
+      const maxScrollLeft = el.scrollWidth - el.clientWidth;
+
+      el.scrollTo({
+        left: Math.max(0, Math.min(targetLeft, maxScrollLeft)),
+        behavior: 'auto',
+      });
     };
 
     const frameId = requestAnimationFrame(centerFirstCard);
@@ -83,7 +127,7 @@ function HomePage() {
   function renderItem(item: HomePageItem, index: number) {
     const classes = [
       item.size ? SIZE_CLASS_MAP[item.size] : null,
-      item.noReflect ? 'no-reflect' : null,
+      item.noReflect ? null : 'with-reflect',
     ].filter(Boolean).join(' ') || undefined;
 
     const imgElement = (
@@ -98,7 +142,13 @@ function HomePage() {
 
     if (item.type === 'route') {
       return (
-        <li key={index}>
+        <li
+          key={item.alt}
+          ref={(node) => {
+            itemRefs.current[index] = node;
+          }}
+          className={index === activeIndex ? 'is-active' : undefined}
+        >
           <Link to={item.to} className="card-link">
             <div className="card-container">
               {imgElement}
@@ -109,7 +159,13 @@ function HomePage() {
     } else if (item.type === 'link') {
       const isExternal = /^https?:\/\//i.test(item.href);
       return (
-        <li key={index}>
+        <li
+          key={item.alt}
+          ref={(node) => {
+            itemRefs.current[index] = node;
+          }}
+          className={index === activeIndex ? 'is-active' : undefined}
+        >
           <a
             href={item.href}
             target={isExternal ? '_blank' : undefined}
@@ -126,7 +182,13 @@ function HomePage() {
       const isPlaying = playingVideoIndex === index;
 
       return (
-        <li key={index}>
+        <li
+          key={item.alt}
+          ref={(node) => {
+            itemRefs.current[index] = node;
+          }}
+          className={index === activeIndex ? 'is-active' : undefined}
+        >
           <div className="card-container video-card">
             {isPlaying ? (
               <div className="video-wrapper">
@@ -158,7 +220,13 @@ function HomePage() {
       );
     } else {
       return (
-        <li key={index}>
+        <li
+          key={item.alt}
+          ref={(node) => {
+            itemRefs.current[index] = node;
+          }}
+          className={index === activeIndex ? 'is-active' : undefined}
+        >
           <div className="card-container">
             {imgElement}
           </div>
